@@ -18,6 +18,8 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="com.example.area" />
+                <data android:scheme="http"
+                    android:host="com.example.area"/>
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity2">

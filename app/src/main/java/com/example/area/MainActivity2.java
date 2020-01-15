@@ -26,17 +26,17 @@ public class MainActivity2 extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
 
         Button bb = (Button) findViewById(R.id.button2);
-        bb.setOnClickListener(new AuthorizeListener(this));
+        bb.setOnClickListener(new AuthorizeListenerDiscord(this));
     }
 
-    public static class AuthorizeListener implements Button.OnClickListener {
+    public static class AuthorizeListenerImgur implements Button.OnClickListener {
 
         private final MainActivity2 mMainActivity;
         String MY_CLIENT_ID = "e59ba362671594e";
         Uri MY_REDIRECT_URI = Uri.parse("com.example.area");
 
 
-        public AuthorizeListener(@NonNull MainActivity2 mainActivity) {
+        public AuthorizeListenerImgur(@NonNull MainActivity2 mainActivity) {
             mMainActivity = mainActivity;
         }
 
@@ -47,6 +47,44 @@ public class MainActivity2 extends AppCompatActivity {
                     new AuthorizationServiceConfiguration(
                             Uri.parse("https://api.imgur.com/oauth2/authorize"),
                             Uri.parse("https://api.imgur.com/oauth2/token"));
+
+
+            AuthorizationRequest.Builder authRequestBuilder =
+                    new AuthorizationRequest.Builder(
+                            serviceConfig,
+                            MY_CLIENT_ID,
+                            ResponseTypeValues.CODE,
+                            MY_REDIRECT_URI);
+
+            AuthorizationRequest request = authRequestBuilder.build();
+            AuthorizationService authorizationService = new AuthorizationService(view.getContext());
+
+            String action = "com.example.area.HANDLE_AUTHORIZATION_RESPONSE";
+            Intent postAuthorizationIntent = new Intent(view.getContext(), After.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(view.getContext(), request.hashCode(), postAuthorizationIntent, 0);
+            authorizationService.performAuthorizationRequest(request, pendingIntent);
+
+        }
+    }
+
+    public static class AuthorizeListenerDiscord implements Button.OnClickListener {
+
+        private final MainActivity2 mMainActivity;
+        String MY_CLIENT_ID = "664402435900702741";
+        Uri MY_REDIRECT_URI = Uri.parse("http://com.example.area");
+
+
+        public AuthorizeListenerDiscord(@NonNull MainActivity2 mainActivity) {
+            mMainActivity = mainActivity;
+        }
+
+        @Override
+        public void onClick(View view) {
+
+            AuthorizationServiceConfiguration serviceConfig =
+                    new AuthorizationServiceConfiguration(
+                            Uri.parse("https://discordapp.com/api/oauth2/authorize"),
+                            Uri.parse("https://discordapp.com/api/oauth2/token"));
 
 
             AuthorizationRequest.Builder authRequestBuilder =
