@@ -1,5 +1,7 @@
-import request from "./requestsClass"
+import Request from "./requestClass"
 import key from "./key"
+
+const req = new Request();
 
 export class SpotifyAPI {
 
@@ -11,11 +13,11 @@ export class SpotifyAPI {
             url : "https://api.spotify.com/v1/me/player/pause",
             method : 'put',
             header : {
-                'Accept : application/json',
+                'Accept' : 'application/json',
                 'Authorization' : head
             }
         }
-        const data = await request.callWithHeader(config);
+        const data = await req.callWithHeader(config);
         console.log(data);
         return data;
     }
@@ -30,7 +32,7 @@ export class SpotifyAPI {
                 'Accept': 'application/json'
             }
         }
-        const data = await request.callWithHeader(config);
+        const data = await req.callWithHeader(config);
         console.log(data);
         return data;
     }
@@ -45,7 +47,7 @@ export class SpotifyAPI {
                 'Accept': 'application/json'
             }
         }
-        const data = await request.callWithHeader(config);
+        const data = await req.callWithHeader(config);
         console.log(data);
         return data;
     }

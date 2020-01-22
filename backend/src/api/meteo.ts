@@ -1,4 +1,6 @@
-import Request from './requestsClass'
+import Request from "./requestClass"
+
+const req = new Request();
 
 const baseUrl = "https://api.openweathermap.org/data/"
 const APIKey = "db9eb5e2ebd63b5affc7b6cb883c0610"
@@ -12,7 +14,7 @@ export class Meteo {
      * @param {string} cityName : City name of which we want informations
      */
     async weatherByCity(cityName : string) {
-        const data = await Request.getCall(baseUrl + "2.5/weather?q=" + cityName + "&APPID=" + APIKey)
+        const data = await req.getCall(baseUrl + "2.5/weather?q=" + cityName + "&APPID=" + APIKey)
         console.log(data);
         return data;
     }
@@ -23,7 +25,7 @@ export class Meteo {
      * @param {string} cityName : City name of which we want informations
      */
     async weatherForecast(cityName : string) {
-        const data = await Request.getCall(baseUrl + "2.5/forecast?q=" + cityName + "&mode=json&APPID=" + APIKey)
+        const data = await req.getCall(baseUrl + "2.5/forecast?q=" + cityName + "&mode=json&APPID=" + APIKey)
 	    return data;
     }
 

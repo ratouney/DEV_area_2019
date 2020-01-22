@@ -1,6 +1,8 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import Spotify from "./api/Spotify"
+import { SpotifyAPI } from "./api/Spotify"
+
+const Spotify = new SpotifyAPI();
 
 @Controller()
 export class AppController {

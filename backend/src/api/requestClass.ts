@@ -1,6 +1,6 @@
 import axios from "axios"
 
-export class Request {
+export default class Request {
     constructor() {}
 
     /**

@@ -1,2 +1,2 @@
-import request from "./requestsClass"
+import Request from "./requestClass"
 import key from "./key"
