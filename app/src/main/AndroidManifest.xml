@@ -9,7 +9,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".After" />
+        <activity android:name=".SpotifyConnection"></activity>
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+
+                <data
+                    android:host="com.example.area"
+                    android:scheme="area" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".After"
+            android:launchMode="singleTop" />
         <activity android:name="net.openid.appauth.RedirectUriReceiverActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -17,12 +31,14 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="com.example.area" />
-                <data android:scheme="http"
-                    android:host="com.example.area"/>
+                <data
+                    android:host="com.example.area"
+                    android:scheme="area" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity2">
+        <activity
+            android:name=".MainActivity2"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
