@@ -3,6 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
+import { SessionController } from './session/session.controller';
+import { SessionModule } from './session/session.module';
 import Entities from './entities';
 
 @Module({
@@ -15,7 +17,8 @@ import Entities from './entities';
       logging: true,
       entities: Entities,
     }),
-    UserModule
+    UserModule,
+    SessionModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -17,5 +17,6 @@ class After : AppCompatActivity() {
         setContentView(R.layout.activity_after)
 
         textView.text = UserInfo.getInstance().username;
+        textView2.text = UserInfo.getInstance().token;
     }
 }

@@ -1,19 +1,32 @@
 package com.example.area
 
+import android.annotation.TargetApi
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
-import android.util.Base64
 import android.util.Log
 import android.view.View
+import android.webkit.PermissionRequest
+import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import kotlinx.android.synthetic.main.activity_main.*
-import okhttp3.*
+import okhttp3.FormBody
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import org.json.JSONObject
 import java.io.IOException
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,10 +40,40 @@ class MainActivity : AppCompatActivity() {
 
         button6.setOnClickListener{
             button6.visibility = View.GONE
-            DiscordAuth()
+            GoogleAuth()
         }
+    }
 
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 9001) {
+            val task =
+                GoogleSignIn.getSignedInAccountFromIntent(data)
+            handleSignInResult(task)
+        }
+    }
+
+    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
+        try {
+            val account = completedTask.getResult(
+                ApiException::class.java
+            )
+            val token = account?.idToken ?: ""
+            val user = account?.givenName ?: ""
+
+            UserInfo.getInstance().token = token;
+            UserInfo.getInstance().username = user;
+            println(token)
+            println(user)
+
+            val myIntent = Intent(this, After::class.java)
+            this.startActivity(myIntent)
+        } catch (e: ApiException) {
+            Log.e(
+                "failed code=", e.statusCode.toString()
+            )
+        }
     }
 
     fun ImgurAuth() {
@@ -54,12 +97,33 @@ class MainActivity : AppCompatActivity() {
         loadAuthPage("https://discordapp.com/api/oauth2/authorize?client_id=$client_id&redirect_uri=com.example.area%3A%2F%2Farea&response_type=code&scope=email")
     }
 
+    fun GoogleAuth() {
+        client_id = "602804385318-hj4udn9f6rg3u3gb5ds45tiv3amdc5vr.apps.googleusercontent.com"
+        secret = "SvRITnPEuR9Jcj60gDrTaGS3"
+        service = "Google"
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(client_id)
+            .requestEmail()
+            .build()
+        val GoogleSignInClient = GoogleSignIn.getClient(this, gso)
+        val signInIntent = GoogleSignInClient.signInIntent
+        startActivityForResult(
+            signInIntent, 9001
+        )
+
+        //loadAuthPage("https://accounts.google.com/o/oauth2/v2/auth/authorize?client_id=$client_id&redirect_uri=com.example.area%3A%2F%2Farea&response_type=token")
+    }
+
 
     fun loadAuthPage(url : String) {
         val webView = weeb;
+
         webView.getSettings().setJavaScriptEnabled(true)
         webView.loadUrl(url)
         val client = object : WebViewClient() {
+
+
 
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                 println(Uri.parse(url))
