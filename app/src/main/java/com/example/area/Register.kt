@@ -1,9 +1,10 @@
 package com.example.area
 
-import android.R.attr
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -13,31 +14,35 @@ import com.example.area.ServiceConnection.ParseCode
 import com.example.area.ServiceConnection.ParseToken
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import kotlinx.android.synthetic.main.activity_main.*
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 
+import kotlinx.android.synthetic.main.activity_register.*
 
-class MainActivity : AppCompatActivity() {
+class Register : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        weeb.visibility = View.GONE
+        setContentView(R.layout.activity_register)
+        weebos.visibility = View.GONE
 
-        GoogleLogIn.setOnClickListener{
+        GoogleRegister.setOnClickListener{
             hideAllUI()
             startActivityForResult(ServiceConnection.GoogleAuth(this), 9001)
         }
 
-        SpotifyLogIn.setOnClickListener{
+        SpotifyRegister.setOnClickListener{
             loadAuthPage(ServiceConnection.SpotifyAuth())
         }
 
-        ButtonLogIn.setOnClickListener{
+        ButtonRegister.setOnClickListener{
 
         }
 
         RegisterPage.setOnClickListener{
-            val myIntent = Intent(this, Register::class.java)
+            val myIntent = Intent(this, MainActivity::class.java)
             startActivity(myIntent)
         }
     }
@@ -53,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
     fun loadAuthPage(url : String) {
         hideAllUI()
-        val webView = weeb;
+        val webView = weebos;
 
         webView.getSettings().setJavaScriptEnabled(true)
         webView.loadUrl(url)
@@ -75,8 +80,8 @@ class MainActivity : AppCompatActivity() {
                         println("yo WTF")
                         println("yo WTF")
                     }
-                    val intent = Intent(this@MainActivity, After::class.java)
-                    ContextCompat.startActivity(this@MainActivity, intent, null)
+                    val intent = Intent(this@Register, After::class.java)
+                    ContextCompat.startActivity(this@Register, intent, null)
                     return false
                 }
                 return false
@@ -86,14 +91,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun hideAllUI() {
-        ButtonLogIn.visibility = View.GONE
-        GoogleLogIn.visibility = View.GONE
-        SpotifyLogIn.visibility = View.GONE
-        UserNameLogIn.visibility = View.GONE
-        RegisterPage.visibility = View.GONE
-        PasswordLogIn.visibility = View.GONE
-        textView3.visibility = View.GONE
-        weeb.visibility = View.VISIBLE
+        ButtonRegister.visibility = View.GONE
+        GoogleRegister.visibility = View.GONE
+        SpotifyRegister.visibility = View.GONE
+        UserNameRegister.visibility = View.GONE
+        PasswordRegister.visibility = View.GONE
+        weebos.visibility = View.VISIBLE
     }
 
 
