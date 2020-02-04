@@ -1,5 +1,7 @@
 package AppFragment
 
+import HomeActivity.MyAdapter
+import HomeActivity.MyApp
 import homeactivity.MyAdapter
 import homeactivity.MyApp
 import android.os.Bundle
@@ -23,7 +25,7 @@ class AppFragment : Fragment() {
         addApp()
         recyclerView = root.findViewById(R.id.recyclerView)
         recyclerView?.layoutManager = (GridLayoutManager(activity, 2))
-        recyclerView?.adapter = (MyAdapter(apps, context!!))ig
+        recyclerView?.adapter = (MyAdapter(apps, context!!))
         return root
     }
 
