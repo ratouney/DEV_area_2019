@@ -4,7 +4,11 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import GAuth from 'vue-google-oauth2'
+import Spotify from 'spotify-web-api-node'
+import VueSpotify from 'vue-spotify'
 
+
+Vue.use(VueSpotify, new Spotify())
 /**
 * You should first need to place these 2 lines of code in your APP ENTRY file, e.g. src/main.js
 *

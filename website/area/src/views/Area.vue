@@ -1,7 +1,8 @@
 <template>
   <div>
    <h1>Test</h1>
-   <button @click="handleClickSignIn" :disabled="!isLoaded">signIn</button>
+   <button @click="GoogleLogin" :disabled="!isLoaded">signIn</button>
+   <button @click="SpotifyLogin" :disabled="!isLoaded">SignIn With Spotify</button>
   <ul id="menu-demo2">
 	<li id="column"><a href="#">Lien menu 1</a>
 		<ul>
@@ -40,37 +41,71 @@
  </template>
 
  <script>
-  export default {
-   name: 'test',
-   props: [],
-   components: {
-   },
-   data () {
-    return {
-     isLoaded: false
-    }
-   },
-   computed: {
-   },
-   methods: {
-    handleClickSignIn(){
-      this.$gAuth.signIn(function (user) {
-         //on success do something
-      console.log('user', user)
-      }, function (error) {
-         //on fail do something
-      })
-    }
-  },
-  mounted(){
-    let that = this
-    let checkGauthLoad = setInterval(function(){
-      that.isLoaded = that.$gAuth.isLoaded()
-      console.log('checked', that.isLoaded)
-      if(that.isLoaded) clearInterval(checkGauthLoad)
-    }, 1000);
-  }
-}
+ export default {
+     name: 'test',
+     props: [],
+     components: {
+     },
+     data () {
+         return {
+             isLoaded: false
+         }
+     },
+     computed: {
+     },
+     methods: {
+         GoogleLogin(){
+             this.$gAuth.signIn(function (user) {
+                 //on success do something
+                 console.log('user', user)
+             }, function (error) {
+                 //on fail do something
+             })
+         },
+         SpotifyLogin(callback) {
+
+             var CLIENT_ID = '3f6be5c8306741c8ab06713da0a92f59';
+             var REDIRECT_URI = 'http://localhost:8080/#/account';
+
+             function getLoginURL(scopes) {
+                 return 'https://accounts.spotify.com/authorize?client_id=' + CLIENT_ID +
+                 '&redirect_uri=' + encodeURIComponent(REDIRECT_URI) +
+                 '&scope=' + encodeURIComponent(scopes.join(' ')) +
+                 '&response_type=token';
+             }
+
+             var url = getLoginURL([
+                 'user-read-email'
+             ]);
+
+             var width = 450,
+             height = 730,
+             left = (screen.width / 2) - (width / 2),
+             top = (screen.height / 2) - (height / 2);
+             var w = window.open(url, 'Spotify', 'menubar=no,location=no,resizable=no,scrollbars=no,status=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
+             console.log(url);
+
+
+             window.addEventListener("message", function(event) {
+                 var hash = JSON.parse(event.data);
+                 if (hash.type == 'access_token') {
+                     callback(hash.access_token);
+                 }
+             }, false);
+             if (!url)
+                w.close();
+
+         }
+     },
+     mounted(){
+         let that = this
+         let checkGauthLoad = setInterval(function(){
+             that.isLoaded = that.$gAuth.isLoaded()
+             console.log('checked', that.isLoaded)
+             if(that.isLoaded) clearInterval(checkGauthLoad)
+         }, 1000);
+     }
+ }
 </script>
 
 <style scoped>
