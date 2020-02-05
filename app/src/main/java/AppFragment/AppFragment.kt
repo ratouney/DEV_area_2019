@@ -1,7 +1,5 @@
 package AppFragment
 
-import HomeActivity.MyAdapter
-import HomeActivity.MyApp
 import homeactivity.MyAdapter
 import homeactivity.MyApp
 import android.os.Bundle

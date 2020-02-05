@@ -1,4 +1,4 @@
-package HomeActivity
+package homeactivity
 
 
 import android.app.Dialog
@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.RecyclerView
 import com.example.area.R
 
