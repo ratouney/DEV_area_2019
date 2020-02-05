@@ -11,8 +11,8 @@ export default {
         clientID: "d3ebae5610894ca48c9f66794214252b",
         clientSecret: "766fb8262eda43e18ae80c3e7d713f9e"
     },
-    discord: {
-        clientID: "641578209892237312",
-        clientSecret: "bBvrPWjVsJspCSBoqWZmdPy1FxE3gPwk"
+    imgur: {
+        clientID: "094ee1cffcac340",
+        clientSecret: "226e6c529a9c988ee91cd366f1ffe8987cdca27a"
     }
 }

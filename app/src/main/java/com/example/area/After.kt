@@ -16,6 +16,16 @@ class After : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_after)
 
+
+    }
+
+    override fun onStart() {
+        super.onStart()
         textView.text = UserInfo.getInstance().username;
+        textView2.text = UserInfo.getInstance().token;
+
+        println("After activity");
+        println(UserInfo.getInstance().token);
+        println(UserInfo.getInstance().username);
     }
 }

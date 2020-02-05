@@ -3,6 +3,8 @@ package com.example.area;
 class UserInfo {
     private static final UserInfo ourInstance = new UserInfo();
 
+
+
     static UserInfo getInstance() {
         return ourInstance;
     }

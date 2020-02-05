@@ -15,7 +15,7 @@
                 <div style="max-width: 90%; margin: auto;">
                     <a href="dashboard"></a>
                     <div class="topnav-right">
-                        <a href="#" @click="$router.push('/dashboard')">Manage Area</a>
+                        <a href="#" @click="$router.push('/area')">Manage Area</a>
                         <a href="#" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</a>
                         <a class="active" href="#" onclick="document.getElementById('id02').style.display='block'" style="width:auto;">Register</a>
                     </div>
@@ -86,6 +86,19 @@
 <script> @import"../js/popup.js";</script>
 <script> @import"../js/draggable.js";</script>
 <style> @import"../style/homepage.css";</style>
+<script>
+this.$gAuth.getAuthCode()
+.then(authCode => {
+  //on success
+  return this.$http.post('http://localhost:8080/#/', { code: authCode, redirect_uri: 'postmessage' })
+})
+.then(response => {
+  //after ajax
+})
+.catch(error => {
+  //on fail do something
+})
+</script>
 <script>
 // @ is an alias to /src
 import LoginCard from '@/components/LoginCard.vue'

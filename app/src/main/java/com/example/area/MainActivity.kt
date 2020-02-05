@@ -1,62 +1,60 @@
 package com.example.area
 
+import android.R.attr
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Base64
-import android.util.Log
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.example.area.ServiceConnection.ParseCode
+import com.example.area.ServiceConnection.ParseToken
+import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import kotlinx.android.synthetic.main.activity_main.*
-import okhttp3.*
-import org.json.JSONObject
-import java.io.IOException
+
 
 class MainActivity : AppCompatActivity() {
-
-    var client_id = "";
-    var secret = ""
-    var service = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        weeb.visibility = View.GONE
 
-        button6.setOnClickListener{
-            button6.visibility = View.GONE
-            DiscordAuth()
+        GoogleLogIn.setOnClickListener{
+            hideAllUI()
+            startActivityForResult(ServiceConnection.GoogleAuth(this), 9001)
         }
 
+        SpotifyLogIn.setOnClickListener{
+            loadAuthPage(ServiceConnection.SpotifyAuth())
+        }
 
+        ButtonLogIn.setOnClickListener{
+
+        }
+
+        RegisterPage.setOnClickListener{
+            val myIntent = Intent(this, Register::class.java)
+            startActivity(myIntent)
+        }
     }
 
-    fun ImgurAuth() {
-        client_id = "e59ba362671594e"
-        secret = "";
-        service = "Imgur"
-        loadAuthPage("https://api.imgur.com/oauth2/authorize?client_id=$client_id&response_type=token")
-    }
 
-    fun SpotifyAuth() {
-        client_id = "c299f837f4ff4872ab27a1a00a6c7bdf"
-        secret = "4097d12b01a449e39005967679d2efd0"
-        service = "Spotify"
-        loadAuthPage("https://accounts.spotify.com/authorize?client_id=$client_id&response_type=code&redirect_uri=com.example.area://area")
-    }
-
-    fun DiscordAuth() {
-        client_id = "664402435900702741"
-        secret = "CO6-NbleKHQnCRk2pPAcg_hS8jHTuiuj"
-        service = "Discord"
-        loadAuthPage("https://discordapp.com/api/oauth2/authorize?client_id=$client_id&redirect_uri=com.example.area%3A%2F%2Farea&response_type=code&scope=email")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 9001) {
+            ServiceConnection.handleGoogleResult(Auth.GoogleSignInApi.getSignInResultFromIntent(data), this)
+        }
     }
 
 
     fun loadAuthPage(url : String) {
+        hideAllUI()
         val webView = weeb;
+
         webView.getSettings().setJavaScriptEnabled(true)
         webView.loadUrl(url)
         val client = object : WebViewClient() {
@@ -87,57 +85,16 @@ class MainActivity : AppCompatActivity() {
         webView.setWebViewClient(client)
     }
 
-    fun ParseToken(liste: List<String>?) {
-        val token = liste?.get(liste.indexOf("access_token") + 1)
-        val user = liste?.get(liste.indexOf("account_username") + 1)
-        UserInfo.getInstance().token = token;
-        UserInfo.getInstance().username = user;
-        println(token)
-        println(user)
+    fun hideAllUI() {
+        ButtonLogIn.visibility = View.GONE
+        GoogleLogIn.visibility = View.GONE
+        SpotifyLogIn.visibility = View.GONE
+        UserNameLogIn.visibility = View.GONE
+        RegisterPage.visibility = View.GONE
+        PasswordLogIn.visibility = View.GONE
+        textView3.visibility = View.GONE
+        weeb.visibility = View.VISIBLE
     }
 
-    fun ParseCode(liste: List<String>?) {
-        val code = liste?.get(liste.indexOf("code") + 1)
-        println(code);
-        if (service == "Spotify" && code != null) {
-            getTokenFromCode(code, "https://accounts.spotify.com/api/token");
-        } else if (service == "Discord" && code != null) {
-            getTokenFromCode(code, "https://discordapp.com/api/v6/oauth2/token");
-        }
-    }
 
-    fun getTokenFromCode(code: String, url: String) {
-        val client = OkHttpClient()
-
-        val body = FormBody.Builder()
-            .add("client_id", client_id)
-            .add("client_secret", secret)
-            .add("grant_type", "authorization_code")
-            .add("code", code)
-            .add("redirect_uri", "com.example.area://area")
-            .build()
-
-
-        val request = Request.Builder()
-            .url(url)
-            .header("Content-Type", "application/json")
-            .post(body)
-            .build()
-
-        client.newCall(request).enqueue(object : okhttp3.Callback {
-            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
-                if (response.code() == 200) {
-                    println("Success")
-                    val data = JSONObject(response.body()!!.string())
-                    println(data);
-                    UserInfo.getInstance().token = data.getString("access_token")
-                    println( data.getString("access_token"))
-                }
-            }
-            override fun onFailure(call: okhttp3.Call, e: IOException) {
-                Log.e("TAG", "An error has occurred $e")
-            }
-
-        })
-    }
 }
