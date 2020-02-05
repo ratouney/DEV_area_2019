@@ -61,6 +61,27 @@ export class GmailAPI {
         const data = await req.callWithHeader(config);
         console.log(data);
         return data;
+    }
 
+    async hasGotNewMsg(googleId)
+    {
+        const uri = urlBase + "/v1/users/me/messages?maxResults=1&key=" + key.google.APIKey
+        const head = 'Bearer ' + googleId
+        const config = {
+            url: uri,
+            method: 'get',
+            headers: {
+                'Authorization' : head,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }
+        const data = await req.callWithHeader(config);
+        console.log(data);
+        if (data.messages.id > 1) {
+            // stock new id
+            return true;
+        }
+        return false;
     }
 }
