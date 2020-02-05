@@ -26,6 +26,7 @@ export class Meteo {
      */
     async weatherForecast(cityName : string) {
         const data = await req.getCall(baseUrl + "2.5/forecast?q=" + cityName + "&mode=json&APPID=" + APIKey)
+        console.log(data);
 	    return data;
     }
 
