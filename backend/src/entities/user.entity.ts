@@ -3,6 +3,7 @@ import { ObjectID } from 'mongodb';
 import { IsDefined, IsEmail } from 'class-validator';
 import { Exclude } from 'class-transformer';
 import { Session } from '.';
+import Token from './token.entity';
 
 export enum Rank {
     admin = "Chad",
@@ -40,4 +41,7 @@ export default class User {
 
     @OneToMany(type => Session, session => session.user)
     sessions: Session[];
+
+    @OneToMany(type => Token, token => token.user)
+    tokens: Token[];
 }
