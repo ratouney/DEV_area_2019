@@ -1,4 +1,4 @@
-package HomeActivity
+package homeactivity
 
 import android.view.View
 import android.widget.ImageView
