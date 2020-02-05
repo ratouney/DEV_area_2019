@@ -1,31 +1,26 @@
 package com.example.area
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import com.example.area.ServiceConnection.ParseCode
-import com.example.area.ServiceConnection.ParseToken
-import com.google.android.gms.auth.api.Auth
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 
-import kotlinx.android.synthetic.main.activity_register.*
 
-class Register : AppCompatActivity() {
+class Register : FragmentActivity(), LoginFragment.OnFragmentInteractionListener, RegisterFragment.OnFragmentInteractionListener {
+
+    val manager = supportFragmentManager
+    val transaction: FragmentTransaction = manager.beginTransaction()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+
+        addFragment(LoginFragment(), R.id.frame)
+
+
+        /*
         weebos.visibility = View.GONE
 
         GoogleRegister.setOnClickListener{
@@ -34,14 +29,15 @@ class Register : AppCompatActivity() {
         }
 
         SpotifyRegister.setOnClickListener{
-            loadAuthPage(ServiceConnection.SpotifyAuth())
+            hideAllUI()
+            ServiceConnection.loadAuthPage(ServiceConnection.SpotifyAuth(), weebos, this@Register)
         }
 
         ButtonRegister.setOnClickListener{
 
         }
 
-        RegisterPage.setOnClickListener{
+        LoginPage.setOnClickListener{
             val myIntent = Intent(this, MainActivity::class.java)
             startActivity(myIntent)
         }
@@ -56,47 +52,47 @@ class Register : AppCompatActivity() {
     }
 
 
-    fun loadAuthPage(url : String) {
-        hideAllUI()
-        val webView = weebos;
-
-        webView.getSettings().setJavaScriptEnabled(true)
-        webView.loadUrl(url)
-        val client = object : WebViewClient() {
-
-            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                println(Uri.parse(url))
-                if (Uri.parse(url).scheme == "com.example.area") {
-                    val liste = url?.split("#", "=", "&", "?")
-                    println(liste)
-                    if (liste?.contains("access_token")== true) {
-                        println("Acces Token :")
-                        ParseToken(liste)
-                    } else if (liste?.contains("code")== true) {
-                        println("Code :")
-                        ParseCode(liste)
-                    } else {
-                        println("yo WTF")
-                        println("yo WTF")
-                        println("yo WTF")
-                    }
-                    val intent = Intent(this@Register, After::class.java)
-                    ContextCompat.startActivity(this@Register, intent, null)
-                    return false
-                }
-                return false
-            }
-        }
-        webView.setWebViewClient(client)
-    }
-
     fun hideAllUI() {
         ButtonRegister.visibility = View.GONE
         GoogleRegister.visibility = View.GONE
         SpotifyRegister.visibility = View.GONE
         UserNameRegister.visibility = View.GONE
         PasswordRegister.visibility = View.GONE
+        textView4.visibility = View.GONE
+        LoginPage.visibility = View.GONE
         weebos.visibility = View.VISIBLE
+    }
+
+*/
+    }
+
+    inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> FragmentTransaction) {
+        beginTransaction().func().commit()
+    }
+
+    fun FragmentActivity.addFragment(fragment: Fragment, frameId: Int){
+        supportFragmentManager.inTransaction { add(frameId, fragment) }
+    }
+
+
+    fun FragmentActivity.replaceFragment(fragment: Fragment, frameId: Int) {
+        supportFragmentManager.inTransaction{replace(frameId, fragment).addToBackStack(null)}
+    }
+
+    override fun onAttachFragment(fragment: Fragment) {
+        if (fragment is LoginFragment) {
+            fragment.SetOnFragmentInteractionListener(this)
+        }
+        if (fragment is RegisterFragment) {
+            fragment.SetOnFragmentInteractionListener(this)
+        }
+    }
+
+    override fun onFragmentInteraction(b : Boolean) {
+        if (b)
+            replaceFragment(RegisterFragment(), R.id.frame)
+        else
+            replaceFragment(LoginFragment(), R.id.frame)
     }
 
 

@@ -8,135 +8,14 @@
     android:backgroundTint="#333333"
     tools:context=".MainActivity">
 
-    <WebView
-        android:id="@+id/weebos"
+    <FrameLayout
+        android:id="@+id/frame"
         android:layout_width="409dp"
-        android:layout_height="0dp"
+        android:layout_height="729dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginBottom="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toStartOf="parent">
 
-    </WebView>
-
-    <Button
-        android:id="@+id/RegisterPage"
-        android:layout_width="108dp"
-        android:layout_height="46dp"
-        android:layout_gravity="center"
-        android:layout_marginEnd="153dp"
-        android:layout_marginBottom="25dp"
-        android:background="@drawable/buttonshape"
-        android:shadowColor="#A8A8A8"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="4"
-        android:text="Log In"
-        android:textColor="#FFFFFF"
-        android:textSize="13dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"></Button>
-
-    <Button
-        android:id="@+id/SpotifyRegister"
-        android:layout_width="108dp"
-        android:layout_height="46dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="70dp"
-        android:background="@drawable/spotify_button"
-        android:shadowColor="#A8A8A8"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="4"
-        android:text="    Register"
-        android:textColor="#FFFFFF"
-        android:textSize="13dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ButtonRegister"
-        tools:text="      Register"></Button>
-
-    <Button
-        android:id="@+id/ButtonRegister"
-        android:layout_width="109dp"
-        android:layout_height="43dp"
-        android:layout_gravity="center"
-        android:layout_marginStart="151dp"
-        android:layout_marginTop="36dp"
-        android:background="@drawable/buttonshape"
-        android:shadowColor="#A8A8A8"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="4"
-        android:text="Register"
-        android:textColor="#FFFFFF"
-        android:textSize="13dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PasswordRegister"></Button>
-
-    <Button
-        android:id="@+id/GoogleRegister"
-        android:layout_width="125dp"
-        android:layout_height="41dp"
-        android:layout_gravity="center"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/common_google_signin_btn_text_dark_focused"
-        android:shadowColor="#A8A8A8"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="4"
-        android:text="Register"
-        android:textColor="#FFFFFF"
-        android:textSize="13dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ButtonRegister"></Button>
-
-    <EditText
-        android:id="@+id/UserNameRegister"
-        android:layout_width="381dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="350dp"
-        android:background="@drawable/back_button"
-        android:drawableLeft="@drawable/user_pic_small_w_border"
-        android:ems="10"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#C8DDE9"
-        android:hint="Username"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/PasswordRegister"
-        android:layout_width="384dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="15dp"
-        android:background="@drawable/back_button"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#C8DDE9"
-        android:contentDescription="Password"
-        android:drawableLeft="@drawable/lock_small_w_border"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/UserNameRegister" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#FFFFFF"
-        android:layout_marginStart="125dp"
-        android:layout_marginBottom="84dp"
-        android:text="Already have an account ?"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
