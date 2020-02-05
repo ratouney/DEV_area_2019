@@ -1,6 +1,8 @@
-import { ObjectIdColumn, Entity, Column } from 'typeorm';
+import { ObjectIdColumn, Entity, Column, OneToMany } from 'typeorm';
 import { ObjectID } from 'mongodb';
 import { IsDefined, IsEmail } from 'class-validator';
+import { Exclude } from 'class-transformer';
+import { Session } from '.';
 
 export enum Rank {
     admin = "Chad",
@@ -20,6 +22,8 @@ export default class User {
     username: string;
 
     @IsDefined()
+    @Exclude({ toPlainOnly: true })
+    @Column()
     password: string;
 
     @IsDefined()
@@ -33,4 +37,7 @@ export default class User {
         default: Rank.user
     })
     rank: Rank;
+
+    @OneToMany(type => Session, session => session.user)
+    sessions: Session[];
 }

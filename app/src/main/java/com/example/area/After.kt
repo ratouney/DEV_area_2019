@@ -3,10 +3,12 @@ package com.example.area
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import kotlinx.android.synthetic.main.activity_after.*
 import net.openid.appauth.AuthorizationException
 import net.openid.appauth.AuthorizationResponse
-
-
+import net.openid.appauth.TokenResponse
+import net.openid.appauth.AuthorizationService
+import android.provider.SyncStateContract.Helpers.update
 
 class After : AppCompatActivity() {
 
@@ -14,13 +16,16 @@ class After : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_after)
 
-        val resp = AuthorizationResponse.fromIntent(intent)
-        val ex = AuthorizationException.fromIntent(intent)
-        if (resp != null) {
-            Log.i("Auth :", resp.accessToken!!);
-        } else {
-            Log.e("Auth :", ex.toString());
-            // authorization failed, check ex for more details
-        }
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        textView.text = UserInfo.getInstance().username;
+        textView2.text = UserInfo.getInstance().token;
+
+        println("After activity");
+        println(UserInfo.getInstance().token);
+        println(UserInfo.getInstance().username);
     }
 }

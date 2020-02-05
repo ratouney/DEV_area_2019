@@ -1,4 +1,4 @@
-import { Entity, ObjectIdColumn, Column } from "typeorm";
+import { Entity, ObjectIdColumn, Column, ManyToOne } from "typeorm";
 import { ObjectID } from 'mongodb';
 import { User } from ".";
 
@@ -7,6 +7,12 @@ export default class Session {
     @ObjectIdColumn()
     id: ObjectID;
 
-    @Column()
+    @ManyToOne(type => User, user => user.sessions)
     user: User;
+
+    @Column()
+    userId: string;
+    
+    @Column()
+    token: string;
 }
