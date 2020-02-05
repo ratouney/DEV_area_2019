@@ -1,7 +1,7 @@
 package com.example.area
 
 import android.content.Context
-import android.net.Uri
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,19 +10,16 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_register.*
 
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [RegisterFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [RegisterFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class RegisterFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
+    private var callback: OnConnectionCallListener? = null
 
-    fun SetOnFragmentInteractionListener(callback: OnFragmentInteractionListener) {
-        this.listener = callback
+    fun SetOnFragmentInteractionListener(call: OnFragmentInteractionListener) {
+        this.listener = call
+    }
+
+    fun SetOnConnectionCallListener(call: OnConnectionCallListener) {
+        this.callback = call
     }
 
 
@@ -51,29 +48,37 @@ class RegisterFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        button2.setOnClickListener() {
+
+        GoLoginPage.setOnClickListener() {
             listener?.onFragmentInteraction(false)
         }
+
+        Register.setOnClickListener{
+            callback?.onConnectionCall(0, true)
+        }
+
+        GoogleRegister.setOnClickListener{
+            callback?.onConnectionCall(1, true)
+        }
+
+        SpotifyRegister.setOnClickListener{
+            callback?.onConnectionCall(2, true)
+        }
+
+
     }
+
 
     override fun onDetach() {
         super.onDetach()
         listener = null
     }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments]
-     * (http://developer.android.com/training/basics/fragments/communicating.html)
-     * for more information.
-     */
     interface OnFragmentInteractionListener {
         fun onFragmentInteraction(b: Boolean)
+    }
+
+    interface OnConnectionCallListener {
+        fun onConnectionCall(serviceNb: Int, firstConnection : Boolean)
     }
 
     companion object {

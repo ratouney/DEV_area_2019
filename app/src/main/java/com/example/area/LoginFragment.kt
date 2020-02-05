@@ -20,11 +20,17 @@ import kotlinx.android.synthetic.main.fragment_login.*
  */
 class LoginFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
+    private var callback: RegisterFragment.OnConnectionCallListener? = null
+
 
     fun SetOnFragmentInteractionListener(callback: OnFragmentInteractionListener) {
         this.listener = callback
     }
 
+
+    fun SetOnConnectionCallListener(call: RegisterFragment.OnConnectionCallListener) {
+        this.callback = call
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,9 +49,22 @@ class LoginFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        button.setOnClickListener() {
-            listener?.onFragmentInteraction(true)
+        GoRegisterPage.setOnClickListener() {
+            listener?.onFragmentInteraction(false)
         }
+
+        Login.setOnClickListener{
+            callback?.onConnectionCall(0, false)
+        }
+
+        GoogleLogin.setOnClickListener{
+            callback?.onConnectionCall(1, false)
+        }
+
+        SpotifyLogin.setOnClickListener{
+            callback?.onConnectionCall(2, false)
+        }
+
     }
 
     override fun onAttach(context: Context) {
@@ -65,6 +84,11 @@ class LoginFragment : Fragment() {
     interface OnFragmentInteractionListener {
         fun onFragmentInteraction(b: Boolean)
     }
+
+    interface OnConnectionCallListener {
+        fun onConnectionCall(serviceNb: Int, firstConnection : Boolean)
+    }
+
 
     companion object {
         @JvmStatic
