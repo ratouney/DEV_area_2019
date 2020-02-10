@@ -102,7 +102,6 @@ export class SessionService {
         }
 
         ses.token = jwt.sign(tokenData, "yolotron");
-        ses.user = ue.data;
         ses.userId = ue.data.id;
 
         const rtb = this.SessionRepository.save(ses)
@@ -155,6 +154,7 @@ export class SessionService {
 
         this.SessionRepository.delete({token: token})
         se.statusCode = 202;
+        se.msg = "Session deleted";
         return se;
     }
 }

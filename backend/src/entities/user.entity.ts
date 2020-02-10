@@ -38,10 +38,4 @@ export default class User {
         default: Rank.user
     })
     rank: Rank;
-
-    @OneToMany(type => Session, session => session.user)
-    sessions: Session[];
-
-    @OneToMany(type => Token, token => token.user)
-    tokens: Token[];
 }

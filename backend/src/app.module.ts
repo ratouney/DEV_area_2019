@@ -20,7 +20,7 @@ import Entities from './entities';
     }),
     UserModule,
     SessionModule,
-    //TokenModule,
+    TokenModule,
     ServiceModule
   ],
   controllers: [AppController],

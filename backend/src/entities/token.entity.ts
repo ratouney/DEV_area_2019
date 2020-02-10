@@ -1,9 +1,6 @@
 import { Entity, ObjectIdColumn, Column, ManyToOne } from "typeorm";
 import { ObjectID } from 'mongodb';
 import { IsDefined } from "class-validator";
-import { User } from ".";
-import { Post } from "@nestjs/common";
-import Service from "./service.entity";
 
 @Entity()
 export default class Token {
@@ -14,9 +11,11 @@ export default class Token {
     @IsDefined()
     data: string;
 
-    @ManyToOne(type => User, user => user.tokens)
-    user: User;
+    @Column()
+    @IsDefined()
+    userId: string;
 
     @Column()
-    service: Service;
+    @IsDefined()
+    serviceId: string;
 }

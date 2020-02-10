@@ -45,7 +45,7 @@ export class UserService {
         const rtb = this.UserRepository.save(entry)
         .then(res => {
             return {
-                statusCode: 0,
+                statusCode: 201,
                 data: res,
             };
         })
