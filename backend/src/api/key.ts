@@ -14,5 +14,6 @@ export default {
     imgur: {
         clientID: "094ee1cffcac340",
         clientSecret: "226e6c529a9c988ee91cd366f1ffe8987cdca27a"
-    }
+    },
+    nasa: "T1B0JudPvN0ItbUNcIfKl1ghqSVdfz3xJBv2LwM5"
 }

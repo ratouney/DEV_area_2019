@@ -6,7 +6,6 @@ import { Repository } from 'typeorm';
 import { validate, IsEmpty } from 'class-validator';
 import { ClassValidateException } from '../exceptions/ClassValidateException';
 import { MongoException } from '../exceptions/MongoException';
-import { userInfo } from 'os';
 
 @Injectable()
 export class UserService {
@@ -19,13 +18,13 @@ export class UserService {
         const rtb = this.UserRepository.find(data)
         .then(res => {
             return {
-                status: 0,
+                statusCode: 0,
                 data: res
             }
         })
         .catch(err => {
             return {
-                status: 1,
+                statusCode: 1,
                 error: err,
             }
         })
@@ -46,7 +45,7 @@ export class UserService {
         const rtb = this.UserRepository.save(entry)
         .then(res => {
             return {
-                status: 0,
+                statusCode: 0,
                 data: res,
             };
         })
