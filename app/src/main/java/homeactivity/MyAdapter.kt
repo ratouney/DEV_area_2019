@@ -29,6 +29,7 @@ class MyAdapter(list: List<MyApp>, context: Context) : RecyclerView.Adapter<MyVi
         val myObject: MyApp = list[position]
         val card: CardView = view.findViewById(R.id.card)
         val dialog = Dialog(act)
+        //val recyclerView : RecyclerView = view.findViewById(R.id.recyclerViewButton)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setContentView(R.layout.focus_app)
         card.setOnClickListener {

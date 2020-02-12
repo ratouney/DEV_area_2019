@@ -2,12 +2,19 @@ package com.example.area
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.util.Log
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import android.widget.EditText
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.startActivityForResult
+import androidx.core.content.ContextCompat
 import com.google.android.gms.auth.api.signin.*
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import homeactivity.HomeActivity
+import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.FormBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -20,6 +27,12 @@ object ServiceConnection {
     var client_id = "";
     var secret = ""
     var service = ""
+
+    fun LocalAuth(u : EditText, p : EditText) {
+        val userInfo = UserInfo.getInstance()
+        userInfo.username = u.text.toString()
+    }
+
 
     fun ImgurAuth() : String {
         client_id = "e59ba362671594e"
@@ -73,7 +86,7 @@ object ServiceConnection {
                 "https://oauth2.googleapis.com/token",
                 "https://leaflighted.com"
             );
-            val myIntent = Intent(context, After::class.java)
+            val myIntent = Intent(context, HomeActivity::class.java)
             context.startActivity(myIntent)
         } catch (e: ApiException) {
             Log.e(
@@ -142,5 +155,36 @@ object ServiceConnection {
         })
     }
 
+    fun loadAuthPage(url : String, webView : WebView, context: Context) {
+
+        webView.getSettings().setJavaScriptEnabled(true)
+        webView.loadUrl(url)
+        val client = object : WebViewClient() {
+
+            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                println(Uri.parse(url))
+                if (Uri.parse(url).scheme == "com.example.area") {
+                    val liste = url?.split("#", "=", "&", "?")
+                    println(liste)
+                    if (liste?.contains("access_token")== true) {
+                        println("Acces Token :")
+                        ParseToken(liste)
+                    } else if (liste?.contains("code")== true) {
+                        println("Code :")
+                        ParseCode(liste)
+                    } else {
+                        println("yo WTF")
+                        println("yo WTF")
+                        println("yo WTF")
+                    }
+                    val intent = Intent(context, HomeActivity::class.java)
+                    ContextCompat.startActivity(context, intent, null)
+                    return false
+                }
+                return false
+            }
+        }
+        webView.setWebViewClient(client)
+    }
 
 }

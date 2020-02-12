@@ -1,18 +1,10 @@
 package com.example.area
 
-import android.R.attr
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import com.example.area.ServiceConnection.ParseCode
-import com.example.area.ServiceConnection.ParseToken
 import com.google.android.gms.auth.api.Auth
-import com.google.android.gms.auth.api.signin.GoogleSignIn
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -29,7 +21,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         SpotifyLogIn.setOnClickListener{
-            loadAuthPage(ServiceConnection.SpotifyAuth())
+            hideAllUI()
+            ServiceConnection.loadAuthPage(ServiceConnection.SpotifyAuth(), weeb, this@MainActivity)
         }
 
         ButtonLogIn.setOnClickListener{
@@ -37,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         RegisterPage.setOnClickListener{
-            val myIntent = Intent(this, Register::class.java)
+            val myIntent = Intent(this, ConnectionActivity::class.java)
             startActivity(myIntent)
         }
     }
@@ -48,41 +41,6 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == 9001) {
             ServiceConnection.handleGoogleResult(Auth.GoogleSignInApi.getSignInResultFromIntent(data), this)
         }
-    }
-
-
-    fun loadAuthPage(url : String) {
-        hideAllUI()
-        val webView = weeb;
-
-        webView.getSettings().setJavaScriptEnabled(true)
-        webView.loadUrl(url)
-        val client = object : WebViewClient() {
-
-            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                println(Uri.parse(url))
-                if (Uri.parse(url).scheme == "com.example.area") {
-                    val liste = url?.split("#", "=", "&", "?")
-                    println(liste)
-                    if (liste?.contains("access_token")== true) {
-                        println("Acces Token :")
-                        ParseToken(liste)
-                    } else if (liste?.contains("code")== true) {
-                        println("Code :")
-                        ParseCode(liste)
-                    } else {
-                        println("yo WTF")
-                        println("yo WTF")
-                        println("yo WTF")
-                    }
-                    val intent = Intent(this@MainActivity, After::class.java)
-                    ContextCompat.startActivity(this@MainActivity, intent, null)
-                    return false
-                }
-                return false
-            }
-        }
-        webView.setWebViewClient(client)
     }
 
     fun hideAllUI() {

@@ -21,52 +21,11 @@
             android:id="@+id/focus_txt">
         </TextView>
 
-        <Button
-            android:layout_width="300dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:id="@+id/action1"
-            android:text="When you're sending an e-mail..."
-            android:textColor="#FFFFFF"
-            android:textSize="13dp"
-            android:background="@drawable/buttonshape"
-            android:shadowColor="#A8A8A8"
-            android:shadowDx="0"
-            android:shadowDy="0"
-            android:shadowRadius="4">
-        </Button>
-
-        <Button
-            android:layout_width="300dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="20dp"
-            android:id="@+id/action2"
-            android:layout_gravity="center"
-            android:text="When you're receiving an e-mail..."
-            android:textColor="#FFFFFF"
-            android:textSize="13dp"
-            android:background="@drawable/buttonshape"
-            android:shadowColor="#A8A8A8"
-            android:shadowDx="0"
-            android:shadowDy="0"
-            android:shadowRadius="4">
-        </Button>
-
-        <Button
-            android:layout_width="300dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:id="@+id/action3"
-            android:text="When you're logging in..."
-            android:textColor="#FFFFFF"
-            android:textSize="13dp"
-            android:background="@drawable/buttonshape"
-            android:shadowColor="#A8A8A8"
-            android:shadowDx="0"
-            android:shadowDy="0"
-            android:shadowRadius="4">
-        </Button>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+        </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>
