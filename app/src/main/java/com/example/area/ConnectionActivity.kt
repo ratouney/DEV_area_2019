@@ -8,13 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.example.area.Register
 import com.google.android.gms.auth.api.Auth
 import kotlinx.android.synthetic.main.activity_register.*
-import kotlinx.android.synthetic.main.fragment_register.*
 
 
-class Register : FragmentActivity(), LoginFragment.OnFragmentInteractionListener, RegisterFragment.OnFragmentInteractionListener, RegisterFragment.OnConnectionCallListener {
+class ConnectionActivity : FragmentActivity(), LoginFragment.OnFragmentInteractionListener, RegisterFragment.OnFragmentInteractionListener, RegisterFragment.OnConnectionCallListener {
 
     val manager = supportFragmentManager
     val transaction: FragmentTransaction = manager.beginTransaction()
@@ -24,35 +22,14 @@ class Register : FragmentActivity(), LoginFragment.OnFragmentInteractionListener
         setContentView(R.layout.activity_register)
 
         addFragment(LoginFragment(), R.id.frame)
-        weebos.visibility = View.GONE
-
-
-        /*
-    }
-
-
-
-
-
-    fun hideAllUI() {
-        ButtonRegister.visibility = View.GONE
-        GoogleRegister.visibility = View.GONE
-        SpotifyRegister.visibility = View.GONE
-        UserNameRegister.visibility = View.GONE
-        PasswordRegister.visibility = View.GONE
-        textView4.visibility = View.GONE
-        LoginPage.visibility = View.GONE
-        weebos.visibility = View.VISIBLE
-    }
-
-*/
+        showAllUI()
     }
 
     inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> FragmentTransaction) {
         beginTransaction().func().commit()
     }
 
-    fun FragmentActivity.addFragment(fragment: Fragment, frameId: Int){
+    fun FragmentActivity.addFragment(fragment: Fragment, frameId: Int)  {
         supportFragmentManager.inTransaction { add(frameId, fragment) }
     }
 
@@ -88,13 +65,13 @@ class Register : FragmentActivity(), LoginFragment.OnFragmentInteractionListener
 
     override fun onConnectionCall(serviceNb : Int, firstConnection : Boolean) {
         if (serviceNb == 0) {
-
+            APICalls.GET.UsersList()
         } else if (serviceNb == 1) {
             hideAllUI()
             startActivityForResult(ServiceConnection.GoogleAuth(this), 9001)
         } else if (serviceNb == 2) {
             hideAllUI()
-            ServiceConnection.loadAuthPage(ServiceConnection.SpotifyAuth(), weebos, this@Register)
+            ServiceConnection.loadAuthPage(ServiceConnection.SpotifyAuth(), weebos, this@ConnectionActivity)
         }
     }
 
@@ -103,6 +80,13 @@ class Register : FragmentActivity(), LoginFragment.OnFragmentInteractionListener
         Password.visibility = View.GONE
         weebos.visibility = View.VISIBLE
         frame.visibility = View.GONE
+    }
+
+    fun showAllUI() {
+        UserName.visibility = View.VISIBLE
+        Password.visibility = View.VISIBLE
+        weebos.visibility = View.GONE
+        frame.visibility = View.VISIBLE
     }
 
 

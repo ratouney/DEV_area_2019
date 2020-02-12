@@ -1,17 +1,10 @@
 package com.example.area
 
-import android.R.attr
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import com.google.android.gms.auth.api.Auth
-import com.google.android.gms.auth.api.signin.GoogleSignIn
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -37,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         RegisterPage.setOnClickListener{
-            val myIntent = Intent(this, Register::class.java)
+            val myIntent = Intent(this, ConnectionActivity::class.java)
             startActivity(myIntent)
         }
     }
