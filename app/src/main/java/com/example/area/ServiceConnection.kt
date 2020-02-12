@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.gms.auth.api.signin.*
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import homeactivity.HomeActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.FormBody
 import okhttp3.OkHttpClient
@@ -85,7 +86,7 @@ object ServiceConnection {
                 "https://oauth2.googleapis.com/token",
                 "https://leaflighted.com"
             );
-            val myIntent = Intent(context, After::class.java)
+            val myIntent = Intent(context, HomeActivity::class.java)
             context.startActivity(myIntent)
         } catch (e: ApiException) {
             Log.e(
@@ -176,7 +177,7 @@ object ServiceConnection {
                         println("yo WTF")
                         println("yo WTF")
                     }
-                    val intent = Intent(context, After::class.java)
+                    val intent = Intent(context, HomeActivity::class.java)
                     ContextCompat.startActivity(context, intent, null)
                     return false
                 }
