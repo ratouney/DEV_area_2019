@@ -1,10 +1,7 @@
-import { Injectable, Logger, HttpException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Service } from '../entities';
 import { Repository } from 'typeorm';
-import { validate } from 'class-validator';
-import { ClassValidateException } from '../exceptions/ClassValidateException';
-import { MongoException } from '../exceptions/MongoException';
 
 @Injectable()
 export class ServiceService {
@@ -13,32 +10,28 @@ export class ServiceService {
         private readonly ServiceRepository : Repository<Service>
     ) {}
 
-    getAll() : object {
+    getAllServices() : object {
         const rtb = this.ServiceRepository.find()
         .then(res => {
             return {
-                statusCode: 0,
+                statusCode: 200,
                 data: res
             }
         })
         .catch(err => {
             return {
-                statusCode: 503,
+                statusCode: 400,
                 error: err,
             }
         })
 
-        return rtb
+        return rtb   
     }
 
-    async createNew(data) : Promise<object> {
-        if (data.name === null || data.name === undefined) {
-            throw new HttpException("Missing name", 400);
-        }
-
+    createNewService(params) : object {
         let entry = this.ServiceRepository.create();
 
-        entry.name = data.name;
+        entry.name = params.name;
 
         const rtb = this.ServiceRepository.save(entry)
         .then(res => {
@@ -48,7 +41,10 @@ export class ServiceService {
             };
         })
         .catch(err => {
-            throw new MongoException(err);
+            return {
+                statusCode: 400,
+                error: err
+            }
         })
 
         return rtb

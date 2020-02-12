@@ -28,14 +28,14 @@ class AppFragment : Fragment() {
     private fun addApp() {
      apps.add(
          MyApp(
-             "Facebook",
-             R.drawable.facebook
+             "Gmail",
+             R.drawable.gmail
          )
      )
      apps.add(
          MyApp(
-             "Snapchat",
-             R.drawable.snapchat
+             "Sheet",
+             R.drawable.sheet
          )
      )
      apps.add(
@@ -46,26 +46,26 @@ class AppFragment : Fragment() {
      )
      apps.add(
          MyApp(
-             "Twitter",
-             R.drawable.twitter
+             "Pokemon",
+             R.drawable.pokemon
          )
      )
      apps.add(
          MyApp(
-             "Youtube",
-             R.drawable.youtube
+             "Nasa",
+             R.drawable.nasa
          )
      )
      apps.add(
          MyApp(
-             "Instagram",
-             R.drawable.instagram
+             "Imgur",
+             R.drawable.imgur
          )
      )
      apps.add(
          MyApp(
-             "Messenger",
-             R.drawable.messenger
+             "Meteo",
+             R.drawable.meteo
          )
      )
     }

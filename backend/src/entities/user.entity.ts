@@ -1,5 +1,4 @@
-import { ObjectIdColumn, Entity, Column, OneToMany } from 'typeorm';
-import { ObjectID } from 'mongodb';
+import { Entity, Column, OneToMany, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
 import { IsDefined, IsEmail } from 'class-validator';
 import { Exclude } from 'class-transformer';
 import { Session } from '.';
@@ -13,8 +12,8 @@ export enum Rank {
 
 @Entity()
 export default class User {
-    @ObjectIdColumn()
-    id: ObjectID;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
     @Column({
         unique: true
@@ -22,16 +21,16 @@ export default class User {
     @IsDefined()
     username: string;
 
-    @IsDefined()
     @Exclude({ toPlainOnly: true })
     @Column()
+    @IsDefined()
     password: string;
 
-    @IsDefined()
-    @IsEmail()
     @Column({
-        unique: true
+        unique: true,
     })
+    @IsEmail()
+    @IsDefined()
     email: string;
 
     @Column({
@@ -39,9 +38,16 @@ export default class User {
     })
     rank: Rank;
 
-    @OneToMany(type => Session, session => session.user)
-    sessions: Session[];
-
     @OneToMany(type => Token, token => token.user)
     tokens: Token[];
+
+    @Column({
+        default: 0,
+    })
+    pokemon: Number;
+
+    @Column({
+        default: 0,
+    })
+    marsphoto: Number;
 }

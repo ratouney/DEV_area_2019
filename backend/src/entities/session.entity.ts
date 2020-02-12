@@ -1,18 +1,18 @@
-import { Entity, ObjectIdColumn, Column, ManyToOne } from "typeorm";
-import { ObjectID } from 'mongodb';
+import { Entity, ObjectIdColumn, Column, ManyToOne, PrimaryGeneratedColumn, OneToOne, JoinColumn } from "typeorm";
+import { Exclude } from 'class-transformer';
 import { User } from ".";
+import { IsDefined } from "class-validator";
 
 @Entity()
 export default class Session {
-    @ObjectIdColumn()
-    id: ObjectID;
-
-    @ManyToOne(type => User, user => user.sessions)
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
+    
+    @OneToOne(type => User)
+    @JoinColumn()
     user: User;
 
     @Column()
-    userId: string;
-    
-    @Column()
+    @IsDefined()
     token: string;
 }

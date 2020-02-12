@@ -1,24 +1,22 @@
-import { Controller, Get, Query, Post, Body, Delete } from '@nestjs/common';
+import { Controller, Get, Query, Body, Post, Delete } from '@nestjs/common';
 import { SessionService } from './session.service';
 
 @Controller('session')
 export class SessionController {
     constructor(private readonly ss: SessionService) {}
 
-    // Should be an admin command
     @Get()
-    listSessions(@Query() query) : object {
-        return this.ss.findSession(query);
+    getCurrentSession(@Query('id') id) : object {
+        return this.ss.getSession(id);
     }
 
-    // the login func
     @Post('login')
-    createSession(@Body() body) : object {
-        return this.ss.createSession(body);
+    createSession(@Body('username') username, @Body('password') pw) : object {
+        return this.ss.createOrRetrieveSession(username, pw);
     }
 
     @Delete('logout')
-    anihilateSession(@Body('token') token) : object {
-        return this.ss.deleteSession(token);
+    deleteSession(@Body('token') token) : object {
+        return this.ss.invalidateToken(token);
     }
 }
