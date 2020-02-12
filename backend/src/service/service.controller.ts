@@ -1,17 +1,17 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
-import { ServiceService } from './service.service'
+import { ServiceService } from './service.service';
 
 @Controller('service')
 export class ServiceController {
     constructor(private readonly ss: ServiceService) {}
 
     @Get()
-    yolotron(): object {
-        return this.ss.getAll();
+    getAllServices() : object {
+        return this.ss.getAllServices();
     }
 
     @Post('new')
-    hellothere(@Body() newServiceData) : object {
-        return this.ss.createNew(newServiceData);
+    createService(@Body() params) : object {
+        return this.ss.createNewService(params);
     }
 }

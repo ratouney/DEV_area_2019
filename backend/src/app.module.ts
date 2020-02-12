@@ -2,26 +2,33 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserController } from './user/user.controller';
 import { UserModule } from './user/user.module';
+import { SessionController } from './session/session.controller';
 import { SessionModule } from './session/session.module';
-import { TokenModule } from './token/token.module';
+import { ServiceController } from './service/service.controller';
 import { ServiceModule } from './service/service.module';
-import Entities from './entities';
+import { TokenController } from './token/token.controller';
+import { TokenModule } from './token/token.module';
+import Entities  from './entities';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: "mongodb",
-      useUnifiedTopology: true,
-      url: "mongodb+srv://username:paspassword@areacluster-dguyh.mongodb.net/dev?retryWrites=true&w=majority",
-      synchronize: true,
-      logging: true,
-      entities: Entities,
+      "type": "postgres",
+      "host": "localhost",
+      "port": 5432,
+      "username": "postgres",
+      "password": "postgres",
+      "database": "area",
+      "entities": Entities,
+      "synchronize": true,
+      "logging": true
     }),
     UserModule,
     SessionModule,
-    //TokenModule,
-    ServiceModule
+    ServiceModule,
+    TokenModule,
   ],
   controllers: [AppController],
   providers: [AppService],
