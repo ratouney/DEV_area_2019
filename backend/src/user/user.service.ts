@@ -1,11 +1,10 @@
-import { Injectable, HttpException, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities';
-import { Rank } from '../entities/user.entity';
 import { Repository } from 'typeorm';
-import { validate, IsEmpty } from 'class-validator';
+import { Rank } from '../entities/user.entity';
+import { validate } from 'class-validator';
 import { ClassValidateException } from '../exceptions/ClassValidateException';
-import { MongoException } from '../exceptions/MongoException';
 
 @Injectable()
 export class UserService {
@@ -14,17 +13,42 @@ export class UserService {
         private readonly UserRepository : Repository<User>
     ) {}
 
-    findUser(data) : object {
-        const rtb = this.UserRepository.find(data)
+    getAllUsers() : object {
+        const rtb = this.UserRepository.find()
         .then(res => {
             return {
-                statusCode: 0,
+                statusCode: 200,
                 data: res
             }
         })
         .catch(err => {
             return {
-                statusCode: 1,
+                statusCode: 400,
+                error: err,
+            }
+        })
+
+        return rtb  
+    }
+
+    getUser(id) : object {
+        const rtb = this.UserRepository.findOne(id)
+        .then(res => {
+            if (res == undefined) {
+                return {
+                    statusCode: 400,
+                    err: `User [${id}] doesn't exist`,
+                    data: null,
+                }
+            }
+            return {
+                statusCode: 200,
+                data: res
+            }
+        })
+        .catch(err => {
+            return {
+                statusCode: 400,
                 error: err,
             }
         })
@@ -33,7 +57,7 @@ export class UserService {
     }
 
     async createUser(data) : Promise<object> {
-        let entry = this.UserRepository.create();
+        let entry = this.UserRepository.create()
 
         entry = { ...data, rank: Rank.user};
 
@@ -50,35 +74,25 @@ export class UserService {
             };
         })
         .catch(err => {
-            throw new MongoException(err);
+            return  {
+                statusCode: 400,
+                err: err,
+                data: null
+            }
         })
 
         return rtb;
     }
 
-    async updateUser(id, data = {}) : Promise<object> {
-        var error = undefined;
-
-        await this.UserRepository.update(id, data)
+    async updateUser(id, data) : Promise<object> {
+        const rtb = this.UserRepository.update(id, data)
         .then(res => {
-            Logger.log(res, "UpdateUserResult");
+            return res;
         })
         .catch(err => {
-            error = err;
+            return err;
         })
 
-        if (error != undefined && IsEmpty(error)) {
-            throw new HttpException(`Entry [${id}] not found`, 400);
-        } else if (error !== undefined) {
-            throw new MongoException(error);
-        }
-
-        const updatedUser = this.UserRepository.findOne(id);
-
-        return updatedUser;
-    }
-
-    deleteUser(id) : object {
-        return {}
+        return rtb;
     }
 }

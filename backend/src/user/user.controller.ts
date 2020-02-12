@@ -1,27 +1,27 @@
-import { Controller, Get, Query, Post, Body, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Query, Post, Body, Put } from '@nestjs/common';
 import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
     constructor(private readonly us: UserService) {}
 
+    @Get('all')
+    getAllUsers() : object {
+        return this.us.getAllUsers();
+    }
+
     @Get()
-    uselessfunctionname(@Query() query): object {
-        return this.us.findUser(query);
+    getSpecificUser(@Query('id') id) : object {
+        return this.us.getUser(id);
     }
 
     @Post('new')
-    didyouknowfunctionnamesdontmatter(@Body() newUserData): object {
-        return this.us.createUser(newUserData);
+    createNewUser(@Body() body) : object {
+        return this.us.createUser(body);
     }
 
     @Put('update')
-    yepanotheroneofthese(@Query('id') id : string, @Body() data : object) : object {
-        return this.us.updateUser(id, data);
-    }
-
-    @Delete('delete')
-    helothere(@Query('id') id : string) : object {
-        return {status: "no"};
+    updateExistingUser(@Query('id') id, @Body() params) : object {
+        return this.us.updateUser(id, params);
     }
 }

@@ -1,17 +1,18 @@
-import { Controller, Query, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Query, Body, Post } from '@nestjs/common';
 import { TokenService } from './token.service';
+import { Token } from '../entities';
 
 @Controller('token')
 export class TokenController {
     constructor(private readonly ts: TokenService) {}
 
     @Get()
-    generalkenobi(@Query() q): object {
-        return this.ts.listTokens(q);
+    getTokenForUser(@Query('token') token) : object {
+        return this.ts.getTokensFromUser(token);
     }
 
     @Post('new')
-    asurprisetobesure(@Body() newTokenData): object {
-        return this.ts.createToken(newTokenData);
+    createNEwToken(@Query('token') authToken, @Body() params) : object {
+        return this.ts.createToken(authToken, params);
     }
 }

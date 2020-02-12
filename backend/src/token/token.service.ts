@@ -1,103 +1,96 @@
-import { Injectable, Logger, HttpException } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Token, Service, User } from '../entities';
-import { Repository, getRepository, getMongoRepository } from 'typeorm';
-import { MongoException } from '../exceptions/MongoException';
-import { ObjectID } from 'mongodb';
+import { Token, Session, Service, User } from '../entities';
+import { Repository } from 'typeorm';
+import jwt from 'jsonwebtoken';
 
 @Injectable()
 export class TokenService {
     constructor(
         @InjectRepository(Token)
         private readonly TokenRepository : Repository<Token>,
+        @InjectRepository(Session)
+        private readonly SessionRepository : Repository<Session>,
         @InjectRepository(Service)
         private readonly ServiceRepository : Repository<Service>,
         @InjectRepository(User)
-        private readonly UserRepository : Repository<User>,
+        private readonly UserRepository : Repository<User>
     ) {}
 
-    async listTokens(params) : Promise<object> {
-        console.log("List tokens of user : ", params.userId);
-        let tokens = await this.TokenRepository.find({where:  {userId: new ObjectID(params.userId)}})
+    async getTokensFromUser(token) : Promise<object> {
+        const ses = await this.SessionRepository.find({where: {token: token}});
+
+        if (ses.length == 0) {
+            return {
+                statusCode: 403,
+                error: "Invalid session token",
+            }
+        }
+8
+        const data = jwt.decode(token, { json: true});
+        const userId = data.id;
+        Logger.log(data, "TOkenDATA");
+
+        const rtb = await this.TokenRepository.find({where: {user: {id: userId}}, relations: ["service"]})
         .then(res => {
-            console.log("res :", res);
-            return res;
+            return {
+                statusCode: 200,
+                data: res
+            }
         })
         .catch(err => {
-            console.log("err : ", err);
-            return err;
+            return {
+                statusCode: 400,
+                error: err,
+            }
         })
 
-        return tokens;
+        return rtb;
     }
 
-    async createToken(data) : Promise<object> {
-        let user = await this.UserRepository.findOne(data.userId)
-        .then(res => {
-            return {
-                statusCode: 200,
-                data: res
-            }
-        })
-        .catch(err => {
-            return {
-                statusCode: 400,
-                err: err.toString(),
-                data: null
-            }
-        })
+    async createToken(authToken, params) : Promise<object> {
+        const ses = await this.SessionRepository.find({where: {token: authToken}});
 
-        if (user.statusCode == 400) {
-            return user;
-        }
-        if (user.data == null) {
+        if (ses.length == 0) {
             return {
-                statusCode: 400,
-                msg: `User [${data.userId}] not found`
+                statusCode: 403,
+                error: "Invalid session token",
+            }
+        }
+8
+        const data = jwt.decode(authToken, { json: true});
+        const userId = data.id;
+
+        const service = await this.ServiceRepository.find({where: {id: params.serviceId}});
+        if (service.length == 0) {
+            return {
+                statusCode: 403,
+                error: "Service not found",
             }
         }
 
-        let service = await this.ServiceRepository.findOne(data.serviceId)
-        .then(res => {
-            return {
-                statusCode: 200,
-                data: res
-            }
-        })
-        .catch(err => {
-            return {
-                statusCode: 400,
-                err: err.toString(),
-                data: null
-            }
-        })
+        const user = await this.UserRepository.findOne(userId);
 
-        if (service.statusCode == 400) {
-            return service;
-        }
-        if (service.data == null) {
-            return {
-                statusCode: 400,
-                msg: `Service [${data.serviceId}] not found`
-            }
-        }
-
-        let entry = this.TokenRepository.create();
-        entry.data = data.token;
-        entry.userId = user.data.id;
-        entry.serviceId = service.data.id;
-
-        const rtb = this.TokenRepository.save(entry)
+        const entry = this.TokenRepository.create();
+        entry.service = service[0];
+        entry.token = params.token;
+        entry.user = user;
+        
+        const rtb = await this.TokenRepository.save(entry)
         .then(res => {
             return {
                 statusCode: 201,
-                data: res,
-            };
+                data: res
+            }
         })
         .catch(err => {
-            throw new MongoException(err);
+            return {
+                statusCode: 400,
+                error: err,
+            }
         })
 
-        return rtb
+        return rtb;
     }
+
 }
