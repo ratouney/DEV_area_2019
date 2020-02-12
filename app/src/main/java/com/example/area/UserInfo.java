@@ -14,4 +14,5 @@ class UserInfo {
 
     public String token;
     public String username;
+    public String id;
 }
