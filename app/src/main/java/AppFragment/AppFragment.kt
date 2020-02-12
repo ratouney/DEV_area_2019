@@ -16,8 +16,6 @@ class AppFragment : Fragment() {
     private val apps: MutableList<MyApp> = ArrayList()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
-        //setContentView(R.layout.activity_app)
         setHasOptionsMenu(true)
         val root = inflater.inflate(R.layout.fragment_app, container, false)
         addApp()
@@ -32,7 +30,6 @@ class AppFragment : Fragment() {
          MyApp(
              "Facebook",
              R.drawable.facebook
-
          )
      )
      apps.add(
