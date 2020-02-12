@@ -50,7 +50,7 @@ class RegisterFragment : Fragment() {
         super.onStart()
 
         GoLoginPage.setOnClickListener() {
-            listener?.onFragmentInteraction(false)
+            listener?.onFragmentInteraction(true)
         }
 
         Register.setOnClickListener{
