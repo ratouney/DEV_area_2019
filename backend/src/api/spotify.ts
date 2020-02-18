@@ -2,6 +2,7 @@ import Request from "./requestClass"
 import key from "./key"
 
 const req = new Request();
+const baseUrl = "https://api.spotify.com/v1/me/player/"
 
 export class SpotifyAPI {
 
@@ -10,47 +11,44 @@ export class SpotifyAPI {
     async pauseSong(accessToken : string) {
         const head = "Bearer " + accessToken
         console.log(head)
+        const uri = baseUrl + "pause";
         const config = {
-            url : "https://api.spotify.com/v1/me/player/pause",
+            url : uri,
             method : 'put',
             headers : {
                 'Accept' : 'application/json',
                 'Authorization' : head
             }
         }
-        const data = await req.callWithHeader(config);
-        console.log(data);
-        return data;
+        await req.callWithHeader(config);
     }
 
     async nextSong(accessToken) {
         const head = 'Bearer ' + accessToken
+        const uri = baseUrl + "next"
         const config = {
-            url : "https://api.spotify.com/v1/me/player/next",
+            url : uri,
             method : 'post',
             headers : {
                 'Authorization': head,
                 'Accept': 'application/json'
             }
         }
-        const data = await req.callWithHeader(config);
-        console.log(data);
-        return data;
+        await req.callWithHeader(config);
     }
 
     async prevSong(userId) {
         const head = 'Bearer ' + userId
+        const uri = baseUrl + "previous"
         const config = {
-            url : "https://api.spotify.com/v1/me/player/previous",
+            url : uri,
             method : 'post',
             headers : {
                 'Authorization': head,
                 'Accept': 'application/json'
             }
         }
-        const data = await req.callWithHeader(config);
-        console.log(data);
-        return data;
+        await req.callWithHeader(config);
     }
 
     async setVolume(userId, volume) {
@@ -64,8 +62,6 @@ export class SpotifyAPI {
                 'Accept': 'application/json'
             }
         }
-        const data = await req.callWithHeader(config);
-        console.log(data);
-        return data;
+        await req.callWithHeader(config);
     }
 }

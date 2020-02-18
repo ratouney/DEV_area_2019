@@ -12,8 +12,12 @@ export class NasaAPI {
         return data;
     }
 
-    async marsWeather() {
-        const data = await req.getCall(baseUrl + "insight_weather/?api_key=" + key.nasa + "&feedtype=json&ver=1.0");
-        return data;
+    async marsPhoto(currPic) {
+        const data = await req.getCall(baseUrl + "mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=" + key.nasa);
+        const pic = data.photos[currPic];
+        currPic++;
+        //if (1 > 855)
+            //1 = 0;
+        return pic
     }
 }
