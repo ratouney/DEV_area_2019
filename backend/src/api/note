@@ -1,0 +1,41 @@
+Service :
+Gmail
+Gsheet
+Pokemon
+Nasa
+Spotify
+Weather
+Imgur
+
+7/7
+
+AREA :
+SendMail                - reaction
+CreateDraft             - reaction
+NewMail                 - action
+
+Create g sheet          - reaction
+sheetChange             - action
+
+get pokemon
+
+photo du jour
+mars pic
+
+pause                   - reaction
+Volume                  - reaction
+
+meteo du jour
+uv limit                - action
+
+uploadPic               - reaction
+isThereNewPicForTag     - action
+getNewVote              - action
+getNewComment           - action
+getNewFav               - action
+changeBio               - reaction
+
+action : 7
+reaction : 7
+
+18 / 18

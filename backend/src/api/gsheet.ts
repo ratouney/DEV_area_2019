@@ -18,8 +18,26 @@ export class GoogleSheetAPI {
             },
             data: {}
         }
-        const data = await req.callWithHeader(config);
+        await req.callWithHeader(config);
+    }
+
+    async sheetChange(accessToken, sheetId, lastDate) {
+        const head = 'Bearer ' + accessToken
+        const uri = "https://www.googleapis.com/drive/v3/files/" + sheetId + "?fields=modifiedTime&key=" + key.google.APIKey
+        const config = {
+            url: uri,
+            method: 'get',
+            headers: {
+                'Authorization' : head,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        }
+        var data = await req.callWithHeader(config);
         console.log(data);
-        return data;
+        const timeStamp = new Date(data.modifiedTime).getTime();
+        console.log(timeStamp)
+        console.log(Date.parse(data.modifiedTime))
+        return true;
     }
 }
