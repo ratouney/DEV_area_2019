@@ -10,6 +10,11 @@ export class AreaController {
         return this.as.getAreas(token);
     }
 
+    @Post('new')
+    createArea(@Query('token') token, @Body() params) : object {
+        return this.as.createArea(token, params);
+    }
+
     @Get('action')
     getActionsFromService(@Query('serviceId') serviceId) : object {
         return this.as.getActions(serviceId);

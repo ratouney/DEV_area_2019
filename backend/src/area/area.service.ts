@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Area, Session, Action, Reaction, Service } from '../entities';
+import { Area, Session, Action, Reaction, Service, User } from '../entities';
 import jwt from 'jsonwebtoken';
 
 @Injectable()
@@ -17,6 +17,8 @@ export class AreaService {
         private readonly ReactionRepository : Repository<Reaction>,
         @InjectRepository(Service)
         private readonly ServiceRepository : Repository<Service>,
+        @InjectRepository(User)
+        private readonly UserRepository : Repository<User>,
     ) {}
 
     async getAreas(token) : Promise<object> {
@@ -32,7 +34,7 @@ export class AreaService {
         const data = jwt.decode(token, { json: true});
         const userId = data.id;
 
-        const rtb = await this.AreaRepository.find({where: {user: userId}})
+        const rtb = await this.AreaRepository.find({where: {user: userId}, relations: ["action", "action.service", "reaction", "reaction.service"]})
         .then(res => {
             return {
                 statusCode: 200,
@@ -49,8 +51,83 @@ export class AreaService {
         return rtb;
     }
 
+    async createArea(token, params) : Promise<object> {
+        const ses = await this.SessionRepository.find({where: {token: token}});
+
+        if (ses.length == 0) {
+            return {
+                statusCode: 403,
+                error: "Invalid session token",
+            }
+        }
+
+        const data = jwt.decode(token, { json: true });
+        const userId = data.id;
+        
+        const user = await this.UserRepository.findOne(userId);
+
+        const action = await this.ActionRepository.find({where: {id: params.actionId}});
+        if (action.length == 0) {
+            return {
+                statusCode: 403,
+                error: "Action not found",
+            }
+        }
+
+        const reaction = await this.ReactionRepository.find({where: {id: params.reactionId}});
+        if (reaction.length == 0) {
+            return {
+                statusCode: 403,
+                error: "Reaction not found"
+            }
+        }
+
+        const entry = await this.AreaRepository.create();
+        entry.user = user;
+        entry.action = action[0];
+        entry.reaction = reaction[0];
+        entry.name = params.name;
+
+        const rtb = await this.AreaRepository.save(entry)
+        .then(res => {
+            return {
+                statusCode: 201,
+                data: res
+            }
+        })
+        .catch(err => {
+            return {
+                statusCode: 400,
+                error: err,
+            }
+        })
+
+        return rtb;
+    }
+
     async getActions(serviceId) : Promise<object> {
+        if (serviceId == "" ||serviceId == null) {
+            return this.getAllActions();
+        }
         const rtb = await this.ActionRepository.find({where: {service: {id: serviceId}}})
+        .then(res => {
+            return {
+                statusCode: 200,
+                data: res
+            }
+        })
+        .catch(err => {
+            return {
+                statusCode: 400,
+                error: err,
+            }
+        })
+
+        return rtb;
+    }
+
+    async getAllActions() : Promise<object> {
+        const rtb = await this.ActionRepository.find({relations: ["service"]})
         .then(res => {
             return {
                 statusCode: 200,
@@ -116,6 +193,24 @@ export class AreaService {
         return rtb;
     }
 
+    async getAllReactions() : Promise<object> {
+        const rtb = await this.ReactionRepository.find({relations: ["service"]})
+        .then(res => {
+            return {
+                statusCode: 200,
+                data: res
+            }
+        })
+        .catch(err => {
+            return {
+                statusCode: 400,
+                error: err,
+            }
+        })
+
+        return rtb;
+    }
+
     async createReaction(params) : Promise<object> {
         if (params.serviceId === "") {
             return {
@@ -131,8 +226,6 @@ export class AreaService {
                 error: "Service not found",
             }
         }
-
-        console.log("MERDE", service);
 
         const entry = this.ReactionRepository.create();
         entry.service = service[0];
