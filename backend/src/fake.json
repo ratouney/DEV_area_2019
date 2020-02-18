@@ -1,0 +1,11 @@
+[
+    {
+        "id": "1",
+        "name": "FacebookLike",
+        "description": "Like a post",
+        "service": {
+            "id": "SDLFSKMDF",
+            "name": "Facebook"
+        }
+    }
+]

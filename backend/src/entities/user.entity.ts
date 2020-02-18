@@ -3,6 +3,7 @@ import { IsDefined, IsEmail } from 'class-validator';
 import { Exclude } from 'class-transformer';
 import { Session } from '.';
 import Token from './token.entity';
+import Area from './area.entity';
 
 export enum Rank {
     admin = "Chad",
@@ -40,6 +41,9 @@ export default class User {
 
     @OneToMany(type => Token, token => token.user)
     tokens: Token[];
+
+    @OneToMany(type => Area, area => area.user)
+    areas: Area[];
 
     @Column({
         default: 0,
