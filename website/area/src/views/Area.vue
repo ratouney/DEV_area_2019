@@ -10,7 +10,7 @@
    <button @click="SpotifyLogin" :disabled="!isLoaded">SignIn With Spotify</button>
   <button class="accordion">Google</button>
 <div class="panel">
-  
+  Test 1 2 1 2
 </div>
 
 <button class="accordion">Spotify</button>
