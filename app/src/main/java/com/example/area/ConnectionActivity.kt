@@ -15,7 +15,7 @@ import homeactivity.HomeActivity
 import kotlinx.android.synthetic.main.activity_register.*
 
 
-class ConnectionActivity : FragmentActivity(), LoginFragment.OnFragmentInteractionListener, RegisterFragment.OnFragmentInteractionListener, RegisterFragment.OnConnectionCallListener {
+class ConnectionActivity : FragmentActivity(), LoginFragment.OnFragmentInteractionListener, RegisterFragment.OnFragmentInteractionListener, RegisterFragment.OnConnectionCallListener, LoginFragment.OnConnectionCallListener {
 
     val manager = supportFragmentManager
     val transaction: FragmentTransaction = manager.beginTransaction()
@@ -86,11 +86,10 @@ class ConnectionActivity : FragmentActivity(), LoginFragment.OnFragmentInteracti
                         val intent = Intent(this@ConnectionActivity, HomeActivity::class.java)
                         ContextCompat.startActivity(this@ConnectionActivity, intent, null)
                     }
-                } else if (!firstConnection){
-                    if (APICalls.POST.LogUser(UserName.text.toString(), Password.text.toString())) {
-                        val intent = Intent(this@ConnectionActivity, HomeActivity::class.java)
-                        ContextCompat.startActivity(this@ConnectionActivity, intent, null)
-                    }
+                }
+                if (APICalls.POST.LogUser(UserName.text.toString(), Password.text.toString())) {
+                    val intent = Intent(this@ConnectionActivity, HomeActivity::class.java)
+                    ContextCompat.startActivity(this@ConnectionActivity, intent, null)
                 }
             }
         } else if (serviceNb == 1) {

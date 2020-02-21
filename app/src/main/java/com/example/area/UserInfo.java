@@ -16,4 +16,6 @@ class UserInfo {
     public String username;
     public String mail;
     public String id;
+
+    public String APItok;
 }

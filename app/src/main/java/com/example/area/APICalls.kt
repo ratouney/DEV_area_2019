@@ -10,20 +10,20 @@ import java.io.IOException
 object APICalls {
 
     private val client = OkHttpClient()
-    var ip = "http://51.75.69.196"
+    var ip = "51.75.69.196"
     var port = "3001"
 
     object Get {
 
         fun UsersList() {
             val request = Request.Builder()
-                    .url("$ip:$port/user")
+                    .url("http://$ip:$port/user")
                     .get()
                     .build();
 
             client.newCall(request).enqueue(object : okhttp3.Callback {
                 override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
-                    Log.e("Tag", response.code().toString())
+                    Log.e("USER LIST", response.code().toString())
                     if (response.code() == 200) {
                         val data = JSONObject(response.body()!!.string())
                         println(data);
@@ -39,13 +39,48 @@ object APICalls {
 
         fun Services(callback: Callback): Call {
             val request = Request.Builder()
-                    .url("$ip:$port/service")
+                    .url("http://$ip:$port/service")
                     .get()
                     .build();
 
             val call = client.newCall(request)
             call.enqueue(callback)
             return call
+        }
+
+        fun Reactions() {
+            val request = Request.Builder()
+                    .url("http://$ip:$port/area/reaction")
+                    .get()
+                    .build();
+
+            client.newCall(request).execute().use { response ->
+                Log.e("GET REACTIONS", response.code().toString())
+
+                if (response.code() == 200) {
+                    val data = JSONObject(response.body()!!.string())
+                    println(data);
+                }
+
+            }
+        }
+
+
+        fun Actions() {
+            val request = Request.Builder()
+                    .url("http://$ip:$port/area/action")
+                    .get()
+                    .build();
+
+            client.newCall(request).execute().use { response ->
+                Log.e("GET ACTIONS", response.code().toString())
+
+                if (response.code() == 200) {
+                    val data = JSONObject(response.body()!!.string())
+                    println(data);
+                }
+
+            }
         }
     }
 
@@ -56,13 +91,13 @@ object APICalls {
             val mediaType: MediaType? = MediaType.parse("application/x-www-form-urlencoded")
             val body = RequestBody.create(mediaType, "username=$username&password=$password&email=$email")
             val request = Request.Builder()
-                    .url("$ip:$port/user/new")
+                    .url("http://$ip:$port/user/new")
                     .header("Content-Type", "application/x-www-form-urlencoded")
                     .post(body)
                     .build()
             client.newCall(request).execute().use { response ->
 
-                Log.e("Tag", response.code().toString())
+                Log.e("NEW USER", response.code().toString())
                 if (response.code() == 201) {
                     val data = JSONObject(response.body()!!.string())
                     println(data);
@@ -80,17 +115,18 @@ object APICalls {
             val mediaType: MediaType? = MediaType.parse("application/x-www-form-urlencoded")
             val body = RequestBody.create(mediaType, "username=$username&password=$password")
             val request = Request.Builder()
-                    .url("$ip:$port/session/login")
+                    .url("http://$ip:$port/session/login")
                     .header("Content-Type", "application/x-www-form-urlencoded")
                     .post(body)
                     .build()
 
             client.newCall(request).execute().use { response ->
 
-                Log.e("Tag", response.code().toString())
+                Log.e("LOG USER", response.code().toString())
                 if (response.code() == 201) {
                     val data = JSONObject(response.body()!!.string())
                     println(data);
+                    UserInfo.getInstance().APItok = data.getString("data")
                 } else {
 
                     return false
@@ -99,21 +135,51 @@ object APICalls {
             return true
         }
 
-        fun NewToken(token : String, serviceId : String): Boolean {
+        fun NewToken(token : String?, serviceId : String?): Boolean {
 
+
+            val tok = UserInfo.getInstance().APItok
+            if (tok == null || token == null || serviceId == null)
+                return false
             val mediaType = MediaType.parse("application/x-www-form-urlencoded")
             val body = RequestBody.create(mediaType, "serviceId=$serviceId&token=$token")
             val request = Request.Builder()
-                    .url("$ip:$port/token/new?token=$token")
+                    .url("http://$ip:$port/token/new?token=$tok")
                     .header("Content-Type", "application/x-www-form-urlencoded")
                     .post(body)
                     .build()
 
             client.newCall(request).execute().use { response ->
 
-                Log.e("Tag", response.code().toString())
-                if (response.code() == 200) {
-                    println("yup")
+                Log.e("NEW TOKEN", response.code().toString())
+                if (response.code() == 201) {
+                    println("Token POSTED")
+                } else {
+                    return false
+                }
+            }
+            return true
+        }
+
+        fun LinkArea(action : String?, reaction : String?, name :String?="yup") : Boolean {
+
+            val tok = UserInfo.getInstance().APItok
+            if (tok == null || action == null || reaction == null)
+                return false
+
+            val mediaType = MediaType.parse("application/x-www-form-urlencoded")
+            val body = RequestBody.create(mediaType, "actionId=$action&reactionId=$reaction&name=$name")
+            val request = Request.Builder()
+                    .url("http://$ip:$port/area/new?token=$tok")
+                    .header("Content-Type", "application/x-www-form-urlencoded")
+                    .post(body)
+                    .build()
+
+            client.newCall(request).execute().use { response ->
+
+                Log.e("LINK AREA", response.code().toString())
+                if (response.code() == 201) {
+                    println("AREA LINKED")
                 } else {
                     return false
                 }

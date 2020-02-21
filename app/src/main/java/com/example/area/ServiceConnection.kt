@@ -79,17 +79,15 @@ object ServiceConnection {
 
             UserInfo.getInstance().username = user;
             UserInfo.getInstance().mail = account?.email;
+            UserInfo.getInstance().id = account?.id;
 
             println("user :$user")
             println("code :$code")
 
-            ServiceConnection.getTokenFromCode(
-                code,
-                "https://oauth2.googleapis.com/token",
-                "https://leaflighted.com"
-            );
-            val myIntent = Intent(context, HomeActivity::class.java)
-            context.startActivity(myIntent)
+            ServiceConnection.getTokenFromCode(code,"https://oauth2.googleapis.com/token","https://leaflighted.com");
+
+            connect(context)
+
         } catch (e: ApiException) {
             Log.e(
                 "failed code=", e.statusCode.toString()
@@ -131,6 +129,28 @@ object ServiceConnection {
         println(user)
     }
 
+
+    fun connect(context: Context) : Boolean {
+
+        val intent = Intent(context, HomeActivity::class.java)
+        if (fc) {
+            if (!APICalls.POST.NewUser(UserInfo.getInstance().username, UserInfo.getInstance().id, UserInfo.getInstance().mail)) {
+                val ii = Intent(context, ConnectionActivity::class.java)
+                ContextCompat.startActivity(context, ii, null)
+                Toast.makeText(context,"Connection failed, please try again", Toast.LENGTH_LONG).show()
+                return false
+            }
+        }
+        if (APICalls.POST.LogUser(UserInfo.getInstance().username, UserInfo.getInstance().id)) {
+            ContextCompat.startActivity(context, intent, null)
+            APICalls.POST.NewToken(UserInfo.getInstance().token, ServicesInfoCallback.getService(service)!!.name!!)
+            return false
+        }
+        val ii = Intent(context, ConnectionActivity::class.java)
+        ContextCompat.startActivity(context, ii, null)
+        Toast.makeText(context,"Connection failed, please try again", Toast.LENGTH_LONG).show()
+        return false
+    }
 
     fun ParseCode(liste: List<String>?) {
         val code = liste?.get(liste.indexOf("code") + 1)
@@ -197,22 +217,7 @@ object ServiceConnection {
                         return false
                     }
 
-                    val intent = Intent(context, HomeActivity::class.java)
-                    if (fc) {
-                        if (APICalls.POST.NewUser(UserInfo.getInstance().username, UserInfo.getInstance().id, UserInfo.getInstance().mail)) {
-                            ContextCompat.startActivity(context, intent, null)
-                            return false
-                        }
-                    } else {
-                        if (APICalls.POST.LogUser(UserInfo.getInstance().username, UserInfo.getInstance().id)) {
-                            ContextCompat.startActivity(context, intent, null)
-                            return false
-                        }
-                    }
-                    val ii = Intent(context, ConnectionActivity::class.java)
-                    ContextCompat.startActivity(context, ii, null)
-                    Toast.makeText(context,"Connection failed, please try again", Toast.LENGTH_LONG).show()
-                    return false
+                    return connect(context)
                 }
                 return false
             }
@@ -221,23 +226,3 @@ object ServiceConnection {
     }
 
 }
-
-/*
-object UserConnectionCallback : Callback {
-    override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
-        Log.e("Tag", response.code().toString())
-        if (response.code() == 201) {
-            val data = JSONObject(response.body()!!.string())
-            println(data);
-            val d = data.getJSONObject("data")
-            UserInfo.getInstance().id = d.getString("id")
-            println(UserInfo.getInstance().id)
-        } else if (response.code() == 200) {
-
-        }
-    }
-    override fun onFailure(call: Call, e: IOException) {
-        Log.e("TAG", "An error has occurred $e")
-    }
-}
-*/
