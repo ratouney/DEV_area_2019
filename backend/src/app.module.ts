@@ -10,6 +10,8 @@ import { ServiceController } from './service/service.controller';
 import { ServiceModule } from './service/service.module';
 import { TokenController } from './token/token.controller';
 import { TokenModule } from './token/token.module';
+import { AreaController } from './area/area.controller';
+import { AreaModule } from './area/area.module';
 import Entities  from './entities';
 
 @Module({
@@ -18,8 +20,8 @@ import Entities  from './entities';
       "type": "postgres",
       "host": "localhost",
       "port": 5432,
-      "username": "root",
-      "password": "root",
+      "username": "postgres",
+      "password": "postgres",
       "database": "area",
       "entities": Entities,
       "synchronize": true,
@@ -29,6 +31,7 @@ import Entities  from './entities';
     SessionModule,
     ServiceModule,
     TokenModule,
+    AreaModule,
   ],
   controllers: [AppController],
   providers: [AppService],

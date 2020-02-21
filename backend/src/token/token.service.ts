@@ -26,7 +26,7 @@ export class TokenService {
                 error: "Invalid session token",
             }
         }
-8
+
         const data = jwt.decode(token, { json: true});
         const userId = data.id;
         Logger.log(data, "TOkenDATA");

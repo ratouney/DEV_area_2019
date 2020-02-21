@@ -1,45 +1,37 @@
 <template>
   <div>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+     <title>jQuery UI Menu - Default functionality</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+
    <h1>Test</h1>
    <button @click="GoogleLogin" :disabled="!isLoaded">signIn</button>
    <button @click="SpotifyLogin" :disabled="!isLoaded">SignIn With Spotify</button>
-  <ul id="menu-demo2">
-	<li id="column"><a href="#">Lien menu 1</a>
-		<ul>
-			<li><a href="#">lien sous menu 1</a></li>
-			<li><a href="#">lien sous menu 1</a></li>
-			<li><a href="#">lien sous menu 1</a></li>
-			<li><a href="#">lien sous menu 1</a></li>
-		</ul>
-	</li>
-	<li id="column"><a href="#">Lien menu 2</a>
-		<ul>
-			<li><a href="#">Lien sous menu 2</a></li>
-			<li><a href="#">Lien sous menu 2</a></li>
-			<li><a href="#">Lien sous menu 2</a></li>
-			<li><a href="#">Lien sous menu 2</a></li>
-		</ul>
-	</li>
-	<li id="column"><a href="#">Lien menu 3</a>
-		<ul>
-			<li><a href="#">lien sous menu 3</a></li>
-			<li><a href="#">lien sous menu 3</a></li>
-			<li><a href="#">lien sous menu 3</a></li>
-			<li><a href="#">lien sous menu 3</a></li>
-		</ul>
-	</li>
-	<li><a href="#">Lien menu 4</a>
-		<ul>
-			<li><a href="#">Lien sous menu 4</a></li>
-			<li><a href="#">Lien sous menu 4</a></li>
-			<li><a href="#">Lien sous menu 4</a></li>
-			<li><a href="#">Lien sous menu 4</a></li>
-		</ul>
-	</li>
-</ul>
+  <button class="accordion">Google</button>
+<div class="panel">
+  
+</div>
+
+<button class="accordion">Spotify</button>
+<div class="panel">
+  <p>Lorem ipsum...</p>
+</div>
+
+<button class="accordion">Section 3</button>
+<div class="panel">
+  <p>Lorem ipsum...</p>
+</div>
   </div>
  </template>
 
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $( function() {
+    $( "#menu" ).menu();
+  } );
+  </script>
  <script>
  export default {
      name: 'test',
@@ -106,79 +98,44 @@
          }, 1000);
      }
  }
+
 </script>
 
 <style scoped>
-#body {
-	background-color: rgb(95, 95, 95);
-}
-#menu-demo2{
-padding:0;
-margin:0;
-list-style:none;
-text-align:left;
-}
-#menu-demo2 li{
-display: flex;
-flex-direction: column;
-position:relative;
-width: 40%;
-border-radius:8px 8px 0 0;
-}
-#menu-demo2 ul li{
-display:inherit;
-border-radius:0;
-width: 100%;
-}
-#menu-demo2 ul li:hover{
-border-radius:0;
-}
-#menu-demo2 ul li:last-child{
-border-radius:0 0 8px 8px;
-}
-#menu-demo2 ul{
-position: absolute;
-z-index: 1000;
-max-height:0;
-left: 200px;
-right: 0;
-overflow:hidden;
--moz-transition: .8s all .3s;
--webkit-transition: .8s all .3s;
-transition: .8s all .3s;
-}
-#menu-demo2 li:hover ul{
-max-height:15em;
+.accordion {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
 }
 
-/* background des liens menus */
-#menu-demo2 li{
-background-color: rgb(95, 95, 95);
+.active, .accordion:hover {
+  background-color: #ccc;
 }
-/* background des liens sous menus */
-#menu-demo2 li{
-background:rgb(95, 95, 95);
+
+.accordion:after {
+  content: '\002B';
+  color: #777;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
 }
-/* background des liens menus et sous menus au survol */
-#menu-demo2 li{
-background:rgb(95, 95, 95);
+
+.active:after {
+  content: "\2212";
 }
-/* les a href */
-#menu-demo2 a{
-text-decoration:none;
-display:block;
-padding:8px 32px;
-color:#fff;
-font-family:arial;
-}
-#menu-demo2 ul a{
-padding:8px 0;
-}
-#menu-demo2 li:hover li a{
-color:#fff;
-text-transform:inherit;
-}
-#menu-demo2 li:hover a, #menu-demo2 li li:hover a{
-color:#000;
+
+.panel {
+  padding: 0 18px;
+  background-color: white;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
 }
 </style>

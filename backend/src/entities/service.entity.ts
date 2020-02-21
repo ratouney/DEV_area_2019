@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne } from "typeorm";
 import { IsDefined } from "class-validator";
 import { Token } from ".";
+import Action from "./action.entity";
 
 @Entity()
 export default class Service {
@@ -15,4 +16,10 @@ export default class Service {
 
     @OneToMany(type => Token, token => token.service)
     tokens: Token[];
+
+    @OneToMany(type => Action, action => action.service)
+    actions: Action[];
+
+    @OneToMany(type => Action, reaction => reaction.service)
+    reactions: Action[];
 }
