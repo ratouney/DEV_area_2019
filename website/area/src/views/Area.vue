@@ -7,6 +7,7 @@
 
    <h1>Test</h1>
    <button @click="GoogleLogin" :disabled="!isLoaded">signIn</button>
+   <button @click="test()" id="btn-login">test</button>
    <button @click="SpotifyLogin" :disabled="!isLoaded">SignIn With Spotify</button>
   <button class="accordion">Google</button>
 <div class="panel">
@@ -48,11 +49,53 @@
      methods: {
          GoogleLogin(){
              this.$gAuth.signIn(function (user) {
-                 //on success do something
                  console.log('user', user)
              }, function (error) {
-                 //on fail do something
              })
+         },
+         test() {
+
+             function login(callback) {
+                 var CLIENT_ID = 'c299f837f4ff4872ab27a1a00a6c7bdf';
+                 var REDIRECT_URI = 'http://localhost8080/#/area/api/spotify';
+                 function getLoginURL(scopes) {
+                     return 'https://accounts.spotify.com/authorize?client_id=' + CLIENT_ID +
+                       '&redirect_uri=' + encodeURIComponent(REDIRECT_URI) +
+                       '&scope=' + encodeURIComponent(scopes.join(' ')) +
+                       '&response_type=token';
+                 }
+
+                 var url = getLoginURL([
+                     'user-read-email'
+                 ]);
+
+                 var width = 450,
+                     height = 730,
+                     left = (screen.width / 2) - (width / 2),
+                     top = (screen.height / 2) - (height / 2);
+
+                 window.addEventListener("message", function(event) {
+                     var hash = JSON.parse(event.data);
+                     if (hash.type == 'access_token') {
+                         callback(hash.access_token);
+                     }
+                 }, false);
+
+                 var w = window.open(url,
+                                     'Spotify',
+                                     'menubar=no,location=no,resizable=no,scrollbars=no,status=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left
+                                    );
+                                    console.log(accessToken)
+             }
+
+             var loginButton = document.getElementById('btn-login');
+             loginButton.addEventListener('click', function() {
+                 login(function(accessToken) {
+                     console.log('salut')
+                     console.log(accessToken)
+                     });
+             });
+
          },
          SpotifyLogin(callback) {
 
