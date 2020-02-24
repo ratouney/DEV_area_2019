@@ -1,3 +1,4 @@
+import sheet from '../../../../app/src/main/res/drawable/sheet.png';
 <template>
     <html>
     <div id="area">
@@ -15,7 +16,7 @@
             <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
             <link rel="stylesheet" href="/resources/demos/style.css">
 
-            <h1>Test {{ googleAccessToken }}</h1>
+            <h1>Test</h1>
             <button @click="GoogleLogin" :disabled="!isLoaded">signIn</button>
             <button @click="test()" id="btn-login">test</button>
             <button @click="SpotifyLogin" :disabled="!isLoaded">SignIn With Spotify</button>
@@ -30,14 +31,9 @@
                         <span onclick="document.getElementById('id03').style.display='none'" class="close" title="Close Modal">&times;</span>
                     </div>
                     <div class="container">
-                        <h1>Action 2</h1>
+                        <h1>Reception d'un mail</h1>
                         <p>Envoyer un message lors de la reception d'un e-mail</p>
-                        <hr>
-                        <label for="username"><b>Username</b></label>
-                        <input type="text" placeholder="Enter Username" name="username" required>
-                        <label for="password" id="psw"><b>Password</b></label>
-                        <input type="password" placeholder="Enter Password" name="password" required>
-                        <hr>
+                        <!-- menu déroulant avec pour l'instant : Envoie d'un mail, Création d'une spreadsheet-->
                         <button type="submit" class="registerbtn">Register</button>
                     </div>
                     <div class="container" style="background-color:#f1f1f1">
@@ -48,7 +44,7 @@
 
             <!--==============================================================================================================-->
 
-            <button @click="accordion" class="accordion">Google</button>
+            <button v-if="googleAccessToken !== ''" @click="accordion" class="accordion">GMail</button>
             <div class="panel">
                 <button href="#" onclick="document.getElementById('id03').style.display='block'" style="width:100%; background-color: #00000; font-size: 30px;">Action 1</button>
             </div>
@@ -58,7 +54,7 @@
                 <button href="#" onclick="document.getElementById('id03').style.display='block'" style="width:100%; background-color: #00000; font-size: 30px;">Action 2</button>
             </div>
 
-            <button @click="accordion" class="accordion">Section 3</button>
+            <button @click="accordion" class="accordion">Sheet</button>
             <div class="panel">
                 <p>Lorem ipsum...</p>
             </div>
