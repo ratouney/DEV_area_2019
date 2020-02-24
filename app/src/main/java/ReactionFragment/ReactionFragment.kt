@@ -10,7 +10,7 @@ import AppFragment.MyAdapter
 import AppFragment.MyApp
 
 
-class ReactionFragment : Fragment() {
+class ReactionFragment() : Fragment() {
     private var recyclerView: RecyclerView? = null
     private val apps: MutableList<MyApp> = ArrayList()
 
