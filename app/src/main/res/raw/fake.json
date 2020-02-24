@@ -1,0 +1,38 @@
+[
+    {
+        "id": "1",
+        "name": "FacebookLike",
+        "description": "Like a post",
+        "service": {
+            "id": "SDLFSKMDF",
+            "name": "Facebook"
+        }
+    },
+    {
+        "id": "2",
+        "name": "FacebookShare",
+        "description": "Share an image",
+        "service": {
+            "id": "SDLFSKMDF",
+            "name": "Facebook"
+        }
+    },
+    {
+        "id": "3",
+        "name": "FacebookStatus",
+        "description": "Update your status",
+        "service": {
+            "id": "SDLFSKMDF",
+            "name": "Facebook"
+        }
+    },
+    {
+        "id": "4",
+        "name": "FacebookReport",
+        "description": "Report a post",
+        "service": {
+            "id": "SDLFSKMDF",
+            "name": "Facebook"
+        }
+    }
+]
