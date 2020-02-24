@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_login.*
  */
 class LoginFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
-    private var callback: RegisterFragment.OnConnectionCallListener? = null
+    private var callback: OnConnectionCallListener? = null
 
 
     fun SetOnFragmentInteractionListener(callback: OnFragmentInteractionListener) {
@@ -28,7 +28,7 @@ class LoginFragment : Fragment() {
     }
 
 
-    fun SetOnConnectionCallListener(call: RegisterFragment.OnConnectionCallListener) {
+    fun SetOnConnectionCallListener(call: OnConnectionCallListener) {
         this.callback = call
     }
 
@@ -71,6 +71,8 @@ class LoginFragment : Fragment() {
         super.onAttach(context)
         if (context is OnFragmentInteractionListener) {
             listener = context
+        }else if (context is OnConnectionCallListener) {
+            callback = context
         } else {
             throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
         }
@@ -79,6 +81,7 @@ class LoginFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         listener = null
+        callback = null
     }
 
     interface OnFragmentInteractionListener {

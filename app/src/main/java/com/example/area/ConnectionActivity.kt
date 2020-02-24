@@ -2,23 +2,20 @@ package com.example.area
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.StrictMode
 import android.util.Log
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.gms.auth.api.Auth
-import com.google.android.gms.common.api.Response
+import homeactivity.HomeActivity
 import kotlinx.android.synthetic.main.activity_register.*
-import okhttp3.Call
-import okhttp3.Callback
-import org.json.JSONObject
-import java.io.IOException
 
 
-class ConnectionActivity : FragmentActivity(), LoginFragment.OnFragmentInteractionListener, RegisterFragment.OnFragmentInteractionListener, RegisterFragment.OnConnectionCallListener {
+class ConnectionActivity : FragmentActivity(), LoginFragment.OnFragmentInteractionListener, RegisterFragment.OnFragmentInteractionListener, RegisterFragment.OnConnectionCallListener, LoginFragment.OnConnectionCallListener {
 
     val manager = supportFragmentManager
     val transaction: FragmentTransaction = manager.beginTransaction()
@@ -31,6 +28,10 @@ class ConnectionActivity : FragmentActivity(), LoginFragment.OnFragmentInteracti
         Mail.visibility = View.GONE
 
         showAllUI()
+        APICalls.GET.Services(ServicesInfoCallback)
+        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+
+        StrictMode.setThreadPolicy(policy)
     }
 
     inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> FragmentTransaction) {
@@ -65,7 +66,6 @@ class ConnectionActivity : FragmentActivity(), LoginFragment.OnFragmentInteracti
     }
 
     override fun onFragmentInteraction(b : Boolean) {
-        Log.e("yup", b.toString())
         if (!b) {
             Mail.visibility = View.VISIBLE
             replaceFragment(RegisterFragment(), R.id.frame)
@@ -76,12 +76,20 @@ class ConnectionActivity : FragmentActivity(), LoginFragment.OnFragmentInteracti
     }
 
     override fun onConnectionCall(serviceNb : Int, firstConnection : Boolean) {
+        ServiceConnection.fc = firstConnection
         if (serviceNb == 0) {
             if (!UserName.text.isEmpty() && !Password.text.isEmpty()) {
                 if (firstConnection  && !Mail.text.isEmpty()) {
-                    APICalls.POST.NewUser(UserName.text.toString(), Password.text.toString(), Mail.text.toString(), UserConnectionCallback)
-                } else if (!firstConnection){
-                    APICalls.POST.LogUser(UserName.text.toString(), Password.text.toString(), UserConnectionCallback)
+                    if (APICalls.POST.NewUser(UserName.text.toString(), Password.text.toString(), Mail.text.toString())) {
+                        UserInfo.getInstance().username = UserName.text.toString();
+                        UserInfo.getInstance().mail = Mail.text.toString();
+                        val intent = Intent(this@ConnectionActivity, HomeActivity::class.java)
+                        ContextCompat.startActivity(this@ConnectionActivity, intent, null)
+                    }
+                }
+                if (APICalls.POST.LogUser(UserName.text.toString(), Password.text.toString())) {
+                    val intent = Intent(this@ConnectionActivity, HomeActivity::class.java)
+                    ContextCompat.startActivity(this@ConnectionActivity, intent, null)
                 }
             }
         } else if (serviceNb == 1) {
@@ -98,6 +106,7 @@ class ConnectionActivity : FragmentActivity(), LoginFragment.OnFragmentInteracti
         Password.visibility = View.GONE
         weebos.visibility = View.VISIBLE
         frame.visibility = View.GONE
+        imageView2.visibility = View.GONE
     }
 
     fun showAllUI() {
@@ -105,23 +114,8 @@ class ConnectionActivity : FragmentActivity(), LoginFragment.OnFragmentInteracti
         Password.visibility = View.VISIBLE
         weebos.visibility = View.GONE
         frame.visibility = View.VISIBLE
+        imageView2.visibility = View.VISIBLE
+
     }
 
-
-}
-
-object UserConnectionCallback : Callback {
-    override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
-        Log.e("Tag", response.code().toString())
-        if (response.code() == 201) {
-            val data = JSONObject(response.body()!!.string())
-            println(data);
-            val d = data.getJSONObject("data")
-            UserInfo.getInstance().id = d.getString("id")
-            println(UserInfo.getInstance().id)
-        }
-    }
-    override fun onFailure(call: Call, e: IOException) {
-        Log.e("TAG", "An error has occurred $e")
-    }
 }

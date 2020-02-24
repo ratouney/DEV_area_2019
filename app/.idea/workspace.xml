@@ -7,14 +7,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f46bca42-3274-4afc-92ca-5391d343b508" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-hdpi/mails.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/area/ChooseIp.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/layout/activity_choose_ip.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/area/APICalls.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/area/APICalls.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/area/ConnectionActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/area/ConnectionActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/area/RegisterFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/area/RegisterFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/area/LoginFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/area/LoginFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/area/ServiceConnection.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/area/ServiceConnection.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/area/UserInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/area/UserInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/activity_register.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/activity_register.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -41,56 +44,81 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/area/MainActivity.kt">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/area/ConnectionActivity.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
+            <state relative-caret-position="-310">
+              <caret line="63" column="49" lean-forward="true" selection-start-line="63" selection-start-column="49" selection-end-line="63" selection-end-column="49" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/area/LoginFragment.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="41">
+              <caret line="48" lean-forward="true" selection-start-line="48" selection-end-line="48" />
+              <folding>
+                <element signature="e#26#287#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/AndroidManifest.xml">
+          <provider editor-type-id="android-manifest" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="315">
+              <caret line="21" column="19" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/area/ConnectionActivity.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="117">
-              <caret line="82" column="43" selection-start-line="82" selection-start-column="43" selection-end-line="82" selection-end-column="43" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/area/RegisterFragment.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="52" column="48" selection-start-line="52" selection-start-column="48" selection-end-line="52" selection-end-column="48" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/example/area/APICalls.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="79">
-              <caret line="47" column="80" lean-forward="true" selection-start-line="47" selection-start-column="80" selection-end-line="47" selection-end-column="80" />
+            <state relative-caret-position="120">
+              <caret line="12" column="14" selection-start-line="12" selection-start-column="14" selection-end-line="12" selection-end-column="14" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_register.xml">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/area/ServiceConnection.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="143">
-              <caret line="10" selection-start-line="10" selection-end-line="10" />
+            <state relative-caret-position="2014">
+              <caret line="228" selection-start-line="228" selection-end-line="228" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/area/ChooseIp.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="210">
+              <caret line="14" column="31" lean-forward="true" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
+              <folding>
+                <element signature="e#26#263#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_choose_ip.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="233">
+              <caret line="19" column="22" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
             </state>
           </provider>
           <provider editor-type-id="android-designer2" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/area/ServiceConnection.kt">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/area/UserInfo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="394">
-              <caret line="144" column="81" lean-forward="true" selection-start-line="144" selection-end-line="145" />
+            <state relative-caret-position="285">
+              <caret line="21" selection-start-line="21" selection-end-line="21" />
             </state>
           </provider>
         </entry>
@@ -101,8 +129,15 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin Object" />
+        <option value="Kotlin Class" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>context</find>
+      <find>throw</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -111,19 +146,25 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/main/java/homeactivity/MyAdapter.kt" />
-        <option value="$PROJECT_DIR$/src/main/java/com/example/area/ServiceConnection.kt" />
-        <option value="$PROJECT_DIR$/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/example/area/RegisterFragment.kt" />
+        <option value="$PROJECT_DIR$/src/main/java/com/example/area/Service.kt" />
+        <option value="$PROJECT_DIR$/build.gradle" />
+        <option value="$PROJECT_DIR$/src/main/java/com/example/area/ApiClasses.kt" />
         <option value="$PROJECT_DIR$/src/main/res/layout/activity_register.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/area/UserInfo.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/example/area/APICalls.kt" />
-        <option value="$PROJECT_DIR$/src/main/java/com/example/area/RegisterFragment.kt" />
+        <option value="$PROJECT_DIR$/src/main/java/com/example/area/LoginFragment.kt" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/area/ConnectionActivity.kt" />
+        <option value="$PROJECT_DIR$/src/main/java/com/example/area/ServiceConnection.kt" />
+        <option value="$PROJECT_DIR$/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/example/area/ChooseIp.kt" />
+        <option value="$PROJECT_DIR$/src/main/res/layout/activity_choose_ip.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/example/area/APICalls.kt" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="260" />
-    <option name="y" value="55" />
+    <option name="x" value="115" />
+    <option name="y" value="31" />
     <option name="width" value="1400" />
     <option name="height" value="1000" />
   </component>
@@ -133,19 +174,15 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane" />
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
           <expand>
             <path>
               <item name="app" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
-            </path>
-            <path>
-              <item name="app" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="manifests" type="f94875db:AndroidManifestsGroupNode" />
             </path>
             <path>
               <item name="app" type="1abcf292:AndroidViewProjectNode" />
@@ -169,11 +206,14 @@
               <item name="res" type="d4f16f75:AndroidResFolderNode" />
               <item name="layout" type="ddeffd01:AndroidResFolderTypeNode" />
             </path>
+            <path>
+              <item name="app" type="1abcf292:AndroidViewProjectNode" />
+              <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -181,11 +221,14 @@
     <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-02-11T14:18:03.877Z" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/Android/Sdk" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../DEV_epicture_2019" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="not.eligible.for.single.variant.sync" value="true" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
   </component>
   <component name="RecentsManager">
+    <key name="android.template.packageName">
+      <recent name="com.example.area" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/res/drawable-hdpi" />
     </key>
@@ -279,9 +322,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-5" y="26" width="1930" height="1059" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.32960597" />
+      <window_info id="Captures" order="0" sideWeight="0.5016026" side_tool="true" weight="0.32960597" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" sideWeight="0.49839744" visible="true" weight="0.23855165" />
       <window_info id="Structure" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info id="Build Variants" order="4" side_tool="true" />
@@ -289,21 +333,21 @@
       <window_info id="Designer" order="6" />
       <window_info id="Resources Explorer" order="7" />
       <window_info id="Capture Tool" order="8" />
-      <window_info anchor="bottom" id="Run" order="0" weight="0.32975295" />
+      <window_info anchor="bottom" id="Run" order="0" sideWeight="0.49946752" visible="true" weight="0.32975295" />
       <window_info anchor="bottom" id="Logcat" order="1" />
       <window_info anchor="bottom" id="TODO" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" />
       <window_info anchor="bottom" id="Terminal" order="4" />
       <window_info anchor="bottom" id="Event Log" order="5" sideWeight="0.5005325" side_tool="true" weight="0.32975295" />
       <window_info anchor="bottom" id="Version Control" order="6" />
-      <window_info anchor="bottom" id="Build" order="7" sideWeight="0.49946752" weight="0.32975295" />
+      <window_info anchor="bottom" id="Build" order="7" sideWeight="0.49893504" weight="0.32975295" />
       <window_info anchor="bottom" id="Android Profiler" order="8" />
-      <window_info anchor="right" id="Preview" />
       <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
       <window_info anchor="right" id="Capture Analysis" order="1" />
       <window_info anchor="right" id="Gradle" order="2" />
       <window_info anchor="right" id="Theme Preview" order="3" />
       <window_info anchor="right" id="Palette&#9;" order="4" />
+      <window_info anchor="right" id="Preview" order="5" />
     </layout>
   </component>
   <component name="editorHistoryManager">
@@ -350,54 +394,112 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.3.50/8ac406cf33e942265c4abb33ee0acdee79292dd6/kotlin-stdlib-common-1.3.50-sources.jar!/kotlin/text/Strings.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="64">
+          <caret line="320" column="3" lean-forward="true" selection-start-line="320" selection-start-column="3" selection-end-line="320" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/area/RegisterFragment.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="52" column="48" selection-start-line="52" selection-start-column="48" selection-end-line="52" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../build.gradle">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../settings.gradle">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="426">
+          <caret line="53" column="52" selection-start-line="53" selection-start-column="52" selection-end-line="53" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_register.xml">
       <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="143">
-          <caret line="10" selection-start-line="10" selection-end-line="10" />
+        <state relative-caret-position="-187">
+          <caret selection-end-line="7" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/area/ApiClasses.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="1" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/area/UserInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/area/ServiceConnection.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2014">
+          <caret line="228" selection-start-line="228" selection-end-line="228" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/area/ConnectionActivity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-310">
+          <caret line="63" column="49" lean-forward="true" selection-start-line="63" selection-start-column="49" selection-end-line="63" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/area/LoginFragment.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="41">
+          <caret line="48" lean-forward="true" selection-start-line="48" selection-end-line="48" />
+          <folding>
+            <element signature="e#26#287#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/AndroidManifest.xml">
       <provider editor-type-id="android-manifest" />
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="38" lean-forward="true" selection-start-column="38" selection-end-column="38" />
+        <state relative-caret-position="315">
+          <caret line="21" column="19" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/area/UserInfo.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/area/ChooseIp.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
-          <caret line="16" column="18" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
+          <caret line="14" column="31" lean-forward="true" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
+          <folding>
+            <element signature="e#26#263#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/area/ServiceConnection.kt">
+    <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_choose_ip.xml">
+      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="394">
-          <caret line="144" column="81" lean-forward="true" selection-start-line="144" selection-end-line="145" />
+        <state relative-caret-position="233">
+          <caret line="19" column="22" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/example/area/APICalls.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="79">
-          <caret line="47" column="80" lean-forward="true" selection-start-line="47" selection-start-column="80" selection-end-line="47" selection-end-column="80" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/area/RegisterFragment.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="52" column="48" selection-start-line="52" selection-start-column="48" selection-end-line="52" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/area/ConnectionActivity.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="117">
-          <caret line="82" column="43" selection-start-line="82" selection-start-column="43" selection-end-line="82" selection-end-column="43" />
+        <state relative-caret-position="120">
+          <caret line="12" column="14" selection-start-line="12" selection-start-column="14" selection-end-line="12" selection-end-column="14" />
         </state>
       </provider>
     </entry>

@@ -1,184 +1,211 @@
 <template>
-  <div>
-   <h1>Test</h1>
-   <button @click="GoogleLogin" :disabled="!isLoaded">signIn</button>
-   <button @click="SpotifyLogin" :disabled="!isLoaded">SignIn With Spotify</button>
-  <ul id="menu-demo2">
-	<li id="column"><a href="#">Lien menu 1</a>
-		<ul>
-			<li><a href="#">lien sous menu 1</a></li>
-			<li><a href="#">lien sous menu 1</a></li>
-			<li><a href="#">lien sous menu 1</a></li>
-			<li><a href="#">lien sous menu 1</a></li>
-		</ul>
-	</li>
-	<li id="column"><a href="#">Lien menu 2</a>
-		<ul>
-			<li><a href="#">Lien sous menu 2</a></li>
-			<li><a href="#">Lien sous menu 2</a></li>
-			<li><a href="#">Lien sous menu 2</a></li>
-			<li><a href="#">Lien sous menu 2</a></li>
-		</ul>
-	</li>
-	<li id="column"><a href="#">Lien menu 3</a>
-		<ul>
-			<li><a href="#">lien sous menu 3</a></li>
-			<li><a href="#">lien sous menu 3</a></li>
-			<li><a href="#">lien sous menu 3</a></li>
-			<li><a href="#">lien sous menu 3</a></li>
-		</ul>
-	</li>
-	<li><a href="#">Lien menu 4</a>
-		<ul>
-			<li><a href="#">Lien sous menu 4</a></li>
-			<li><a href="#">Lien sous menu 4</a></li>
-			<li><a href="#">Lien sous menu 4</a></li>
-			<li><a href="#">Lien sous menu 4</a></li>
-		</ul>
-	</li>
-</ul>
-  </div>
- </template>
+    <html>
+    <div id="area">
+        <div id="navbar" class="navbar">
+            <div style="max-width: 90%; margin: auto;">
+                <a href="dashboard"></a>
+                <div class="topnav-right">
+                    <a href="#" @click="$router.push('/')">Disconnect</a>
+                </div>
+            </div>
+        </div>
+        <div>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>jQuery UI Menu - Default functionality</title>
+            <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+            <link rel="stylesheet" href="/resources/demos/style.css">
 
- <script>
- export default {
-     name: 'test',
-     props: [],
-     components: {
-     },
-     data () {
-         return {
-             isLoaded: false
-         }
-     },
-     computed: {
-     },
-     methods: {
-         GoogleLogin(){
-             this.$gAuth.signIn(function (user) {
-                 //on success do something
-                 console.log('user', user)
-             }, function (error) {
-                 //on fail do something
-             })
-         },
-         SpotifyLogin(callback) {
+            <h1>Test</h1>
+            <button @click="GoogleLogin" :disabled="!isLoaded">signIn</button>
+            <button @click="test()" id="btn-login">test</button>
+            <button @click="SpotifyLogin" :disabled="!isLoaded">SignIn With Spotify</button>
 
-             var CLIENT_ID = '3f6be5c8306741c8ab06713da0a92f59';
-             var REDIRECT_URI = 'http://localhost:8080/#/account';
+            <button @click="accordion" class="accordion">Google</button>
+            <div class="panel">
+                Test
+                <button @click="Action1" :disabled="!isLoaded">Action 1</button>
+            </div>
 
-             function getLoginURL(scopes) {
-                 return 'https://accounts.spotify.com/authorize?client_id=' + CLIENT_ID +
-                 '&redirect_uri=' + encodeURIComponent(REDIRECT_URI) +
-                 '&scope=' + encodeURIComponent(scopes.join(' ')) +
-                 '&response_type=token';
-             }
+            <button @click="accordion" class="accordion">Spotify</button>
+            <div class="panel">
+                <p>Lorem ipsum...</p>
+            </div>
 
-             var url = getLoginURL([
-                 'user-read-email'
-             ]);
-
-             var width = 450,
-             height = 730,
-             left = (screen.width / 2) - (width / 2),
-             top = (screen.height / 2) - (height / 2);
-             var w = window.open(url, 'Spotify', 'menubar=no,location=no,resizable=no,scrollbars=no,status=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
-             console.log(url);
-
-
-             window.addEventListener("message", function(event) {
-                 var hash = JSON.parse(event.data);
-                 if (hash.type == 'access_token') {
-                     callback(hash.access_token);
-                 }
-             }, false);
-             if (!url)
-                w.close();
-
-         }
-     },
-     mounted(){
-         let that = this
-         let checkGauthLoad = setInterval(function(){
-             that.isLoaded = that.$gAuth.isLoaded()
-             console.log('checked', that.isLoaded)
-             if(that.isLoaded) clearInterval(checkGauthLoad)
-         }, 1000);
-     }
- }
+            <button @click="accordion" class="accordion">Section 3</button>
+            <div class="panel">
+                <p>Lorem ipsum...</p>
+            </div>
+        </div>
+    </div>
+</html>
+</template>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+$( function() {
+    $( "#menu" ).menu();
+} );
 </script>
+<script>
+export default {
+    name: 'test',
+    props: [],
+    components: {
+    },
+    data () {
+        return {
+            blabla: 'test',
+            isLoaded: false
+        }
+    },
+    computed: {
+    },
+    methods: {
+        GoogleLogin(){
+            let self = this
+            this.$gAuth.signIn(function (user) {
+                self.$googleAccessToken = user.uc.access_token
+                console.log('gat : ', self.$googleAccessToken)
+//                console.log('access token : ', user.uc.access_token)
+//                console.log(user)
+            }, function (error) {
+            })
+        },
+        accordion() {
+            var acc = document.getElementsByClassName("accordion");
+            var i;
+            for (i = 0; i < acc.length; i++) {
+                acc[i].addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    var panel = this.nextElementSibling;
+                    if (panel.style.maxHeight) {
+                        panel.style.maxHeight = null;
+                    } else {
+                        panel.style.maxHeight = panel.scrollHeight + "px";
+                    }
+                });
+            }
+        },
+        Action1(){
+            let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
+                width=600,height=800,left=-1000,top=-1000`;
 
-<style scoped>
-#body {
-	background-color: rgb(95, 95, 95);
-}
-#menu-demo2{
-padding:0;
-margin:0;
-list-style:none;
-text-align:left;
-}
-#menu-demo2 li{
-display: flex;
-flex-direction: column;
-position:relative;
-width: 40%;
-border-radius:8px 8px 0 0;
-}
-#menu-demo2 ul li{
-display:inherit;
-border-radius:0;
-width: 100%;
-}
-#menu-demo2 ul li:hover{
-border-radius:0;
-}
-#menu-demo2 ul li:last-child{
-border-radius:0 0 8px 8px;
-}
-#menu-demo2 ul{
-position: absolute;
-z-index: 1000;
-max-height:0;
-left: 200px;
-right: 0;
-overflow:hidden;
--moz-transition: .8s all .3s;
--webkit-transition: .8s all .3s;
-transition: .8s all .3s;
-}
-#menu-demo2 li:hover ul{
-max-height:15em;
+            window.open('/', 'test', params);
+            /*w = open("",'popup','width=400,height=200,toolbar=no,scrollbars=no,resizable=yes');	
+            w.document.write("<title>"+document.forms["f_popup"].elements["Action 1"].value+"</title>");
+            w.document.write("<body> Bonjour "+document.forms["f_popup"].elements["nom"].value+"<br><br>");
+            w.document.write("Ce popup n'est pas un fichier HTML, ");
+            w.document.write("il est écrit directement par la fenêtre appelante");
+            w.document.write("</body>");*/
+        },
+        test() {
+
+            (function() {
+
+                function login(callback) {
+                    var CLIENT_ID = 'c299f837f4ff4872ab27a1a00a6c7bdf';
+                    var REDIRECT_URI = 'http://localhost8080/#/area/api/spotify';
+                    function getLoginURL(scopes) {
+                        return 'https://accounts.spotify.com/authorize?client_id=' + CLIENT_ID +
+                        '&redirect_uri=' + encodeURIComponent(REDIRECT_URI) +
+                        '&scope=' + encodeURIComponent(scopes.join(' ')) +
+                        '&response_type=token';
+                    }
+
+                    var url = getLoginURL([
+                        'user-read-email'
+                    ]);
+
+                    var width = 450,
+                    height = 730,
+                    left = (screen.width / 2) - (width / 2),
+                    top = (screen.height / 2) - (height / 2);
+
+                    window.addEventListener("message", function(event) {
+                        var hash = JSON.parse(event.data);
+                        if (hash.type == 'access_token') {
+                            callback(hash.access_token);
+                        }
+                    }, false);
+
+                    var w = window.open(url,
+                        'Spotify',
+                        'menubar=no,location=no,resizable=no,scrollbars=no,status=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left
+                    );
+                    console.log('test2')
+                    console.log(callback)
+
+
+                }
+
+                function getUserData(accessToken) {
+                    return $.ajax({
+                        url: 'https://api.spotify.com/v1/me',
+                        headers: {
+                            'Authorization': 'Bearer ' + accessToken
+                        }
+                    });
+                }
+
+                var loginButton = document.getElementById('btn-login');
+
+                loginButton.addEventListener('click', function() {
+                    console.log('test')
+                    login(function(accessToken) {
+                        console.log('test1')
+                        getUserData(accessToken)
+                        .then(function(response) {
+                            loginButton.style.display = 'none';
+                            console.log(accessToken)
+                        });
+                    });
+                });
+
+            })();
+        },
+        SpotifyLogin(callback) {
+
+            var CLIENT_ID = 'c299f837f4ff4872ab27a1a00a6c7bdf';
+            var REDIRECT_URI = 'http://localhost8080/#/area/api/spotify';
+
+            function getLoginURL(scopes) {
+                return 'https://accounts.spotify.com/authorize?client_id=' + CLIENT_ID +
+                '&redirect_uri=' + encodeURIComponent(REDIRECT_URI) +
+                '&scope=' + encodeURIComponent(scopes.join(' ')) +
+                '&response_type=token';
+            }
+
+            var url = getLoginURL([
+                'user-read-email'
+            ]);
+
+            var width = 450,
+            height = 730,
+            left = (screen.width / 2) - (width / 2),
+            top = (screen.height / 2) - (height / 2);
+            var w = window.open(url, 'Spotify', 'menubar=no,location=no,resizable=no,scrollbars=no,status=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
+            console.log(url);
+
+
+            window.addEventListener("message", function(event) {
+                var hash = JSON.parse(event.data);
+                if (hash.type == 'access_token') {
+                    callback(hash.access_token);
+                }
+            }, false);
+            if (!url)
+            w.close();
+
+        }
+    },
+    mounted(){
+        let that = this
+        let checkGauthLoad = setInterval(function(){
+            that.isLoaded = that.$gAuth.isLoaded()
+            console.log('checked', that.isLoaded)
+            if(that.isLoaded) clearInterval(checkGauthLoad)
+        }, 1000);
+    },
 }
 
-/* background des liens menus */
-#menu-demo2 li{
-background-color: rgb(95, 95, 95);
-}
-/* background des liens sous menus */
-#menu-demo2 li{
-background:rgb(95, 95, 95);
-}
-/* background des liens menus et sous menus au survol */
-#menu-demo2 li{
-background:rgb(95, 95, 95);
-}
-/* les a href */
-#menu-demo2 a{
-text-decoration:none;
-display:block;
-padding:8px 32px;
-color:#fff;
-font-family:arial;
-}
-#menu-demo2 ul a{
-padding:8px 0;
-}
-#menu-demo2 li:hover li a{
-color:#fff;
-text-transform:inherit;
-}
-#menu-demo2 li:hover a, #menu-demo2 li li:hover a{
-color:#000;
-}
-</style>
+</script>

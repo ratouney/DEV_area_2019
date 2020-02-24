@@ -14,5 +14,8 @@ class UserInfo {
 
     public String token;
     public String username;
+    public String mail;
     public String id;
+
+    public String APItok;
 }

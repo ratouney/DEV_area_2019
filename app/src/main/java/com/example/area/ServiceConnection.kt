@@ -7,6 +7,7 @@ import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.EditText
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
@@ -15,9 +16,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import homeactivity.HomeActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import okhttp3.FormBody
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
 
@@ -27,6 +26,7 @@ object ServiceConnection {
     var client_id = "";
     var secret = ""
     var service = ""
+    var fc : Boolean = false
 
     fun LocalAuth(u : EditText, p : EditText) {
         val userInfo = UserInfo.getInstance()
@@ -45,7 +45,7 @@ object ServiceConnection {
         client_id = "c299f837f4ff4872ab27a1a00a6c7bdf"
         secret = "4097d12b01a449e39005967679d2efd0"
         service = "Spotify"
-        return ("https://accounts.spotify.com/authorize?client_id=$client_id&response_type=code&redirect_uri=com.example.area://area")
+        return ("https://accounts.spotify.com/authorize?client_id=$client_id&response_type=code&redirect_uri=com.example.area://area&scope=user-read-email")
     }
 
     fun DiscordAuth() : String {
@@ -78,16 +78,16 @@ object ServiceConnection {
             val user = account?.givenName ?: ""
 
             UserInfo.getInstance().username = user;
+            UserInfo.getInstance().mail = account?.email;
+            UserInfo.getInstance().id = account?.id;
+
             println("user :$user")
             println("code :$code")
 
-            ServiceConnection.getTokenFromCode(
-                code,
-                "https://oauth2.googleapis.com/token",
-                "https://leaflighted.com"
-            );
-            val myIntent = Intent(context, HomeActivity::class.java)
-            context.startActivity(myIntent)
+            ServiceConnection.getTokenFromCode(code,"https://oauth2.googleapis.com/token","https://leaflighted.com");
+
+            connect(context)
+
         } catch (e: ApiException) {
             Log.e(
                 "failed code=", e.statusCode.toString()
@@ -95,6 +95,30 @@ object ServiceConnection {
         }
     }
 
+    fun getUserInfoSpotify() {
+        val client = OkHttpClient()
+        val token = UserInfo.getInstance().token
+
+        val request = Request.Builder()
+                .url("https://api.spotify.com/v1/me")
+                .header("Authorization", "Bearer $token")
+                .get()
+                .build()
+
+        client.newCall(request).execute().use { response ->
+
+            if (response.code() == 200) {
+                Log.e("Tag", response.code().toString())
+                val data = JSONObject(response.body()!!.string())
+                println(data)
+
+                UserInfo.getInstance().username = data.getString("display_name")
+                UserInfo.getInstance().id = data.getString("id")
+                UserInfo.getInstance().mail = data.getString("email")
+
+            }
+        }
+    }
 
     fun ParseToken(liste: List<String>?) {
         val token = liste?.get(liste.indexOf("access_token") + 1)
@@ -106,11 +130,34 @@ object ServiceConnection {
     }
 
 
+    fun connect(context: Context) : Boolean {
+
+        val intent = Intent(context, HomeActivity::class.java)
+        if (fc) {
+            if (!APICalls.POST.NewUser(UserInfo.getInstance().username, UserInfo.getInstance().id, UserInfo.getInstance().mail)) {
+                val ii = Intent(context, ConnectionActivity::class.java)
+                ContextCompat.startActivity(context, ii, null)
+                Toast.makeText(context,"Connection failed, please try again", Toast.LENGTH_LONG).show()
+                return false
+            }
+        }
+        if (APICalls.POST.LogUser(UserInfo.getInstance().username, UserInfo.getInstance().id)) {
+            ContextCompat.startActivity(context, intent, null)
+            APICalls.POST.NewToken(UserInfo.getInstance().token, ServicesInfoCallback.getService(service)!!.name!!)
+            return false
+        }
+        val ii = Intent(context, ConnectionActivity::class.java)
+        ContextCompat.startActivity(context, ii, null)
+        Toast.makeText(context,"Connection failed, please try again", Toast.LENGTH_LONG).show()
+        return false
+    }
+
     fun ParseCode(liste: List<String>?) {
         val code = liste?.get(liste.indexOf("code") + 1)
         println(code);
         if (service == "Spotify" && code != null) {
             getTokenFromCode(code, "https://accounts.spotify.com/api/token");
+            getUserInfoSpotify()
         } else if (service == "Discord" && code != null) {
             getTokenFromCode(code, "https://discordapp.com/api/v6/oauth2/token");
         }
@@ -135,24 +182,18 @@ object ServiceConnection {
             .post(body)
             .build()
 
-        client.newCall(request).enqueue(object : okhttp3.Callback {
-            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
-                Log.e("Tag", response.code().toString())
-                if (response.code() == 200) {
-                    println("Success")
-                    val data = JSONObject(response.body()!!.string())
-                    println(data);
-                    UserInfo.getInstance().token = data.getString("access_token")
-                    println(UserInfo.getInstance().token)
-                } else {
-                    Log.e("Tag", response.code().toString())
-                }
-            }
-            override fun onFailure(call: okhttp3.Call, e: IOException) {
-                Log.e("TAG", "An error has occurred $e")
-            }
+        client.newCall(request).execute().use { response ->
 
-        })
+            Log.e("Tag", response.code().toString())
+            if (response.code() == 200) {
+                println("Success")
+                val data = JSONObject(response.body()!!.string())
+                println(data);
+                UserInfo.getInstance().token = data.getString("access_token")
+            } else {
+                Log.e("Tag", response.code().toString())
+            }
+        }
     }
 
     fun loadAuthPage(url : String, webView : WebView, context: Context) {
@@ -173,13 +214,10 @@ object ServiceConnection {
                         println("Code :")
                         ParseCode(liste)
                     } else {
-                        println("yo WTF")
-                        println("yo WTF")
-                        println("yo WTF")
+                        return false
                     }
-                    val intent = Intent(context, HomeActivity::class.java)
-                    ContextCompat.startActivity(context, intent, null)
-                    return false
+
+                    return connect(context)
                 }
                 return false
             }
