@@ -87,6 +87,7 @@ export class AreaService {
         entry.action = action[0];
         entry.reaction = reaction[0];
         entry.name = params.name;
+        entry.timeCheck = params.timeCheck;
 
         const rtb = await this.AreaRepository.save(entry)
         .then(res => {
@@ -175,7 +176,36 @@ export class AreaService {
         return rtb;
     }
 
+    async updateAction(id, params) : Promise<object> {
+        if (params == {}) {
+            return {
+                statusCode: 400,
+                error: "Nothing to update",
+            }
+        }
+
+        const rtb = this.ActionRepository.update(id, params = {})
+        .then(res => {
+            return {
+                statusCode: 200,
+                data: res,
+            }
+        })
+        .catch(err => {
+            return {
+                statusCode: 400,
+                error: err
+            }
+        });
+
+        return rtb;
+    }
+
     async getReactions(serviceId) : Promise<object> {
+        if (serviceId == "" ||serviceId == null) {
+            return this.getAllReactions();
+        }
+
         const rtb = await this.ReactionRepository.find({where: {service: {id: serviceId}}})
         .then(res => {
             return {
@@ -247,5 +277,13 @@ export class AreaService {
         })
 
         return rtb;
+    }
+
+    async updateAreaRun(id) : Promise<object> {
+        this.AreaRepository.update(id, {
+            lastRun: Date.now()
+        });
+        
+        return {}
     }
 }

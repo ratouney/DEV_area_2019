@@ -75,15 +75,10 @@
         <button href="#" onclick="document.getElementById('id02').style.display='block'" style="width:100%; background-color: #4CAF50; font-size: 30px;">Ready ? Try it NOW</button>
     </div>
     <div class="container" style="background-color: #f1f0f0;" height="350px">
-        <button @click="accordion" class="accordion">Spotify</button>
-        <div class="panel">
-            <p>Lorem ipsum...</p>
-        </div>
     </div>
 </body>
 </html>
 </template>
-
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script> @import"../js/accordion.js";</script>
