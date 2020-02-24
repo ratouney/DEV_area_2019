@@ -2,13 +2,12 @@ package homeactivity
 
 
 import AppFragment.AppFragment
+import AppFragment.MyApp
 import ProfilFragment
-import android.graphics.PorterDuff
-import android.graphics.drawable.Drawable
+import ReactionFragment
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -19,6 +18,8 @@ import kotlinx.android.synthetic.main.activity_app.*
 
 
 class HomeActivity : AppCompatActivity() {
+
+    private val apps: MutableList<MyApp> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +46,6 @@ class HomeActivity : AppCompatActivity() {
         supportFragmentManager.inTransaction { add(frameId, fragment) }
     }
 
-
     fun AppCompatActivity.replaceFragment(fragment: Fragment, frameId: Int) {
         supportFragmentManager.inTransaction{replace(frameId, fragment).addToBackStack(null)}
     }
@@ -54,13 +54,10 @@ class HomeActivity : AppCompatActivity() {
         when (item!!.itemId) {
 
             R.id.app_bar_profil -> {
-                val yourdrawable: Drawable = item.icon
-                yourdrawable.mutate()
-                yourdrawable.setColorFilter(resources.getColor(R.color.green),  PorterDuff.Mode.SRC_ATOP)
+                item.setIcon(R.drawable.profil_focus)
                 replaceFragment(ProfilFragment(), R.id.frame)
             }
         }
         return true
     }
-
 }

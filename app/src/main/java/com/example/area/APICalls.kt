@@ -48,7 +48,7 @@ object APICalls {
             return call
         }
 
-        fun Reactions() {
+        fun Reactions() : String {
             val request = Request.Builder()
                     .url("http://$ip:$port/area/reaction")
                     .get()
@@ -60,13 +60,14 @@ object APICalls {
                 if (response.code() == 200) {
                     val data = JSONObject(response.body()!!.string())
                     println(data);
+                    return data.getJSONArray("data").toString().replace("[", "{").replace("]", "}")
                 }
-
             }
+            return ""
         }
 
 
-        fun Actions() {
+        fun Actions() : String {
             val request = Request.Builder()
                     .url("http://$ip:$port/area/action")
                     .get()
@@ -78,9 +79,11 @@ object APICalls {
                 if (response.code() == 200) {
                     val data = JSONObject(response.body()!!.string())
                     println(data);
+                    return data.getJSONArray("data").toString().replace("[", "{").replace("]", "}")
                 }
 
             }
+            return ""
         }
     }
 
@@ -168,7 +171,7 @@ object APICalls {
                 return false
 
             val mediaType = MediaType.parse("application/x-www-form-urlencoded")
-            val body = RequestBody.create(mediaType, "actionId=$action&reactionId=$reaction&name=$name")
+            val body = RequestBody.create(mediaType, "actionId=$action&reactionId=$reaction&name=$name&timeCheck=5")
             val request = Request.Builder()
                     .url("http://$ip:$port/area/new?token=$tok")
                     .header("Content-Type", "application/x-www-form-urlencoded")

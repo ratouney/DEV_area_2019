@@ -10,16 +10,10 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_login.*
 
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [LoginFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [LoginFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class LoginFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
+
+
     private var callback: OnConnectionCallListener? = null
 
 

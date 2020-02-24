@@ -9,7 +9,9 @@ export default class Area {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @Column()
+    @Column({
+        unique: true
+    })
     @IsDefined()
     name: string
 
@@ -21,4 +23,14 @@ export default class Area {
 
     @ManyToOne(type => Reaction, reaction => reaction.service)
     reaction: Action
+
+    @Column({
+        nullable: true
+    })
+    timeCheck: number;
+
+    @Column({
+        nullable: true,
+    })
+    lastRun: Date;
 }

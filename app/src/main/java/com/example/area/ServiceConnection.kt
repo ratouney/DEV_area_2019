@@ -201,7 +201,6 @@ object ServiceConnection {
         webView.getSettings().setJavaScriptEnabled(true)
         webView.loadUrl(url)
         val client = object : WebViewClient() {
-
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                 println(Uri.parse(url))
                 if (Uri.parse(url).scheme == "com.example.area") {
