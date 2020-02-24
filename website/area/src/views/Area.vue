@@ -15,7 +15,7 @@
             <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
             <link rel="stylesheet" href="/resources/demos/style.css">
 
-            <h1>Test</h1>
+            <h1>Test {{ googleAccessToken }}</h1>
             <button @click="GoogleLogin" :disabled="!isLoaded">signIn</button>
             <button @click="test()" id="btn-login">test</button>
             <button @click="SpotifyLogin" :disabled="!isLoaded">SignIn With Spotify</button>
@@ -81,7 +81,8 @@ export default {
     },
     data () {
         return {
-            blabla: 'test',
+            componentKey: 0,
+            googleAccessToken: '',
             isLoaded: false
         }
     },
@@ -91,8 +92,9 @@ export default {
         GoogleLogin(){
             let self = this
             this.$gAuth.signIn(function (user) {
-                self.$googleAccessToken = user.uc.access_token
-                console.log('gat : ', self.$googleAccessToken)
+                console.log(self.string)
+                self.googleAccessToken = user.uc.access_token
+                console.log(self.googleAccessToken)
 //                console.log('access token : ', user.uc.access_token)
 //                console.log(user)
             }, function (error) {
