@@ -19,9 +19,11 @@
             <button @click="GoogleLogin" :disabled="!isLoaded">signIn</button>
             <button @click="test()" id="btn-login">test</button>
             <button @click="SpotifyLogin" :disabled="!isLoaded">SignIn With Spotify</button>
-            <button class="accordion">Google</button>
+
+            <button @click="accordion" class="accordion">Google</button>
             <div class="panel">
-                Test 1 2 1 2
+                Test
+                <button @click="Action1" :disabled="!isLoaded">Action 1</button>
             </div>
 
             <button @click="accordion" class="accordion">Spotify</button>
@@ -83,6 +85,18 @@ export default {
                     }
                 });
             }
+        },
+        Action1(){
+            let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
+                width=600,height=800,left=-1000,top=-1000`;
+
+            window.open('/', 'test', params);
+            /*w = open("",'popup','width=400,height=200,toolbar=no,scrollbars=no,resizable=yes');	
+            w.document.write("<title>"+document.forms["f_popup"].elements["Action 1"].value+"</title>");
+            w.document.write("<body> Bonjour "+document.forms["f_popup"].elements["nom"].value+"<br><br>");
+            w.document.write("Ce popup n'est pas un fichier HTML, ");
+            w.document.write("il est écrit directement par la fenêtre appelante");
+            w.document.write("</body>");*/
         },
         test() {
 
