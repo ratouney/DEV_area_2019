@@ -1,42 +1,42 @@
 <template>
     <html>
-    <div id="navbar" class="navbar">
-        <div style="max-width: 90%; margin: auto;">
-            <a href="dashboard"></a>
-            <div class="topnav-right">
-                <a href="#" @click="$router.push('/')">Disconnect</a>
+    <div id="area">
+        <div id="navbar" class="navbar">
+            <div style="max-width: 90%; margin: auto;">
+                <a href="dashboard"></a>
+                <div class="topnav-right">
+                    <a href="#" @click="$router.push('/')">Disconnect</a>
+                </div>
             </div>
         </div>
-    </div>
-    <div>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>jQuery UI Menu - Default functionality</title>
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <link rel="stylesheet" href="/resources/demos/style.css">
+        <div>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>jQuery UI Menu - Default functionality</title>
+            <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+            <link rel="stylesheet" href="/resources/demos/style.css">
 
-        <h1>Test</h1>
-        <button @click="GoogleLogin" :disabled="!isLoaded">signIn</button>
-        <button @click="test()" id="btn-login">test</button>
-        <button @click="SpotifyLogin" :disabled="!isLoaded">SignIn With Spotify</button>
-        <p> </p>
-        <button class="accordion">Google</button>
-        <div class="panel">
-            Test 1 2 1 2
-        </div>
+            <h1>Test</h1>
+            <button @click="GoogleLogin" :disabled="!isLoaded">signIn</button>
+            <button @click="test()" id="btn-login">test</button>
+            <button @click="SpotifyLogin" :disabled="!isLoaded">SignIn With Spotify</button>
+            <button class="accordion">Google</button>
+            <div class="panel">
+                Test 1 2 1 2
+            </div>
 
-        <button @click="accordion" class="accordion">Spotify</button>
-        <div class="panel">
-            <p>Lorem ipsum...</p>
-        </div>
+            <button @click="accordion" class="accordion">Spotify</button>
+            <div class="panel">
+                <p>Lorem ipsum...</p>
+            </div>
 
-        <button @click="accordion" class="accordion">Section 3</button>
-        <div class="panel">
-            <p>Lorem ipsum...</p>
+            <button @click="accordion" class="accordion">Section 3</button>
+            <div class="panel">
+                <p>Lorem ipsum...</p>
+            </div>
         </div>
     </div>
 </html>
 </template>
-
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
@@ -45,35 +45,33 @@ $( function() {
 } );
 </script>
 <script>
-
 export default {
     name: 'test',
     props: [],
     components: {
     },
     data () {
-        gAT: 'empty'
         return {
+            blabla: 'test',
             isLoaded: false
         }
-
     },
     computed: {
     },
     methods: {
         GoogleLogin(){
+            let self = this
             this.$gAuth.signIn(function (user) {
-                console.log(user.uc.access_token)
-                console.log(user)
-                this.accessTokenGoogle = user.uc.access_token
-                console.log(this.accessTokenGoogle)
+                self.$googleAccessToken = user.uc.access_token
+                console.log('gat : ', self.$googleAccessToken)
+//                console.log('access token : ', user.uc.access_token)
+//                console.log(user)
             }, function (error) {
             })
         },
         accordion() {
             var acc = document.getElementsByClassName("accordion");
             var i;
-
             for (i = 0; i < acc.length; i++) {
                 acc[i].addEventListener("click", function() {
                     this.classList.toggle("active");
@@ -153,8 +151,8 @@ export default {
         },
         SpotifyLogin(callback) {
 
-            var CLIENT_ID = '3f6be5c8306741c8ab06713da0a92f59';
-            var REDIRECT_URI = 'http://localhost:8080/#/account';
+            var CLIENT_ID = 'c299f837f4ff4872ab27a1a00a6c7bdf';
+            var REDIRECT_URI = 'http://localhost8080/#/area/api/spotify';
 
             function getLoginURL(scopes) {
                 return 'https://accounts.spotify.com/authorize?client_id=' + CLIENT_ID +
