@@ -25,7 +25,7 @@ import pokemon from '../../../../app/src/main/res/drawable/pokemon.png';
 
 
 
-            <!--========================================== Gmail actions and Reactions ==========================================-->
+             <!--========================================== Gmail actions and Reactions ==========================================-->
 
             <button @click="accordion" class="accordion">GMail</button>
             <div class="panel">
@@ -55,44 +55,18 @@ import pokemon from '../../../../app/src/main/res/drawable/pokemon.png';
                                 <p>Créer une nouvelle spreadsheet</p>
                                 <button type="submit" class="registerbtn">Confirm</button>
                             </div>
-
                         </div>
                     </div>
-                </div>
-            </div>
-            <!--==============================================================================================================-->
 
-            <!--========================================== Spotify actions and Reactions ==========================================-->
-
-            <button @click="accordion" class="accordion">Spotify</button>
-            <div class="panel">
-                <div class="portlet">
-                        <div class="portlet-header">Spotify</div>
+                    <div v-if="googleAccessToken !== ''" class="portlet">
+                        <div class="portlet-header">Gmail</div>
                         <div class="portlet-content">
                             <div class="container">
-                                <h1>Something</h1>
-                                <p>Something else</p>
-                                <button type="submit" class="registerbtn">Confirm</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            <!--==============================================================================================================-->
-
-            <!--========================================== Sheet actions and Reactions ==========================================-->
-
-            <button @click="accordion" class="accordion">Google Sheet</button>
-            <div class="panel">
-                <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit">signIn</button>
-                <div v-if="googleAccessToken !== ''" class="portlet">
-                        <div class="portlet-header">Sheet</div>
-                        <div class="portlet-content">
-                            <div class="container">
-                                <h1>Spreadsheet est mise à jour</h1>
-                                <p>Envoyer un message lors d'une mise à jour de la spreadsheet</p>
+                                <h1>Reception d'un mail</h1>
+                                <p>Créer un brouillon sur gmail lors de la réception d'un mail</p>
                                 <div style="display:block;">
                                     <textarea id="w3mission" rows="4" cols="50">
-                                        Your email here
+                                        Votre texte
                                     </textarea>
                                 </div>
                                 <button type="submit" class="registerbtn">Confirm</button>
@@ -100,12 +74,141 @@ import pokemon from '../../../../app/src/main/res/drawable/pokemon.png';
                         </div>
                     </div>
 
-                 <div v-if="googleAccessToken !== ''" class="portlet">
-                        <div class="portlet-header">Sheet</div>
+                    <div v-if="googleAccessToken !== ''" class="portlet">
+                        <div class="portlet-header">Gmail</div>
+                            <div class="portlet-content">
+                                <div class="container">
+                                <h1>Reception d'un mail</h1>
+                                <p>Modifier le volume sur Spotify lors de la réception d'un mail</p>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div v-if="googleAccessToken !== ''" class="portlet">
+                        <div class="portlet-header">Gmail</div>
+                            <div class="portlet-content">
+                                <div class="container">
+                                <h1>Reception d'un mail</h1>
+                                <p>Mettre en pause la musique en cours sur Spotify lors de la réception d'un mail</p>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div v-if="googleAccessToken !== ''" class="portlet">
+                        <div class="portlet-header">Gmail</div>
+                            <div class="portlet-content">
+                                <div class="container">
+                                <h1>Reception d'un mail</h1>
+                                <p>uploader une image sur Imgur</p>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div v-if="googleAccessToken !== ''" class="portlet">
+                        <div class="portlet-header">Gmail</div>
+                            <div class="portlet-content">
+                                <div class="container">
+                                <h1>Reception d'un mail</h1>
+                                <p>Changer la bio sur Imgur</p>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--==============================================================================================================-->
+
+            <!--========================================== Sheet actions and Reactions ==========================================-->
+
+            <button @click="accordion" class="accordion">Google Sheet</button>
+            <div class="panel">
+                <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit">signIn</button>
+                <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit">signIn</button>
+                    <div v-if="googleAccessToken !== ''" class="portlet">
+                        <div class="portlet-header">Gmail</div>
                         <div class="portlet-content">
                             <div class="container">
-                                <h1>Spreadsheet est mise à jour</h1>
-                                <p>Créer une nouvelle spreadsheet lors de la mise à jour de la spreadsheet</p>
+                                <h1>Mise à jour de la spreadsheet</h1>
+                                <p>Envoyer un message lors de la reception d'un e-mail</p>
+                                <div style="display:block;">
+                                    <textarea id="w3mission" rows="4" cols="50">
+                                        Your email here
+                                    </textarea>
+                                </div>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div v-if="googleAccessToken !== ''" class="portlet">
+                        <div class="portlet-header">Gmail</div>
+                        <div class="portlet-content">
+                            <div class="container">
+                                <h1>Mise à jour de la spreadsheet</h1>
+                                <p>Créer une nouvelle spreadsheet</p>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div v-if="googleAccessToken !== ''" class="portlet">
+                        <div class="portlet-header">Gmail</div>
+                        <div class="portlet-content">
+                            <div class="container">
+                                <h1>Mise à jour de la spreadsheet</h1>
+                                <p>Créer un brouillon sur gmail lors de la réception d'un mail</p>
+                                <div style="display:block;">
+                                    <textarea id="w3mission" rows="4" cols="50">
+                                        Votre texte
+                                    </textarea>
+                                </div>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div v-if="googleAccessToken !== ''" class="portlet">
+                        <div class="portlet-header">Gmail</div>
+                            <div class="portlet-content">
+                                <div class="container">
+                                <h1>Mise à jour de la spreadsheet</h1>
+                                <p>Modifier le volume sur Spotify lors de la réception d'un mail</p>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div v-if="googleAccessToken !== ''" class="portlet">
+                        <div class="portlet-header">Gmail</div>
+                            <div class="portlet-content">
+                                <div class="container">
+                                <h1>Mise à jour de la spreadsheet</h1>
+                                <p>Mettre en pause la musique en cours sur Spotify lors de la réception d'un mail</p>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div v-if="googleAccessToken !== ''" class="portlet">
+                        <div class="portlet-header">Gmail</div>
+                            <div class="portlet-content">
+                                <div class="container">
+                                <h1>Mise à jour de la spreadsheet</h1>
+                                <p>uploader une image sur Imgur</p>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div v-if="googleAccessToken !== ''" class="portlet">
+                        <div class="portlet-header">Gmail</div>
+                            <div class="portlet-content">
+                                <div class="container">
+                                <h1>Reception d'un mail</h1>
+                                <p>Changer la bio sur Imgur</p>
                                 <button type="submit" class="registerbtn">Confirm</button>
                             </div>
                         </div>
@@ -122,8 +225,8 @@ import pokemon from '../../../../app/src/main/res/drawable/pokemon.png';
                         <div class="portlet-header">Pokemon</div>
                         <div class="portlet-content">
                             <div class="container">
-                                <h1>Something</h1>
-                                <p>Something else</p>
+                                <h1>Pokemon aléatoire du Pokedex</h1>
+                                <p>Envoie un pokemon aléatoire</p>
                                 <button type="submit" class="registerbtn">Confirm</button>
                             </div>
                         </div>
@@ -173,8 +276,29 @@ import pokemon from '../../../../app/src/main/res/drawable/pokemon.png';
                         <div class="portlet-header">Imgur</div>
                         <div class="portlet-content">
                             <div class="container">
-                                <h1>Something</h1>
-                                <p>Something else</p>
+                                <h1>Nouveau vote sur une image</h1>
+                                <p>Envoyer un e-mail lors d'un nouveau vote</p>
+                                <div style="display:block;">
+                                    <textarea id="w3mission" rows="4" cols="50">
+                                        Votre texte
+                                    </textarea>
+                                </div>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="portlet">
+                        <div class="portlet-header">Imgur</div>
+                        <div class="portlet-content">
+                            <div class="container">
+                                <h1>Nouveau commentaire sur une image</h1>
+                                <p>Envoyer un e-mail lors d'un nouveau commentaire</p>
+                                <div style="display:block;">
+                                    <textarea id="w3mission" rows="4" cols="50">
+                                        Votre texte
+                                    </textarea>
+                                </div>
                                 <button type="submit" class="registerbtn">Confirm</button>
                             </div>
                         </div>
