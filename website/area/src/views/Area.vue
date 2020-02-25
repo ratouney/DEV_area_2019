@@ -1,4 +1,5 @@
 import sheet from '../../../../app/src/main/res/drawable/sheet.png';
+import pokemon from '../../../../app/src/main/res/drawable/pokemon.png';
 <template>
     <html>
     <div id="area">
@@ -22,62 +23,180 @@ import sheet from '../../../../app/src/main/res/drawable/sheet.png';
 
 
 
-            <!--========================================== Modal container Reactions ==========================================-->
-
-            <div id="id03" class="modal">
-                <form class="modal-content animate" action="/register" method="post">
-                    <div class="imgcontainer">
-                        <span onclick="document.getElementById('id03').style.display='none'" class="close" title="Close Modal">&times;</span>
-                    </div>
-                    <div class="container">
-                        <h1>Reception d'un mail</h1>
-                        <p>Envoyer un message lors de la reception d'un e-mail</p>
-                        <!-- menu déroulant avec pour l'instant : Envoie d'un mail, Création d'une spreadsheet-->
-                        <button type="submit" class="registerbtn">Register</button>
-                    </div>
-                    <div class="container" style="background-color:#f1f1f1">
-                        <button type="button" onclick="document.getElementById('id03').style.display='none'" class="cancelbtn">Cancel</button>
-                    </div>
-                </form>
-            </div>
-
-            <!--==============================================================================================================-->
+            <!--========================================== Gmail actions and Reactions ==========================================-->
 
             <button @click="accordion" class="accordion">GMail</button>
             <div class="panel">
                 <div class="widget" name="gmail">
                     <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isLoaded">signIn</button>
-                    <button v-if="googleAccessToken !== ''" href="#" onclick="document.getElementById('id03').style.display='block'" style="width:100%; background-color: #00000; font-size: 30px;">Action 1</button>
                     <div v-if="googleAccessToken !== ''" class="portlet">
                         <div class="portlet-header">Gmail</div>
                         <div class="portlet-content">
                             <div class="container">
                                 <h1>Reception d'un mail</h1>
                                 <p>Envoyer un message lors de la reception d'un e-mail</p>
-                                <!-- menu déroulant avec pour l'instant : Envoie d'un mail, Création d'une spreadsheet-->
                                 <div style="display:block;">
                                     <textarea id="w3mission" rows="4" cols="50">
                                         Your email here
                                     </textarea>
                                 </div>
-                                <button type="submit" class="registerbtn">Register</button>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div v-if="googleAccessToken !== ''" class="portlet">
+                        <div class="portlet-header">Gmail</div>
+                        <div class="portlet-content">
+                            <div class="container">
+                                <h1>Reception d'un mail</h1>
+                                <p>Créer une nouvelle spreadsheet</p>
+                                <button type="submit" class="registerbtn">Confirm</button>
                             </div>
 
                         </div>
                     </div>
                 </div>
-
             </div>
+            <!--==============================================================================================================-->
+
+            <!--========================================== Spotify actions and Reactions ==========================================-->
 
             <button @click="accordion" class="accordion">Spotify</button>
             <div class="panel">
-                <button href="#" onclick="document.getElementById('id03').style.display='block'" style="width:100%; background-color: #00000; font-size: 30px;">Action 2</button>
-            </div>
+                <div class="portlet">
+                        <div class="portlet-header">Spotify</div>
+                        <div class="portlet-content">
+                            <div class="container">
+                                <h1>Something</h1>
+                                <p>Something else</p>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!--==============================================================================================================-->
 
-            <button @click="accordion" class="accordion">Sheet</button>
+            <!--========================================== Sheet actions and Reactions ==========================================-->
+
+            <button @click="accordion" class="accordion">Google Sheet</button>
             <div class="panel">
-                <p>Lorem ipsum...</p>
-            </div>
+                <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isLoaded">signIn</button>
+                <div v-if="googleAccessToken !== ''" class="portlet">
+                        <div class="portlet-header">Sheet</div>
+                        <div class="portlet-content">
+                            <div class="container">
+                                <h1>Spreadsheet est mise à jour</h1>
+                                <p>Envoyer un message lors d'une mise à jour de la spreadsheet</p>
+                                <div style="display:block;">
+                                    <textarea id="w3mission" rows="4" cols="50">
+                                        Your email here
+                                    </textarea>
+                                </div>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+
+                 <div v-if="googleAccessToken !== ''" class="portlet">
+                        <div class="portlet-header">Sheet</div>
+                        <div class="portlet-content">
+                            <div class="container">
+                                <h1>Spreadsheet est mise à jour</h1>
+                                <p>Créer une nouvelle spreadsheet lors de la mise à jour de la spreadsheet</p>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <!--==============================================================================================================-->
+
+            <!--========================================== Pokemon actions and Reactions ==========================================-->
+
+            <button @click="accordion" class="accordion">Pokemon</button>
+            <div class="panel">
+                <div class="portlet">
+                        <div class="portlet-header">Pokemon</div>
+                        <div class="portlet-content">
+                            <div class="container">
+                                <h1>Something</h1>
+                                <p>Something else</p>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <!--==============================================================================================================-->
+
+            <!--========================================== Nasa actions and Reactions ==========================================-->
+
+            <button @click="accordion" class="accordion">Nasa</button>
+            <div class="panel">
+                <div v-if="googleAccessToken !== ''" class="portlet">
+                        <div class="portlet-header">Nasa</div>
+                        <div class="portlet-content">
+                            <div class="container">
+                                <h1>Daily photo of Mars</h1>
+                                <p>Envoyer un message lors de la reception d'un e-mail</p>
+                                <div style="display:block;">
+                                    <textarea id="w3mission" rows="4" cols="50">
+                                        Your email here
+                                    </textarea>
+                                </div>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                <div class="portlet">
+                        <div class="portlet-header">Nasa</div>
+                        <div class="portlet-content">
+                            <div class="container">
+                                <h1>Daily photo of Mars</h1>
+                                <p>Something else</p>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <!--==============================================================================================================-->
+
+            <!--========================================== Imgur actions and Reactions ==========================================-->
+
+            <button @click="accordion" class="accordion">Imgur</button>
+            <div class="panel">
+                <div class="portlet">
+                        <div class="portlet-header">Imgur</div>
+                        <div class="portlet-content">
+                            <div class="container">
+                                <h1>Something</h1>
+                                <p>Something else</p>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <!--==============================================================================================================-->
+
+            <!--========================================== Météo actions and Reactions ==========================================-->
+
+            <button @click="accordion" class="accordion">Météo</button>
+            <div class="panel">
+                <div class="portlet">
+                        <div class="portlet-header">Météo</div>
+                        <div class="portlet-content">
+                            <div class="container">
+                                <h1>Something</h1>
+                                <p>Something else</p>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!--==============================================================================================================-->
         </div>
     </div>
 </html>
@@ -90,6 +209,7 @@ $( function() {
 } );
 </script>
 <script>
+import axios from "axios";
 export default {
     name: 'test',
     props: [],
@@ -99,6 +219,7 @@ export default {
         return {
             componentKey: 0,
             googleAccessToken: '',
+            info: null,
             isLoaded: false
         }
     },
@@ -117,7 +238,17 @@ export default {
             })
         },
         accordion() {
-            //axios.get('http://51.75.69.196:3001/session/login')
+            let that = this
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow'
+            };
+
+            fetch("/service", requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+
             var acc = document.getElementsByClassName("accordion");
             var i;
             for (i = 0; i < acc.length; i++) {
@@ -234,6 +365,16 @@ export default {
     },
     mounted(){
         let that = this
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+        fetch("/service", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+
         let checkGauthLoad = setInterval(function(){
             that.isLoaded = that.$gAuth.isLoaded()
             console.log('checked', that.isLoaded)

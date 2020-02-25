@@ -279,11 +279,55 @@ export class AreaService {
         return rtb;
     }
 
+    async updateReaction(id, params) : Promise<object> {
+        if (params == {}) {
+            return {
+                statusCode: 400,
+                error: "Nothing to update",
+            }
+        }
+
+        const rtb = this.ReactionRepository.update(id, params = {})
+        .then(res => {
+            return {
+                statusCode: 200,
+                data: res,
+            }
+        })
+        .catch(err => {
+            return {
+                statusCode: 400,
+                error: err
+            }
+        });
+
+        return rtb;
+    }
+
     async updateAreaRun(id) : Promise<object> {
+        console.log("DateNow : ", Date.now().toString());
+        const val = Date.now().toString();
+
         this.AreaRepository.update(id, {
-            lastRun: Date.now()
+            lastRun: val,
         });
         
         return {}
+    }
+
+    async checkAreaShouldRun(id) : Promise<object> {
+        const entry = await this.AreaRepository.findOne(id);
+
+        const dt = new Date(parseInt(entry.lastRun));
+        const n = new Date();
+
+        const diff = n.getMinutes() + (n.getHours() * 60) - (dt.getHours() * 60) - dt.getMinutes();
+
+        return {
+            lastRun: entry.lastRun,
+            interval: entry.timeCheck,
+            diff: diff,
+            shouldRun: diff > entry.timeCheck,
+        };
     }
 }

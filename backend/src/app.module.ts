@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ScheduleModule } from '@nestjs/schedule';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -27,6 +28,7 @@ import Entities  from './entities';
       "synchronize": true,
       "logging": true
     }),
+    ScheduleModule.forRoot(),
     UserModule,
     SessionModule,
     ServiceModule,

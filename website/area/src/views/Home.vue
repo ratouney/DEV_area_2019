@@ -15,26 +15,28 @@
             <div style="max-width: 90%; margin: auto;">
                 <a href="dashboard"></a>
                 <div class="topnav-right">
-                    <a href="#" @click="$router.push('/area')">Manage Area</a>
-                    <a href="#" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</a>
-                    <a class="active" href="#" onclick="document.getElementById('id02').style.display='block'" style="width:auto;">Register</a>
+                    <a v-if="userToken !== ''" href="#" @click="$router.push('/area')">Manage Area</a>
+                    <a v-if="userToken !== ''" href="#" @click="disconnect()">Disconnect</a>
+                    <a v-if="userToken == ''" href="#" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</a>
+                    <a v-if="userToken == ''" class="active" href="#" onclick="document.getElementById('id02').style.display='block'" style="width:auto;">Register</a>
                 </div>
             </div>
         </div>
         <div style="max-width: 90%; margin: auto;">
             <!--============================================ Modal container LOGIN ============================================-->
             <div id="id01" class="modal">
-                <form class="modal-content animate" action="/login" method="post">
+                <form class="modal-content animate" >
                     <div class="imgcontainer">
                         <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
                     </div>
                     <div class="container">
                         <h1>Login</h1>
                         <label for="username"><b>Username</b></label>
-                        <input type="text" placeholder="Enter Username" name="username" required>
+                        <input v-model="username" type="text" placeholder="Enter Username" name="username" required>
                         <label for="password"><b>Password</b></label>
-                        <input type="password" placeholder="Enter Password" name="password" required>
-                        <button type="submit">Login</button>
+                        <input v-model="pswd" type="password" placeholder="Enter Password" name="password" required>
+                        <p>Le message est : {{ userToken }}</p>
+                        <button @click="login()">Login</button>
                     </div>
                     <div class="container" style="background-color:#f1f1f1">
                         <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
@@ -45,7 +47,7 @@
 
             <!--========================================== Modal container REGISTER ==========================================-->
             <div id="id02" class="modal">
-                <form class="modal-content animate" action="/register" method="post">
+                <form class="modal-content animate">
                     <div class="imgcontainer">
                         <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
                     </div>
@@ -54,9 +56,9 @@
                         <p>Please fill in this form to create an account.</p>
                         <hr>
                         <label for="username"><b>Username</b></label>
-                        <input type="text" placeholder="Enter Username" name="username" required>
-                        <label for="password" id="psw"><b>Password</b></label>
-                        <input type="password" placeholder="Enter Password" name="password" required>
+                        <input v-model="username" type="text" placeholder="Enter Username" name="username" required>
+                        <label for="password"><b>Password</b></label>
+                        <input v-model="pswd" type="password" placeholder="Enter Password" name="password" required>
                         <hr>
                         <button type="submit" class="registerbtn">Register</button>
                     </div>
@@ -94,7 +96,66 @@ import LoginCard from '@/components/LoginCard.vue'
 export default {
   name: 'home',
   components: {
-    LoginCard
-  }
+      LoginCard
+  },
+  data () {
+    return {
+        username: '',
+        pswd: '',
+        user: '',
+        userToken: '',
+    }
+  },
+  methods: {
+      login() {
+          let that = this
+          var myHeaders = new Headers();
+          myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+          var urlencoded = new URLSearchParams();
+          urlencoded.append("username", this.username);
+          urlencoded.append("password", this.pswd);
+
+          var requestOptions = {
+              method: 'POST',
+              headers: myHeaders,
+              body: urlencoded,
+              redirect: 'follow'
+          };
+
+          fetch("/session/login", requestOptions)
+          .then(response => response.text())
+          .then(function(result) {
+              that.userToken = JSON.parse(result).data
+              document.getElementById('id01').style.display='none'
+          })
+          .catch(error => console.log('error', error));
+      },
+      disconnect() {
+          this.userToken = '';
+      },
+      register() {
+          var myHeaders = new Headers();
+          myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+          var urlencoded = new URLSearchParams();
+          urlencoded.append("username", this.username);
+          urlencoded.append("password", this.pswd);
+          urlencoded.append("email", "ratouney1998@gmail.com");
+
+          var requestOptions = {
+              method: 'POST',
+              headers: myHeaders,
+              body: urlencoded,
+              redirect: 'follow'
+          };
+
+          fetch("/user/new", requestOptions)
+          .then(response => response.text())
+          .then(result => console.log(result))
+          .catch(error => console.log('error', error));
+      }
+}
+
 }
 </script>

@@ -72,6 +72,7 @@ export class GmailAPI {
             }
         }
         const data = await req.callWithHeader(config);
+        console.log(data);
         return (data.messages.id > lastMessageId)
     }
 }
