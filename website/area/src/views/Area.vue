@@ -97,7 +97,7 @@ import pokemon from '../../../../app/src/main/res/drawable/pokemon.png';
                             </div>
                         </div>
                     </div>
-                
+
                  <div v-if="googleAccessToken !== ''" class="portlet">
                         <div class="portlet-header">Sheet</div>
                         <div class="portlet-content">
@@ -209,6 +209,7 @@ $( function() {
 } );
 </script>
 <script>
+import axios from "axios";
 export default {
     name: 'test',
     props: [],
@@ -218,6 +219,7 @@ export default {
         return {
             componentKey: 0,
             googleAccessToken: '',
+            info: null,
             isLoaded: false
         }
     },
@@ -236,7 +238,17 @@ export default {
             })
         },
         accordion() {
-            //axios.get('http://51.75.69.196:3001/session/login')
+            let that = this
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow'
+            };
+
+            fetch("/service", requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+
             var acc = document.getElementsByClassName("accordion");
             var i;
             for (i = 0; i < acc.length; i++) {
@@ -353,6 +365,16 @@ export default {
     },
     mounted(){
         let that = this
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+        fetch("/service", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+
         let checkGauthLoad = setInterval(function(){
             that.isLoaded = that.$gAuth.isLoaded()
             console.log('checked', that.isLoaded)
