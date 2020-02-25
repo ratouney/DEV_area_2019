@@ -35,7 +35,7 @@ getNewComment           - action
 getNewFav               - action
 changeBio               - reaction
 
-action : 7
+action : 11
 reaction : 7
 
 18 / 18

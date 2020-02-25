@@ -1,23 +1,37 @@
-version: '3'
+version: '3.7'
 
 services:
-  web:
-    build: .
-    ports:
-    - "8080:8081"
-    volumes:
-    - .:/code
-    links:
-    - server
-    - mobile
-  mobile:
-    build: .
-    volumes:
-    - .:/code
   server:
+    container_name: server_container
+    hostname: server_host
+    build: backend/.
     ports:
-    - "8080:8080"
-  mongodb:
-    image: mongo
+      - 3001:8080
+#    env_file:
+#      - .env
+    networks:
+      - webnet
+    depends_on:
+      - postgres
+  postgres:
+    container_name: postgres_container
+    hostname: postgres_host
+    image: postgres:12
+    networks:
+      webnet:
+        aliases: 
+          - postgres_alias
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: area
+      PG_DATA: /var/lib/postgresql/data
     ports:
-    - "27017:27017"
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+networks:
+  webnet:
+    driver: bridge
+volumes:
+  pgdata:
