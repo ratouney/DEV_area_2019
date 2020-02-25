@@ -15,10 +15,10 @@
             <div style="max-width: 90%; margin: auto;">
                 <a href="dashboard"></a>
                 <div class="topnav-right">
-                    <a v-if="userToken !== ''" href="#" @click="$router.push('/area')">Manage Area</a>
-                    <a v-if="userToken !== ''" href="#" @click="disconnect()">Disconnect</a>
-                    <a v-if="userToken == ''" href="#" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</a>
-                    <a v-if="userToken == ''" class="active" href="#" onclick="document.getElementById('id02').style.display='block'" style="width:auto;">Register</a>
+                    <router-link :to="{ name: 'area', params: {id: userToken}, query: { debug: this.userToken } }" v-if="userToken">Manage Area</router-link>
+                    <a v-if="userToken" href="#" @click="disconnect()">Disconnect</a>
+                    <a v-if="!userToken" href="#" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</a>
+                    <a v-if="!userToken" class="active" href="#" onclick="document.getElementById('id02').style.display='block'" style="width:auto;">Register</a>
                 </div>
             </div>
         </div>
@@ -35,7 +35,7 @@
                         <input v-model="username" type="text" placeholder="Enter Username" name="username" required>
                         <label for="password"><b>Password</b></label>
                         <input v-model="pswd" type="password" placeholder="Enter Password" name="password" required>
-                        <p>Le message est : {{ userToken }}</p>
+
                         <button @click="login()">Login</button>
                     </div>
                     <div class="container" style="background-color:#f1f1f1">
@@ -59,8 +59,10 @@
                         <input v-model="username" type="text" placeholder="Enter Username" name="username" required>
                         <label for="password"><b>Password</b></label>
                         <input v-model="pswd" type="password" placeholder="Enter Password" name="password" required>
+                        <label for="mail"><b>eMail</b></label>
+                        <input v-model="mail" type="email" placeholder="Your mail" name="mail" required>
                         <hr>
-                        <button type="submit" class="registerbtn">Register</button>
+                        <button @click="register()">Register</button>
                     </div>
                     <div class="container" style="background-color:#f1f1f1">
                         <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>
@@ -77,6 +79,7 @@
         <button href="#" onclick="document.getElementById('id02').style.display='block'" style="width:100%; background-color: #4CAF50; font-size: 30px;">Ready ? Try it NOW</button>
     </div>
     <div class="container" style="background-color: #f1f0f0;" height="350px">
+<p>Le message est : {{ userToken }}</p>
     </div>
 </body>
 </html>
@@ -91,19 +94,19 @@
 <style> @import"../style/homepage.css";</style>
 <script>
 // @ is an alias to /src
-import LoginCard from '@/components/LoginCard.vue'
-
+import Child from '@/views/Area.vue'
 export default {
   name: 'home',
   components: {
-      LoginCard
+      Child
   },
   data () {
     return {
         username: '',
         pswd: '',
         user: '',
-        userToken: '',
+        mail: '',
+        userToken: null,
     }
   },
   methods: {
@@ -141,7 +144,7 @@ export default {
           var urlencoded = new URLSearchParams();
           urlencoded.append("username", this.username);
           urlencoded.append("password", this.pswd);
-          urlencoded.append("email", "ratouney1998@gmail.com");
+          urlencoded.append("email", this.mail);
 
           var requestOptions = {
               method: 'POST',
@@ -152,7 +155,10 @@ export default {
 
           fetch("/user/new", requestOptions)
           .then(response => response.text())
-          .then(result => console.log(result))
+          .then(function(result){
+              if(result)
+                document.getElementById('id02').style.display='none'
+          })
           .catch(error => console.log('error', error));
       }
 }

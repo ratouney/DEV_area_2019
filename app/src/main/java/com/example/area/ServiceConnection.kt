@@ -13,6 +13,7 @@ import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
 import com.google.android.gms.auth.api.signin.*
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.Scope
 import com.google.android.gms.tasks.Task
 import homeactivity.HomeActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -27,6 +28,7 @@ object ServiceConnection {
     var secret = ""
     var service = ""
     var fc : Boolean = false
+    var con : Boolean = true
 
     fun LocalAuth(u : EditText, p : EditText) {
         val userInfo = UserInfo.getInstance()
@@ -34,36 +36,49 @@ object ServiceConnection {
     }
 
 
-    fun ImgurAuth() : String {
-        client_id = "e59ba362671594e"
+    fun ImgurAuth(c : Boolean=true) : String {
+        //client_id = "e59ba362671594e"
+        client_id = "094ee1cffcac340"
         secret = "";
         service = "Imgur"
+        con = c
+
         return ("https://api.imgur.com/oauth2/authorize?client_id=$client_id&response_type=token")
     }
 
-    fun SpotifyAuth() : String {
-        client_id = "c299f837f4ff4872ab27a1a00a6c7bdf"
-        secret = "4097d12b01a449e39005967679d2efd0"
+    fun SpotifyAuth(c : Boolean=true) : String {
+        //client_id = "c299f837f4ff4872ab27a1a00a6c7bdf"
+        //secret = "4097d12b01a449e39005967679d2efd0"
+        client_id = "d3ebae5610894ca48c9f66794214252b"
+        secret = "766fb8262eda43e18ae80c3e7d713f9e"
         service = "Spotify"
+        con = c
+
         return ("https://accounts.spotify.com/authorize?client_id=$client_id&response_type=code&redirect_uri=com.example.area://area&scope=user-read-email")
     }
 
-    fun DiscordAuth() : String {
+    fun DiscordAuth(c : Boolean=true) : String {
         client_id = "664402435900702741"
         secret = "CO6-NbleKHQnCRk2pPAcg_hS8jHTuiuj"
         service = "Discord"
+        con = c
+
         return ("https://discordapp.com/api/oauth2/authorize?client_id=$client_id&redirect_uri=com.example.area%3A%2F%2Farea&response_type=code&scope=email")
     }
 
-    fun GoogleAuth(context: Context) : Intent {
+    fun GoogleAuth(context: Context, c : Boolean=true) : Intent {
+        
         client_id = "602804385318-hj4udn9f6rg3u3gb5ds45tiv3amdc5vr.apps.googleusercontent.com"
         secret = "SvRITnPEuR9Jcj60gDrTaGS3"
+        //client_id = "87061903784-oplbf08ai2kgc6gb8v4lolhual8go4o0.apps.googleusercontent.com"
+        //secret = "BjaOWkyU6mVl-2eOkSvZYCr6"
         service = "Gmail"
-
+        con = c
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(client_id)
             .requestServerAuthCode(client_id)
             .requestEmail()
+            .requestScopes(Scope("email"), Scope("https://www.googleapis.com/auth/drive"), Scope("https://www.googleapis.com/auth/drive.file"), Scope("https://www.googleapis.com/auth/spreadsheets"), Scope("https://www.googleapis.com/auth/drive.readonly"), Scope("https://www.googleapis.com/auth/drive.metadata.readonly"), Scope("https://www.googleapis.com/auth/drive.appdata"), Scope("https://www.googleapis.com/auth/drive.metadata"), Scope("https://www.googleapis.com/auth/drive.photos.readonly"), Scope("https://mail.google.com/"), Scope("https://www.googleapis.com/auth/gmail.modify"), Scope("https://www.googleapis.com/auth/gmail.compose"), Scope("https://www.googleapis.com/auth/gmail.send"), Scope("https://www.googleapis.com/auth/gmail.readonly"), Scope("https://www.googleapis.com/auth/gmail.metadata"))
             .build()
         val googleSignInClient = GoogleSignIn.getClient(context, gso)
         val signInIntent = googleSignInClient.signInIntent
@@ -141,12 +156,21 @@ object ServiceConnection {
                 return false
             }
         }
-        if (APICalls.POST.LogUser(UserInfo.getInstance().username, UserInfo.getInstance().id)) {
-            ContextCompat.startActivity(context, intent, null)
-            if (service == "Gmail")
-                APICalls.POST.NewToken(UserInfo.getInstance().token, ServicesInfoCallback.getService("Sheet")!!.name!!)
-            APICalls.POST.NewToken(UserInfo.getInstance().token, ServicesInfoCallback.getService(service)!!.name!!)
-            return false
+        if (UserInfo.getInstance().username != null && UserInfo.getInstance().id != null) {
+            if (!con && UserInfo.getInstance().APItok !=  null) {
+                ContextCompat.startActivity(context, intent, null)
+                if (service == "Gmail")
+                    APICalls.POST.NewToken(UserInfo.getInstance().token, ServicesInfoCallback.getService("Sheet")!!.id!!)
+                APICalls.POST.NewToken(UserInfo.getInstance().token, ServicesInfoCallback.getService(service)!!.id!!)
+                return false
+            }
+            if (APICalls.POST.LogUser(UserInfo.getInstance().username, UserInfo.getInstance().id)) {
+                ContextCompat.startActivity(context, intent, null)
+                if (service == "Gmail")
+                    APICalls.POST.NewToken(UserInfo.getInstance().token, ServicesInfoCallback.getService("Sheet")!!.id!!)
+                APICalls.POST.NewToken(UserInfo.getInstance().token, ServicesInfoCallback.getService(service)!!.id!!)
+                return false
+            }
         }
         val ii = Intent(context, ConnectionActivity::class.java)
         ContextCompat.startActivity(context, ii, null)
@@ -186,7 +210,7 @@ object ServiceConnection {
 
         client.newCall(request).execute().use { response ->
 
-            Log.e("Tag", response.code().toString())
+            Log.e("REQUEST TOKEN $service", response.code().toString())
             if (response.code() == 200) {
                 println("Success")
                 val data = JSONObject(response.body()!!.string())

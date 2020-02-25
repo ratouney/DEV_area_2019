@@ -43,19 +43,21 @@ class MyAdapter(list: List<MyApp>, context: Context) : RecyclerView.Adapter<MyVi
             if (MyArea.action ==  null) {
                 objectArrayString = APICalls.GET.Actions(ServicesInfoCallback.getService(myObject.text)?.id)
             } else {
-                objectArrayString = APICalls.GET.Reactions()
+                objectArrayString = APICalls.GET.Reactions(ServicesInfoCallback.getService(myObject.text)?.id)
             }
-            val serv: List<MyServices> = gson.fromJson(objectArrayString, Array<MyServices>::class.java).toList()
-            val img: ImageView = dialog.findViewById(R.id.focus_img)
-            val txt: TextView = dialog.findViewById(R.id.focus_txt)
-            txt.setText(myObject.text)
-            txt.setTextColor(Color.parseColor("#FFFFFF"))
-            img.setImageResource(myObject.image)
-            recyclerView = dialog.findViewById(R.id.recyclerViewButton)
-            recyclerView?.layoutManager = (LinearLayoutManager(act))
-            recyclerView?.adapter = (ServiceAdapter(serv, act, dialog))
-            recyclerView?.setBackgroundColor(Color.TRANSPARENT)
-            dialog.show()
+            if (objectArrayString != null) {
+                val serv: List<MyServices> = gson.fromJson(objectArrayString, Array<MyServices>::class.java).toList()
+                val img: ImageView = dialog.findViewById(R.id.focus_img)
+                val txt: TextView = dialog.findViewById(R.id.focus_txt)
+                txt.setText(myObject.text)
+                txt.setTextColor(Color.parseColor("#FFFFFF"))
+                img.setImageResource(myObject.image)
+                recyclerView = dialog.findViewById(R.id.recyclerViewButton)
+                recyclerView?.layoutManager = (LinearLayoutManager(act))
+                recyclerView?.adapter = (ServiceAdapter(serv, act, dialog))
+                recyclerView?.setBackgroundColor(Color.TRANSPARENT)
+                dialog.show()
+            }
         }
         myViewHolder.bind(myObject)
     }

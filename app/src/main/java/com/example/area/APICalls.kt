@@ -93,6 +93,58 @@ object APICalls {
             }
             return ""
         }
+
+        fun Area() : String {
+            val tok = UserInfo.getInstance().APItok
+            if (tok == null)
+                return ""
+            val request = Request.Builder()
+                    .url("http://$ip:$port/area/me?token=$tok")
+                    .get()
+                    .build();
+
+            client.newCall(request).execute().use { response ->
+                Log.e("GET AREA", response.code().toString())
+
+                if (response.code() == 200) {
+                    val data = JSONObject(response.body()!!.string())
+                    println(data);
+                    return data.getJSONArray("data").toString()
+                }
+
+            }
+            return ""
+        }
+
+        fun TokenAvailable() {
+            val tok = UserInfo.getInstance().APItok
+            if (tok == null)
+                return
+            val request = Request.Builder()
+                    .url("http://$ip:$port/token?token=$tok")
+                    .get()
+                    .build();
+
+            client.newCall(request).enqueue(object : okhttp3.Callback {
+                override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+                    Log.e("TOKEN AVAILABLE", response.code().toString())
+                    if (response.code() == 200) {
+                        val data = JSONObject(response.body()!!.string())
+                        println(data);
+                        val ll = data.getJSONArray("data")
+                        for (i in 0 until ll.length()) {
+                            val item = ll.getJSONObject(i)
+                            ServicesInfoCallback.getService(item.getJSONObject("service").getString("name"))?.gotToken = true
+                        }
+                        ServicesInfoCallback.Show()
+                    }
+                }
+
+                override fun onFailure(call: okhttp3.Call, e: IOException) {
+                    Log.e("TAG", "An error has occurred $e")
+                }
+            })
+        }
     }
 
 
@@ -165,7 +217,12 @@ object APICalls {
                 Log.e("NEW TOKEN", response.code().toString())
                 if (response.code() == 201) {
                     println("Token POSTED")
+                    val data = JSONObject(response.body()!!.string())
+                    println(data);
+                    APICalls.GET.TokenAvailable()
                 } else {
+                    val data = JSONObject(response.body()!!.string())
+                    println(data);
                     return false
                 }
             }
@@ -191,6 +248,8 @@ object APICalls {
                 Log.e("LINK AREA", response.code().toString())
                 if (response.code() == 201) {
                     println("AREA LINKED")
+                    val data = JSONObject(response.body()!!.string())
+                    println(data);
                 } else {
                     return false
                 }
@@ -202,31 +261,4 @@ object APICalls {
     val GET = Get
     val POST = Post
 
-}
-
-object ServicesInfoCallback : Callback {
-
-    var services : List<Service>? = null
-
-    override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
-        Log.e("Tag", response.code().toString())
-        if (response.code() == 200) {
-            val data = JSONObject(response.body()!!.string())
-            println(data);
-            val gson = GsonBuilder().create()
-            services = gson.fromJson(data.getJSONArray("data").toString(),Array<Service>::class.java).toList()
-        }
-    }
-    override fun onFailure(call: Call, e: IOException) {
-        Log.e("TAG", "An error has occurred $e")
-    }
-
-    fun getService(name : String) : Service? {
-        services?.forEach {
-            if (it.name.equals(name)) {
-                return it
-            }
-        }
-        return null
-    }
 }

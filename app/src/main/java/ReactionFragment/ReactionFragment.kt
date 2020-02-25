@@ -55,5 +55,17 @@ class ReactionFragment() : Fragment() {
                 R.drawable.meteo
             )
         )
+        apps.add(
+                MyApp(
+                        "Gmail",
+                        R.drawable.gmail
+                )
+        )
+        apps.add(
+                MyApp(
+                        "Sheet",
+                        R.drawable.sheet
+                )
+        )
     }
 }

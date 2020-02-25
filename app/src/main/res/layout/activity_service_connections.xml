@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#333333"
+    android:backgroundTint="#333333"
+    tools:context=".MainActivity">
+
+
+    <WebView
+        android:id="@+id/weeb"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp" >
+
+    </WebView>
+
+
+    <Button
+        android:id="@+id/Googleb"
+        android:layout_width="185dp"
+        android:layout_height="79dp"
+        android:layout_marginTop="145dp"
+        android:background="@drawable/common_google_signin_btn_icon_dark_normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/Spotifyb"
+        android:layout_width="198dp"
+        android:layout_height="76dp"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/spotify_button"
+        android:text="            Spotify"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Googleb" />
+
+    <Button
+        android:id="@+id/Imgurb"
+        android:layout_width="198dp"
+        android:layout_height="76dp"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/imgur_bton"
+        android:text="            "
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Spotifyb" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
