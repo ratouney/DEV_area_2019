@@ -31,6 +31,7 @@ export default class Area {
 
     @Column({
         nullable: true,
+        default: "NULL",
     })
-    lastRun: Date;
+    lastRun: string;
 }

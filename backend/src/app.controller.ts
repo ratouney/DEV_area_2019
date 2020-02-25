@@ -1,6 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
 import { SpotifyAPI } from "./api/spotify"
+import { Interval } from '@nestjs/schedule';
 
 const Spotify = new SpotifyAPI();
 
