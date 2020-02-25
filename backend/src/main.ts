@@ -9,8 +9,8 @@ async function initConnection() {
     "type": "postgres",
     "host": "localhost",
     "port": 5432,
-    "username": "postgres",
-    "password": "postgres",
+    "username": "root",
+    "password": "root",
     "database": "area",
     "entities": entities,
     "name": "fuck off",
@@ -38,9 +38,8 @@ async function initConnection() {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(3001);
+  await app.listen(process.env.PORT || 3001);
 }
 
-setInterval(initConnection, 10000);
-;
+//setInterval(initConnection, 10000);
 bootstrap();
