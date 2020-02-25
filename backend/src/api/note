@@ -39,3 +39,15 @@ action : 7
 reaction : 7
 
 18 / 18
+
+
+{
+    title,
+    description,
+    date,
+    author,
+    mail,
+    name,
+    url,
+    bool,
+}
