@@ -1,3 +1,5 @@
+import sheet from '../../../../app/src/main/res/drawable/sheet.png';
+import pokemon from '../../../../app/src/main/res/drawable/pokemon.png';
 <template>
     <html>
     <div id="area">
@@ -16,25 +18,153 @@
             <link rel="stylesheet" href="/resources/demos/style.css">
 
             <h1>Test</h1>
-            <button @click="GoogleLogin" :disabled="!isLoaded">signIn</button>
             <button @click="test()" id="btn-login">test</button>
             <button @click="SpotifyLogin" :disabled="!isLoaded">SignIn With Spotify</button>
 
-            <button @click="accordion" class="accordion">Google</button>
+
+
+            <!--========================================== Gmail actions and Reactions ==========================================-->
+
+            <button @click="accordion" class="accordion">GMail</button>
             <div class="panel">
-                Test
-                <button @click="Action1" :disabled="!isLoaded">Action 1</button>
+                <div class="widget" name="gmail">
+                    <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isLoaded">signIn</button>
+                    <div v-if="googleAccessToken !== ''" class="portlet">
+                        <div class="portlet-header">Gmail</div>
+                        <div class="portlet-content">
+                            <div class="container">
+                                <h1>Reception d'un mail</h1>
+                                <p>Envoyer un message lors de la reception d'un e-mail</p>
+                                <div style="display:block;">
+                                    <textarea id="w3mission" rows="4" cols="50">
+                                        Your email here
+                                    </textarea>
+                                </div>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div v-if="googleAccessToken !== ''" class="portlet">
+                        <div class="portlet-header">Gmail</div>
+                        <div class="portlet-content">
+                            <div class="container">
+                                <h1>Reception d'un mail</h1>
+                                <p>Créer une nouvelle spreadsheet</p>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
+            <!--==============================================================================================================-->
+
+            <!--========================================== Spotify actions and Reactions ==========================================-->
 
             <button @click="accordion" class="accordion">Spotify</button>
             <div class="panel">
-                <p>Lorem ipsum...</p>
-            </div>
+                <div class="portlet">
+                        <div class="portlet-header">Spotify</div>
+                        <div class="portlet-content">
+                            <div class="container">
+                                <h1>Something</h1>
+                                <p>Something else</p>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!--==============================================================================================================-->
 
-            <button @click="accordion" class="accordion">Section 3</button>
+            <!--========================================== Sheet actions and Reactions ==========================================-->
+
+            <button @click="accordion" class="accordion">Sheet</button>
             <div class="panel">
-                <p>Lorem ipsum...</p>
-            </div>
+                <div class="portlet">
+                        <div class="portlet-header">Sheet</div>
+                        <div class="portlet-content">
+                            <div class="container">
+                                <h1>Spreadsheet est mise à jour</h1>
+                                <p>Something else</p>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <!--==============================================================================================================-->
+
+            <!--========================================== Pokemon actions and Reactions ==========================================-->
+
+            <button @click="accordion" class="accordion">Pokemon</button>
+            <div class="panel">
+                <div class="portlet">
+                        <div class="portlet-header">Pokemon</div>
+                        <div class="portlet-content">
+                            <div class="container">
+                                <h1>Something</h1>
+                                <p>Something else</p>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <!--==============================================================================================================-->
+
+            <!--========================================== Nasa actions and Reactions ==========================================-->
+
+            <button @click="accordion" class="accordion">Nasa</button>
+            <div class="panel">
+                <div class="portlet">
+                        <div class="portlet-header">Nasa</div>
+                        <div class="portlet-content">
+                            <div class="container">
+                                <h1>Daily photo of Mars</h1>
+                                <p>Something else</p>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <!--==============================================================================================================-->
+
+            <!--========================================== Imgur actions and Reactions ==========================================-->
+
+            <button @click="accordion" class="accordion">Imgur</button>
+            <div class="panel">
+                <div class="portlet">
+                        <div class="portlet-header">Imgur</div>
+                        <div class="portlet-content">
+                            <div class="container">
+                                <h1>Something</h1>
+                                <p>Something else</p>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <!--==============================================================================================================-->
+
+            <!--========================================== Météo actions and Reactions ==========================================-->
+
+            <button @click="accordion" class="accordion">Météo</button>
+            <div class="panel">
+                <div class="portlet">
+                        <div class="portlet-header">Météo</div>
+                        <div class="portlet-content">
+                            <div class="container">
+                                <h1>Something</h1>
+                                <p>Something else</p>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!--==============================================================================================================-->
         </div>
     </div>
 </html>
@@ -54,7 +184,8 @@ export default {
     },
     data () {
         return {
-            blabla: 'test',
+            componentKey: 0,
+            googleAccessToken: '',
             isLoaded: false
         }
     },
@@ -64,14 +195,16 @@ export default {
         GoogleLogin(){
             let self = this
             this.$gAuth.signIn(function (user) {
-                self.$googleAccessToken = user.uc.access_token
-                console.log('gat : ', self.$googleAccessToken)
+                console.log(self.string)
+                self.googleAccessToken = user.uc.access_token
+                console.log(self.googleAccessToken)
 //                console.log('access token : ', user.uc.access_token)
 //                console.log(user)
             }, function (error) {
             })
         },
         accordion() {
+            //axios.get('http://51.75.69.196:3001/session/login')
             var acc = document.getElementsByClassName("accordion");
             var i;
             for (i = 0; i < acc.length; i++) {
@@ -85,18 +218,6 @@ export default {
                     }
                 });
             }
-        },
-        Action1(){
-            let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
-                width=600,height=800,left=-1000,top=-1000`;
-
-            window.open('/', 'test', params);
-            /*w = open("",'popup','width=400,height=200,toolbar=no,scrollbars=no,resizable=yes');	
-            w.document.write("<title>"+document.forms["f_popup"].elements["Action 1"].value+"</title>");
-            w.document.write("<body> Bonjour "+document.forms["f_popup"].elements["nom"].value+"<br><br>");
-            w.document.write("Ce popup n'est pas un fichier HTML, ");
-            w.document.write("il est écrit directement par la fenêtre appelante");
-            w.document.write("</body>");*/
         },
         test() {
 

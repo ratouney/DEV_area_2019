@@ -14,7 +14,9 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.area.APICalls
 import com.example.area.R
+import com.example.area.ServicesInfoCallback
 import com.google.gson.Gson
 
 
@@ -37,7 +39,12 @@ class MyAdapter(list: List<MyApp>, context: Context) : RecyclerView.Adapter<MyVi
         dialog.setContentView(R.layout.focus_app)
         card.setOnClickListener {
             val gson = Gson()
-            val objectArrayString: String = act.resources.openRawResource(R.raw.fake).bufferedReader().use { it.readText() }
+            var objectArrayString: String? = null
+            if (MyArea.action ==  null) {
+                objectArrayString = APICalls.GET.Actions(ServicesInfoCallback.getService(myObject.text)?.id)
+            } else {
+                objectArrayString = APICalls.GET.Reactions()
+            }
             val serv: List<MyServices> = gson.fromJson(objectArrayString, Array<MyServices>::class.java).toList()
             val img: ImageView = dialog.findViewById(R.id.focus_img)
             val txt: TextView = dialog.findViewById(R.id.focus_txt)

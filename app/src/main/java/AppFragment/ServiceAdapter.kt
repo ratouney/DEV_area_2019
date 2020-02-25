@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
+import com.example.area.APICalls
 import com.example.area.R
 
 
@@ -40,7 +41,15 @@ class ServiceAdapter(list: List<MyServices>, context: Context, dialog: Dialog) :
         val txt: Button = view.findViewById(R.id.action)
         txt.setText(myObject.description)
         txt.setOnClickListener {
+            if (MyArea.action != null)
+                MyArea.reaction = myObject.id
+            else
+                MyArea.action = myObject.id
+            println(MyArea.action)
+            println(MyArea.reaction)
             dialog.hide()
+            if (MyArea.action != null && MyArea.reaction != null)
+                APICalls.POST.LinkArea(MyArea.action, MyArea.reaction, "test")
             onClick()
         }
         myViewHolder.bind(myObject)

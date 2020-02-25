@@ -1,5 +1,6 @@
 package com.example.area
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.StrictMode
@@ -27,11 +28,12 @@ class ConnectionActivity : FragmentActivity(), LoginFragment.OnFragmentInteracti
         addFragment(LoginFragment(), R.id.frame)
         Mail.visibility = View.GONE
 
-        showAllUI()
         APICalls.GET.Services(ServicesInfoCallback)
+        showAllUI()
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
 
         StrictMode.setThreadPolicy(policy)
+        println(APICalls.GET.Actions("00452e7e-9ce7-49ef-9a45-46c8ab7f165b"))
     }
 
     inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> FragmentTransaction) {
@@ -63,6 +65,7 @@ class ConnectionActivity : FragmentActivity(), LoginFragment.OnFragmentInteracti
             fragment.SetOnFragmentInteractionListener(this)
             fragment.SetOnConnectionCallListener(this)
         }
+
     }
 
     override fun onFragmentInteraction(b : Boolean) {

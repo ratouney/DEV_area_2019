@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +22,8 @@ class AppFragment() : Fragment() {
         setHasOptionsMenu(true)
         val root = inflater.inflate(R.layout.fragment_app, container, false)
         addApp()
+        MyArea.action = null
+        MyArea.reaction = null
         recyclerView = root.findViewById(R.id.recyclerView)
         recyclerView?.layoutManager = (GridLayoutManager(activity, 2))
         recyclerView?.adapter = (MyAdapter(apps, context!!))

@@ -28,7 +28,9 @@
                     android:scheme="area" />
             </intent-filter>
         </activity>
-        <activity android:name="homeactivity.HomeActivity"></activity>
+        <activity android:name="homeactivity.HomeActivity">
+
+        </activity>
     </application>
 
 </manifest>
