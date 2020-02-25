@@ -24,7 +24,7 @@ class Services : AppCompatActivity() {
 
         Imgurb.setOnClickListener {
             hideUI()
-            ServiceConnection.loadAuthPage(ServiceConnection.SpotifyAuth(false), weeb, this)
+            ServiceConnection.loadAuthPage(ServiceConnection.ImgurAuth(false), weeb, this)
         }
     }
 
@@ -32,5 +32,6 @@ class Services : AppCompatActivity() {
         Googleb.visibility = View.GONE
         Spotifyb.visibility = View.GONE
         Imgurb.visibility = View.GONE
+        weeb.visibility = View.VISIBLE
     }
 }

@@ -37,7 +37,8 @@ object ServiceConnection {
 
 
     fun ImgurAuth(c : Boolean=true) : String {
-        client_id = "e59ba362671594e"
+        //client_id = "e59ba362671594e"
+        client_id = "094ee1cffcac340"
         secret = "";
         service = "Imgur"
         con = c
@@ -46,8 +47,10 @@ object ServiceConnection {
     }
 
     fun SpotifyAuth(c : Boolean=true) : String {
-        client_id = "c299f837f4ff4872ab27a1a00a6c7bdf"
-        secret = "4097d12b01a449e39005967679d2efd0"
+        //client_id = "c299f837f4ff4872ab27a1a00a6c7bdf"
+        //secret = "4097d12b01a449e39005967679d2efd0"
+        client_id = "d3ebae5610894ca48c9f66794214252b"
+        secret = "766fb8262eda43e18ae80c3e7d713f9e"
         service = "Spotify"
         con = c
 
@@ -157,15 +160,15 @@ object ServiceConnection {
             if (!con && UserInfo.getInstance().APItok !=  null) {
                 ContextCompat.startActivity(context, intent, null)
                 if (service == "Gmail")
-                    APICalls.POST.NewToken(UserInfo.getInstance().token, ServicesInfoCallback.getService("Sheet")!!.name!!)
-                APICalls.POST.NewToken(UserInfo.getInstance().token, ServicesInfoCallback.getService(service)!!.name!!)
+                    APICalls.POST.NewToken(UserInfo.getInstance().token, ServicesInfoCallback.getService("Sheet")!!.id!!)
+                APICalls.POST.NewToken(UserInfo.getInstance().token, ServicesInfoCallback.getService(service)!!.id!!)
                 return false
             }
             if (APICalls.POST.LogUser(UserInfo.getInstance().username, UserInfo.getInstance().id)) {
                 ContextCompat.startActivity(context, intent, null)
                 if (service == "Gmail")
-                    APICalls.POST.NewToken(UserInfo.getInstance().token, ServicesInfoCallback.getService("Sheet")!!.name!!)
-                APICalls.POST.NewToken(UserInfo.getInstance().token, ServicesInfoCallback.getService(service)!!.name!!)
+                    APICalls.POST.NewToken(UserInfo.getInstance().token, ServicesInfoCallback.getService("Sheet")!!.id!!)
+                APICalls.POST.NewToken(UserInfo.getInstance().token, ServicesInfoCallback.getService(service)!!.id!!)
                 return false
             }
         }

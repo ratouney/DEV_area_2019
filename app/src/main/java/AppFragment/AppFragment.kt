@@ -69,8 +69,8 @@ class AppFragment() : Fragment() {
         )
         apps.add(
             MyApp(
-                "Meteo",
-                R.drawable.meteo
+                "Spotify",
+                R.drawable.spotify
             )
         )
     }
