@@ -17,7 +17,6 @@ import sheet from '../../../../app/src/main/res/drawable/sheet.png';
             <link rel="stylesheet" href="/resources/demos/style.css">
 
             <h1>Test</h1>
-            <button @click="GoogleLogin" :disabled="!isLoaded">signIn</button>
             <button @click="test()" id="btn-login">test</button>
             <button @click="SpotifyLogin" :disabled="!isLoaded">SignIn With Spotify</button>
 
@@ -44,9 +43,30 @@ import sheet from '../../../../app/src/main/res/drawable/sheet.png';
 
             <!--==============================================================================================================-->
 
-            <button v-if="googleAccessToken !== ''" @click="accordion" class="accordion">GMail</button>
+            <button @click="accordion" class="accordion">GMail</button>
             <div class="panel">
-                <button href="#" onclick="document.getElementById('id03').style.display='block'" style="width:100%; background-color: #00000; font-size: 30px;">Action 1</button>
+                <div class="widget" name="gmail">
+                    <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isLoaded">signIn</button>
+                    <button v-if="googleAccessToken !== ''" href="#" onclick="document.getElementById('id03').style.display='block'" style="width:100%; background-color: #00000; font-size: 30px;">Action 1</button>
+                    <div v-if="googleAccessToken !== ''" class="portlet">
+                        <div class="portlet-header">Gmail</div>
+                        <div class="portlet-content">
+                            <div class="container">
+                                <h1>Reception d'un mail</h1>
+                                <p>Envoyer un message lors de la reception d'un e-mail</p>
+                                <!-- menu déroulant avec pour l'instant : Envoie d'un mail, Création d'une spreadsheet-->
+                                <div style="display:block;">
+                                    <textarea id="w3mission" rows="4" cols="50">
+                                        Your email here
+                                    </textarea>
+                                </div>
+                                <button type="submit" class="registerbtn">Register</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <button @click="accordion" class="accordion">Spotify</button>
@@ -97,6 +117,7 @@ export default {
             })
         },
         accordion() {
+            //axios.get('http://51.75.69.196:3001/session/login')
             var acc = document.getElementsByClassName("accordion");
             var i;
             for (i = 0; i < acc.length; i++) {

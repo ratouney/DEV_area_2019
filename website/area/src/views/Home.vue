@@ -86,6 +86,7 @@
 <script> @import"../js/popup.js";</script>
 <script> @import"../js/draggable.js";</script>
 <style> @import"../style/homepage.css";</style>
+<style> @import"../style/homepage.css";</style>
 <script>
 // @ is an alias to /src
 import LoginCard from '@/components/LoginCard.vue'
