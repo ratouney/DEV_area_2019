@@ -6,6 +6,7 @@ import AppFragment.MyApp
 import ProfilFragment
 import ReactionFragment
 import android.os.Bundle
+import android.os.StrictMode
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -27,6 +28,7 @@ class HomeActivity : AppCompatActivity() {
         setSupportActionBar(bottom_app_bar)
         addFragment(AppFragment(), R.id.frame)
         val button : FloatingActionButton = findViewById(R.id.fab)
+        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         button.setOnClickListener {
             replaceFragment(AppFragment(), R.id.frame)
         }

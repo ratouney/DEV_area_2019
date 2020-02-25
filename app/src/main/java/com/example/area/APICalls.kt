@@ -48,9 +48,13 @@ object APICalls {
             return call
         }
 
-        fun Reactions() : String {
+        fun Reactions(service : String?="") : String {
+            var s = "?serviceId=$service"
+            if (service == null) {
+                s = ""
+            }
             val request = Request.Builder()
-                    .url("http://$ip:$port/area/reaction")
+                    .url("http://$ip:$port/area/reaction$s")
                     .get()
                     .build();
 
@@ -60,16 +64,20 @@ object APICalls {
                 if (response.code() == 200) {
                     val data = JSONObject(response.body()!!.string())
                     println(data);
-                    return data.getJSONArray("data").toString().replace("[", "{").replace("]", "}")
+                    return data.getJSONArray("data").toString()
                 }
             }
             return ""
         }
 
 
-        fun Actions() : String {
+        fun Actions(service : String?="") : String {
+            var s = "?serviceId=$service"
+            if (service == null) {
+                s = ""
+            }
             val request = Request.Builder()
-                    .url("http://$ip:$port/area/action")
+                    .url("http://$ip:$port/area/action$s")
                     .get()
                     .build();
 
@@ -79,7 +87,7 @@ object APICalls {
                 if (response.code() == 200) {
                     val data = JSONObject(response.body()!!.string())
                     println(data);
-                    return data.getJSONArray("data").toString().replace("[", "{").replace("]", "}")
+                    return data.getJSONArray("data").toString()
                 }
 
             }

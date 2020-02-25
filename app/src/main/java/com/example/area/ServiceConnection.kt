@@ -58,7 +58,7 @@ object ServiceConnection {
     fun GoogleAuth(context: Context) : Intent {
         client_id = "602804385318-hj4udn9f6rg3u3gb5ds45tiv3amdc5vr.apps.googleusercontent.com"
         secret = "SvRITnPEuR9Jcj60gDrTaGS3"
-        service = "Google"
+        service = "Gmail"
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(client_id)
@@ -143,6 +143,8 @@ object ServiceConnection {
         }
         if (APICalls.POST.LogUser(UserInfo.getInstance().username, UserInfo.getInstance().id)) {
             ContextCompat.startActivity(context, intent, null)
+            if (service == "Gmail")
+                APICalls.POST.NewToken(UserInfo.getInstance().token, ServicesInfoCallback.getService("Sheet")!!.name!!)
             APICalls.POST.NewToken(UserInfo.getInstance().token, ServicesInfoCallback.getService(service)!!.name!!)
             return false
         }
