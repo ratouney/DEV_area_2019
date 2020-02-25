@@ -15,7 +15,7 @@
             <div style="max-width: 90%; margin: auto;">
                 <a href="dashboard"></a>
                 <div class="topnav-right">
-                    <a v-if="userToken !== ''" href="#" @click="$router.push('/area')">Manage Area</a>
+                    <router-link :to="{ name: 'area', params: {id: 1234}, query: { debug: this.userToken } }" v-if="userToken !== ''">Manage Area</router-link>
                     <a v-if="userToken !== ''" href="#" @click="disconnect()">Disconnect</a>
                     <a v-if="userToken == ''" href="#" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</a>
                     <a v-if="userToken == ''" class="active" href="#" onclick="document.getElementById('id02').style.display='block'" style="width:auto;">Register</a>
@@ -77,6 +77,7 @@
         <button href="#" onclick="document.getElementById('id02').style.display='block'" style="width:100%; background-color: #4CAF50; font-size: 30px;">Ready ? Try it NOW</button>
     </div>
     <div class="container" style="background-color: #f1f0f0;" height="350px">
+
     </div>
 </body>
 </html>
@@ -91,12 +92,11 @@
 <style> @import"../style/homepage.css";</style>
 <script>
 // @ is an alias to /src
-import LoginCard from '@/components/LoginCard.vue'
-
+import Child from '@/views/Area.vue'
 export default {
   name: 'home',
   components: {
-      LoginCard
+      Child
   },
   data () {
     return {

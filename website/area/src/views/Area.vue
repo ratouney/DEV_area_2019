@@ -18,8 +18,10 @@ import pokemon from '../../../../app/src/main/res/drawable/pokemon.png';
             <link rel="stylesheet" href="/resources/demos/style.css">
 
             <h1>Test</h1>
+            <h1>your id is {{ id }}</h1>
+        <p>Debug mode is currently set to {{ userToken }}</p>
             <button @click="test()" id="btn-login">test</button>
-            <button @click="SpotifyLogin" :disabled="!isLoaded">SignIn With Spotify</button>
+            <button @click="SpotifyLogin">SignIn With Spotify</button>
 
 
 
@@ -28,7 +30,7 @@ import pokemon from '../../../../app/src/main/res/drawable/pokemon.png';
             <button @click="accordion" class="accordion">GMail</button>
             <div class="panel">
                 <div class="widget" name="gmail">
-                    <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isLoaded">signIn</button>
+                    <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit">signIn</button>
                     <div v-if="googleAccessToken !== ''" class="portlet">
                         <div class="portlet-header">Gmail</div>
                         <div class="portlet-content">
@@ -81,7 +83,7 @@ import pokemon from '../../../../app/src/main/res/drawable/pokemon.png';
 
             <button @click="accordion" class="accordion">Google Sheet</button>
             <div class="panel">
-                <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isLoaded">signIn</button>
+                <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit">signIn</button>
                 <div v-if="googleAccessToken !== ''" class="portlet">
                         <div class="portlet-header">Sheet</div>
                         <div class="portlet-content">
@@ -209,7 +211,6 @@ $( function() {
 } );
 </script>
 <script>
-import axios from "axios";
 export default {
     name: 'test',
     props: [],
@@ -217,13 +218,19 @@ export default {
     },
     data () {
         return {
-            componentKey: 0,
             googleAccessToken: '',
-            info: null,
-            isLoaded: false
+            userToken: '',
+            id: '',
+            isInit: false
         }
     },
     computed: {
+    },
+    created() {
+    this.id = this.$route.params.id;
+    if(this.$route.query.debug) {
+    this.userToken = this.$route.query.debug;
+}
     },
     methods: {
         GoogleLogin(){
@@ -238,17 +245,7 @@ export default {
             })
         },
         accordion() {
-            let that = this
-            var requestOptions = {
-                method: 'GET',
-                redirect: 'follow'
-            };
-
-            fetch("/service", requestOptions)
-            .then(response => response.text())
-            .then(result => console.log(result))
-            .catch(error => console.log('error', error));
-
+            //axios.get('http://51.75.69.196:3001/session/login')
             var acc = document.getElementsByClassName("accordion");
             var i;
             for (i = 0; i < acc.length; i++) {
@@ -365,20 +362,10 @@ export default {
     },
     mounted(){
         let that = this
-        var requestOptions = {
-            method: 'GET',
-            redirect: 'follow'
-        };
-
-        fetch("/service", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
-
         let checkGauthLoad = setInterval(function(){
-            that.isLoaded = that.$gAuth.isLoaded()
-            console.log('checked', that.isLoaded)
-            if(that.isLoaded) clearInterval(checkGauthLoad)
+            that.isInit = that.$gAuth.isInit
+            console.log('checked', that.isInit)
+            if(that.isInit) clearInterval(checkGauthLoad)
         }, 1000);
     },
 }
