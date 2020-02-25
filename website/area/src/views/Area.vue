@@ -79,14 +79,31 @@ import pokemon from '../../../../app/src/main/res/drawable/pokemon.png';
 
             <!--========================================== Sheet actions and Reactions ==========================================-->
 
-            <button @click="accordion" class="accordion">Sheet</button>
+            <button @click="accordion" class="accordion">Google Sheet</button>
             <div class="panel">
-                <div class="portlet">
+                <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isLoaded">signIn</button>
+                <div v-if="googleAccessToken !== ''" class="portlet">
                         <div class="portlet-header">Sheet</div>
                         <div class="portlet-content">
                             <div class="container">
                                 <h1>Spreadsheet est mise à jour</h1>
-                                <p>Something else</p>
+                                <p>Envoyer un message lors d'une mise à jour de la spreadsheet</p>
+                                <div style="display:block;">
+                                    <textarea id="w3mission" rows="4" cols="50">
+                                        Your email here
+                                    </textarea>
+                                </div>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+
+                 <div v-if="googleAccessToken !== ''" class="portlet">
+                        <div class="portlet-header">Sheet</div>
+                        <div class="portlet-content">
+                            <div class="container">
+                                <h1>Spreadsheet est mise à jour</h1>
+                                <p>Créer une nouvelle spreadsheet lors de la mise à jour de la spreadsheet</p>
                                 <button type="submit" class="registerbtn">Confirm</button>
                             </div>
                         </div>
@@ -117,6 +134,21 @@ import pokemon from '../../../../app/src/main/res/drawable/pokemon.png';
 
             <button @click="accordion" class="accordion">Nasa</button>
             <div class="panel">
+                <div v-if="googleAccessToken !== ''" class="portlet">
+                        <div class="portlet-header">Nasa</div>
+                        <div class="portlet-content">
+                            <div class="container">
+                                <h1>Daily photo of Mars</h1>
+                                <p>Envoyer un message lors de la reception d'un e-mail</p>
+                                <div style="display:block;">
+                                    <textarea id="w3mission" rows="4" cols="50">
+                                        Your email here
+                                    </textarea>
+                                </div>
+                                <button type="submit" class="registerbtn">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
                 <div class="portlet">
                         <div class="portlet-header">Nasa</div>
                         <div class="portlet-content">
@@ -177,6 +209,7 @@ $( function() {
 } );
 </script>
 <script>
+import axios from "axios";
 export default {
     name: 'test',
     props: [],
@@ -186,6 +219,7 @@ export default {
         return {
             componentKey: 0,
             googleAccessToken: '',
+            info: null,
             isLoaded: false
         }
     },
@@ -204,7 +238,17 @@ export default {
             })
         },
         accordion() {
-            //axios.get('http://51.75.69.196:3001/session/login')
+            let that = this
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow'
+            };
+
+            fetch("/service", requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+
             var acc = document.getElementsByClassName("accordion");
             var i;
             for (i = 0; i < acc.length; i++) {
@@ -321,6 +365,16 @@ export default {
     },
     mounted(){
         let that = this
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+        fetch("/service", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+
         let checkGauthLoad = setInterval(function(){
             that.isLoaded = that.$gAuth.isLoaded()
             console.log('checked', that.isLoaded)
