@@ -31,8 +31,8 @@ class ConnectionActivity : FragmentActivity(), LoginFragment.OnFragmentInteracti
         APICalls.GET.Services(ServicesInfoCallback)
         showAllUI()
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
-
         StrictMode.setThreadPolicy(policy)
+
         println(APICalls.GET.Actions("00452e7e-9ce7-49ef-9a45-46c8ab7f165b"))
     }
 

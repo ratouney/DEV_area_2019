@@ -93,6 +93,28 @@ object APICalls {
             }
             return ""
         }
+
+        fun Area() : String {
+            val tok = UserInfo.getInstance().APItok
+            if (tok == null)
+                return ""
+            val request = Request.Builder()
+                    .url("http://$ip:$port/area/me?token=$tok")
+                    .get()
+                    .build();
+
+            client.newCall(request).execute().use { response ->
+                Log.e("GET AREA", response.code().toString())
+
+                if (response.code() == 200) {
+                    val data = JSONObject(response.body()!!.string())
+                    println(data);
+                    return data.getJSONArray("data").toString()
+                }
+
+            }
+            return ""
+        }
     }
 
 
@@ -191,6 +213,8 @@ object APICalls {
                 Log.e("LINK AREA", response.code().toString())
                 if (response.code() == 201) {
                     println("AREA LINKED")
+                    val data = JSONObject(response.body()!!.string())
+                    println(data);
                 } else {
                     return false
                 }

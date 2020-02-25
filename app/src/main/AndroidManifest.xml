@@ -14,9 +14,17 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".Services">
+            <intent-filter>
+                <data
+                    android:host="com.example.area"
+                    android:scheme="area" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ChooseIp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -28,9 +36,7 @@
                     android:scheme="area" />
             </intent-filter>
         </activity>
-        <activity android:name="homeactivity.HomeActivity">
-
-        </activity>
+        <activity android:name="homeactivity.HomeActivity"></activity>
     </application>
 
 </manifest>
