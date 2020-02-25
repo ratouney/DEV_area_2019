@@ -8,7 +8,8 @@
         <div class="header" style="background-color: #333; color: white;">
             <h2 style="color: white; font-size: 300%;">Your Personal AREA</h2>
             <p style="color: white; font-size: 80%;">Create your own Action and Reaction : <br>
-                Yes, you can ask our Area to send you a mail to prevent you <br>when you recive a mail
+                Yes, you can ask our Area to send you a mail to alert you <br>when you receive a mail
+                or improve our garbage english
             </p>
         </div>
         <div id="navbar" class="navbar">
