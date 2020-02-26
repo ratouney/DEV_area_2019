@@ -13,6 +13,16 @@ services:
       - webnet
     depends_on:
       - postgres
+  web:
+    container_name: web_container
+    hostname: web_host
+    build: website/.
+    ports:
+      - 8080:8081
+    networks: 
+      - webnet
+    depends_on:
+      - server
   postgres:
     container_name: postgres_container
     hostname: postgres_host
