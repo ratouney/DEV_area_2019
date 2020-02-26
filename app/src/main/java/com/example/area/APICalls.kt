@@ -229,14 +229,15 @@ object APICalls {
             return true
         }
 
-        fun LinkArea(action : String?, reaction : String?, name :String?="yup") : Boolean {
+        fun LinkArea(action : String?, reaction : String?, name :String?) : Boolean {
 
             val tok = UserInfo.getInstance().APItok
+            val us = UserInfo.getInstance().username
             if (tok == null || action == null || reaction == null)
                 return false
-
+            val n = "$action:$name:$reaction:$us"
             val mediaType = MediaType.parse("application/x-www-form-urlencoded")
-            val body = RequestBody.create(mediaType, "actionId=$action&reactionId=$reaction&name=$name&timeCheck=5")
+            val body = RequestBody.create(mediaType, "actionId=$action&reactionId=$reaction&name=$n&timeCheck=5")
             val request = Request.Builder()
                     .url("http://$ip:$port/area/new?token=$tok")
                     .header("Content-Type", "application/x-www-form-urlencoded")
