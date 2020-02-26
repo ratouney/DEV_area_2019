@@ -19,8 +19,8 @@ class ProfilViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun bind(app: MyLinks) {
         addApp()
-        actionName.setText(app.action.name)
-        reactionName.setText(app.reaction.name)
+        actionName.setText(app.action.service.name)
+        reactionName.setText(app.reaction.service.name)
         actionDesc.setText(app.action.description)
         reactionDesc.setText(app.reaction.description)
         for (items in apps) {
