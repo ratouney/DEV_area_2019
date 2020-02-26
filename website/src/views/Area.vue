@@ -19,8 +19,6 @@ import { Action } from '../../../backend/src/entities';
             <link rel="stylesheet" href="/resources/demos/style.css">
 
             <h1>Managing Area</h1>
-            <button @click="test()" id="btn-login">test</button>
-            <button @click="SpotifyLogin">SignIn With Spotify</button>
 
             <!--========================================= Début cardview 1 ===================================-->
             <div class="portlet">
@@ -72,7 +70,7 @@ import { Action } from '../../../backend/src/entities';
 
                 </div>
             </div>
-            
+
             <!--========================================= Fin cardview 1 ===================================-->
 
             <!--========================================= Début cardview 2 ===================================-->
@@ -103,7 +101,7 @@ import { Action } from '../../../backend/src/entities';
                                 <textarea id="w3mission" rows="4" cols="50">
                                     Votre texte
                                 </textarea>
-                            </div>          
+                            </div>
                         </div>
                     </div>
 
@@ -124,12 +122,12 @@ import { Action } from '../../../backend/src/entities';
                                 <textarea id="w3mission" rows="4" cols="50">
                                     Votre texte
                                 </textarea>
-                            </div> 
+                            </div>
                         </div>
                     </div>
 
                     <div v-if="this.ReactionValue === 'changeSound'" style="display:block;">
-                        <h1>Spotify</h1>      
+                        <h1>Spotify</h1>
                         <p>Set the volume in Spotify</p>
                     </div>
 
@@ -137,13 +135,13 @@ import { Action } from '../../../backend/src/entities';
 
                 </div>
             </div>
-            
+
             <!--========================================= Fin cardview 2 ===================================-->
 
 
-                    
 
-            <button type="submit" class="registerbtn">Confirm</button> <!-- bouton d'envoie -->
+
+            <button @click="createArea()">Confirm</button> <!-- bouton d'envoie -->
 
         </div>
     </div>
@@ -200,22 +198,6 @@ export default {
 //                console.log(user)
             }, function (error) {
             })
-        },
-        accordion() {
-            //axios.get('http://51.75.69.196:3001/session/login')
-            var acc = document.getElementsByClassName("accordion");
-            var i;
-            for (i = 0; i < acc.length; i++) {
-                acc[i].addEventListener("click", function() {
-                    this.classList.toggle("active");
-                    var panel = this.nextElementSibling;
-                    if (panel.style.maxHeight) {
-                        panel.style.maxHeight = null;
-                    } else {
-                        panel.style.maxHeight = panel.scrollHeight + "px";
-                    }
-                });
-            }
         },
         test() {
 
@@ -320,6 +302,9 @@ export default {
     mounted(){
         let that = this
 
+        console.log(that.userToken)
+        if (that.userToken == '')
+            $router.push('/')
         var requestOptions = {
             method: 'GET',
             redirect: 'follow'
@@ -327,7 +312,7 @@ export default {
 
         fetch("/area/action?serviceId", requestOptions)
         .then(response => response.text())
-        .then(result => console.log(JSON.parse(result)))
+        .then(result => console.log('ACTIONS : ',JSON.parse(result)))
         .catch(error => console.log('error', error));
 
         var requestOptions = {
@@ -337,8 +322,19 @@ export default {
 
         fetch("/area/reaction", requestOptions)
         .then(response => response.text())
-        .then(result => console.log(JSON.parse(result)))
+        .then(result => console.log('REACTIONS : ',JSON.parse(result)))
         .catch(error => console.log('error', error));
+
+
+        var requestOptions = {
+          method: 'GET',
+          redirect: 'follow'
+        };
+
+        fetch("/area/me?token=" + that.userToken, requestOptions)
+          .then(response => response.text())
+          .then(result => console.log('AREA : ', JSON.parse(result)))
+          .catch(error => console.log('error', error));
 
 
         let checkGauthLoad = setInterval(function(){
