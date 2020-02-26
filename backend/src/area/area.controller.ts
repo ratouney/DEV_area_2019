@@ -56,4 +56,9 @@ export class AreaController {
         return this.as.createReaction(params);
     }
 
+    @Put('reaction/update')
+    updateReaction(@Query('id') id, @Body() params) : object {
+        return this.as.updateReaction(id, params);
+    }
+
 }
