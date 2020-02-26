@@ -18,108 +18,133 @@ import { Action } from '../../../backend/src/entities';
             <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
             <link rel="stylesheet" href="/resources/demos/style.css">
 
-            <h1>Test</h1>
+            <h1>Managing Area</h1>
             <button @click="test()" id="btn-login">test</button>
             <button @click="SpotifyLogin">SignIn With Spotify</button>
 
+            <!--========================================= Début cardview 1 ===================================-->
+            <div class="portlet">
+                <div class="portlet-header">Select your action</div>
+                <div class="portlet-content">
 
-            <p>Select your action and your reaction</p>
+                    <!--========================================= Début liste Actions ===================================-->
+                    <label for="Action"></label>
 
-            <label for="Action">Select your action:</label>
+                    <select @change="onChangeAction($event)" class="form-control"  id="action">
+                        <option value="GMailGetMail">New e-mail</option>
+                        <option value="SheetUpdated">Change Sheet</option>
+                        <option value="limitUV">UV limit</option>
+                        <option value="NasaDailyMars">Daily Photo</option>
+                        <option value="dailyWeather">Daily Weather</option>
+                        <option value="newVote">New vote</option>
+                        <option value="newCom">New Comment</option>
+                        <option value="newFav">New Favorite</option>
+                        <option value="NewPicForTag">New pic in the tag</option>
+                    </select>
 
-            <select @change="onChangeAction($event)" class="form-control"  id="action">
-                <option value="GMailGetMail">New e-mail</option>
-                <option value="SheetUpdated">Change Sheet</option>
-                <option value="limitUV">UV limit</option>
-                <option value="NasaDailyMars">Daily Photo</option>
-                <option value="dailyWeather">Daily Weather</option>
-                <option value="newVote">New vote</option>
-                <option value="newCom">New Comment</option>
-                <option value="newFav">New Favorite</option>
-                <option value="NewPicForTag">New pic in the tag</option>
-            </select>
-            <div v-if="this.ActionValue === 'GMailGetMail'" style="display:block;">
-                <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit">signIn</button>
-                <div v-if="googleAccessToken !== ''" class="portlet">
-                    <div class="portlet-header">Gmail</div>
-                    <div class="portlet-content">
-                        <div class="container">
-                            <p>When receiving a mail</p>            
+                    <div v-if="this.ActionValue === 'GMailGetMail'" style="display:block;">
+                        <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit">signIn</button>
+                        <div v-if="googleAccessToken !== ''">
+                            <h1>Gmail</h1>
+                            <p>When receiving a mail</p>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div v-if="this.ActionValue === 'SheetUpdated'" style="display:block;">
-                <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit">signIn</button>
-                <div v-if="googleAccessToken !== ''" class="portlet">
-                    <div class="portlet-header">Google Sheet</div>
-                    <div class="portlet-content">
-                        <div class="container">
-                            <p>A spreadsheet has been updated</p>            
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div v-if="this.ActionValue === 'NasaDailyMars'" style="display:block;">
-                <div class="portlet">
-                    <div class="portlet-header">Nasa</div>
-                    <div class="portlet-content">
-                        <div class="container">
-                            <p>Take the daily mars picture</p>            
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div v-if="this.ActionValue === 'NewPicForTag'" style="display:block;">
-                <div class="portlet">
-                    <div class="portlet-header">Nasa</div> <!-- titre à mettre en gras -->
-                    <div class="portlet-content">
-                        <div class="container">
-                            <p>A picture with a specific tag has been uploaded</p>            
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <br/><br/>
-            <label for="Reaction">Select your reaction:</label>
 
-            <select @change="onChangeReaction($event)" class="form-control" id="reaction">
-                <option value="GMailSendMail">Send an e-mail</option>
-                <option value="SheetCreateNew">Create a Sheet</option>
-                <option value="createDraft">create a draft</option>
-                <option value="changeSound">Daily Photo</option>
-                <option value="pauseMusic">Music on pause</option>
-                <option value="uploadPic">Upload a pic</option>
-                <option value="changeBio">Change Bio</option>
-            </select>
-            <div v-if="this.ReactionValue === 'GMailSendMail'" style="display:block;">
-                <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit">signIn</button>
-                <div v-if="googleAccessToken !== ''" class="portlet">
-                    <div class="portlet-header">Gmail</div>
-                    <div class="portlet-content">
-                        <div class="container">
-                            <p>Send a mail</p>  
+                    <div v-if="this.ActionValue === 'SheetUpdated'" style="display:block;">
+                        <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit">signIn</button>
+                        <div v-if="googleAccessToken !== ''">
+                            <h1>Google Sheet</h1>
+                            <p>A spreadsheet has been updated</p>
+                        </div>
+                    </div>
+
+                    <div v-if="this.ActionValue === 'NasaDailyMars'" style="display:block;">
+                        <h1>Nasa</h1>
+                        <p>Take the daily mars picture</p>
+                    </div>
+
+                    <div v-if="this.ActionValue === 'NewPicForTag'" style="display:block;">
+                        <h1>Imgur</h1>
+                        <p>A picture with a specific tag has been uploaded</p>
+                    </div>
+
+                    <!--========================================= Fin liste Actions ===================================-->
+
+                </div>
+            </div>
+            
+            <!--========================================= Fin cardview 1 ===================================-->
+
+            <!--========================================= Début cardview 2 ===================================-->
+            <div class="portlet">
+                <div class="portlet-header">Select your reaction</div>
+                <div class="portlet-content">
+
+                    <!--========================================= Début liste Reactions ===================================-->
+
+                    <label for="Reaction"></label>
+
+                    <select @change="onChangeReaction($event)" class="form-control" id="reaction">
+                        <option value="GMailSendMail">Send an e-mail</option>
+                        <option value="SheetCreateNew">Create a Sheet</option>
+                        <option value="createDraft">create a draft</option>
+                        <option value="changeSound">Set the volume</option>
+                        <option value="pauseMusic">Music on pause</option>
+                        <option value="uploadPic">Upload a pic</option>
+                        <option value="changeBio">Change Bio</option>
+                    </select>
+
+                    <div v-if="this.ReactionValue === 'GMailSendMail'" style="display:block;">
+                        <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit">signIn</button>
+                        <div v-if="googleAccessToken !== ''">
+                            <h1>Gmail</h1>
+                            <p>Send a mail</p>
                             <div style="display:block;">
                                 <textarea id="w3mission" rows="4" cols="50">
-                                        Votre texte
+                                    Votre texte
                                 </textarea>
                             </div>          
                         </div>
                     </div>
-                </div>
-            </div>
-            <div v-if="this.ReactionValue === 'SheetCreateNew'" style="display:block;">
-                <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit">signIn</button>
-                <div v-if="googleAccessToken !== ''" class="portlet">
-                    <div class="portlet-header">Google Sheet</div>
-                    <div class="portlet-content">
-                        <div class="container">
-                            <p>Create a new spreadsheet</p>            
+
+                    <div v-if="this.ReactionValue === 'SheetCreateNew'" style="display:block;">
+                        <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit">signIn</button>
+                        <div v-if="googleAccessToken !== ''">
+                            <h1>Google Sheet</h1>
+                            <p>Create a new spreadsheet</p>
                         </div>
                     </div>
+
+                    <div v-if="this.ReactionValue === 'createDraft'" style="display:block;">
+                        <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit">signIn</button>
+                        <div v-if="googleAccessToken !== ''">
+                            <h1>Gmail</h1>
+                            <p>Create a draft</p>
+                            <div style="display:block;">
+                                <textarea id="w3mission" rows="4" cols="50">
+                                    Votre texte
+                                </textarea>
+                            </div> 
+                        </div>
+                    </div>
+
+                    <div v-if="this.ReactionValue === 'changeSound'" style="display:block;">
+                        <h1>Spotify</h1>      
+                        <p>Set the volume in Spotify</p>
+                    </div>
+
+                    <!--========================================= Fin liste Reactions ===================================-->
+
                 </div>
             </div>
-            <!-- créer un script pour récupérer la value et avec un v-if afficher le form correspondant -->
+            
+            <!--========================================= Fin cardview 2 ===================================-->
+
+
+                    
+
+            <button type="submit" class="registerbtn">Confirm</button> <!-- bouton d'envoie -->
+
         </div>
     </div>
 </html>
