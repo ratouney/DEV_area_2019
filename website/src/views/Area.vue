@@ -28,33 +28,97 @@ import { Action } from '../../../backend/src/entities';
             <label for="Action">Select your action:</label>
 
             <select @change="onChangeAction($event)" class="form-control"  id="action">
-                <option value="newMail">New e-mail</option>
-                <option value="changeSheet">Change Sheet</option>
+                <option value="GMailGetMail">New e-mail</option>
+                <option value="SheetUpdated">Change Sheet</option>
                 <option value="limitUV">UV limit</option>
-                <option value="dailyPic">Daily Photo</option>
+                <option value="NasaDailyMars">Daily Photo</option>
                 <option value="dailyWeather">Daily Weather</option>
                 <option value="newVote">New vote</option>
                 <option value="newCom">New Comment</option>
                 <option value="newFav">New Favorite</option>
-                <option value="newPicTag">New pic in the tag</option>
+                <option value="NewPicForTag">New pic in the tag</option>
             </select>
-            <div v-if="this.ActionValue === 'newMail'" style="display:block;">
-                <textarea id="w3mission" rows="4" cols="50">
-                    Your email here
-                </textarea>
+            <div v-if="this.ActionValue === 'GMailGetMail'" style="display:block;">
+                <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit">signIn</button>
+                <div v-if="googleAccessToken !== ''" class="portlet">
+                    <div class="portlet-header">Gmail</div>
+                    <div class="portlet-content">
+                        <div class="container">
+                            <p>When receiving a mail</p>            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div v-if="this.ActionValue === 'SheetUpdated'" style="display:block;">
+                <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit">signIn</button>
+                <div v-if="googleAccessToken !== ''" class="portlet">
+                    <div class="portlet-header">Google Sheet</div>
+                    <div class="portlet-content">
+                        <div class="container">
+                            <p>A spreadsheet has been updated</p>            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div v-if="this.ActionValue === 'NasaDailyMars'" style="display:block;">
+                <div class="portlet">
+                    <div class="portlet-header">Nasa</div>
+                    <div class="portlet-content">
+                        <div class="container">
+                            <p>Take the daily mars picture</p>            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div v-if="this.ActionValue === 'NewPicForTag'" style="display:block;">
+                <div class="portlet">
+                    <div class="portlet-header">Nasa</div> <!-- titre à mettre en gras -->
+                    <div class="portlet-content">
+                        <div class="container">
+                            <p>A picture with a specific tag has been uploaded</p>            
+                        </div>
+                    </div>
+                </div>
             </div>
             <br/><br/>
             <label for="Reaction">Select your reaction:</label>
 
-            <select id="reaction">
-                <option value="sendMail">Send an e-mail</option>
-                <option value="createSheet">Create a Sheet</option>
+            <select @change="onChangeReaction($event)" class="form-control" id="reaction">
+                <option value="GMailSendMail">Send an e-mail</option>
+                <option value="SheetCreateNew">Create a Sheet</option>
                 <option value="createDraft">create a draft</option>
                 <option value="changeSound">Daily Photo</option>
                 <option value="pauseMusic">Music on pause</option>
                 <option value="uploadPic">Upload a pic</option>
                 <option value="changeBio">Change Bio</option>
             </select>
+            <div v-if="this.ReactionValue === 'GMailSendMail'" style="display:block;">
+                <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit">signIn</button>
+                <div v-if="googleAccessToken !== ''" class="portlet">
+                    <div class="portlet-header">Gmail</div>
+                    <div class="portlet-content">
+                        <div class="container">
+                            <p>Send a mail</p>  
+                            <div style="display:block;">
+                                <textarea id="w3mission" rows="4" cols="50">
+                                        Votre texte
+                                </textarea>
+                            </div>          
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div v-if="this.ReactionValue === 'SheetCreateNew'" style="display:block;">
+                <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit">signIn</button>
+                <div v-if="googleAccessToken !== ''" class="portlet">
+                    <div class="portlet-header">Google Sheet</div>
+                    <div class="portlet-content">
+                        <div class="container">
+                            <p>Create a new spreadsheet</p>            
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- créer un script pour récupérer la value et avec un v-if afficher le form correspondant -->
         </div>
     </div>
@@ -79,7 +143,8 @@ export default {
             googleAccessToken: '',
             userToken: '',
             id: '',
-            ActionValue: 'newMail',
+            ActionValue: 'GMailGetMail',
+            ReactionValue : 'GMailSendMail',
             isInit: false
         }
     },
@@ -95,6 +160,10 @@ export default {
         onChangeAction(event) {
             let self = this
             self.ActionValue = event.target.value
+        },
+        onChangeReaction(event) {
+            let self = this
+            self.ReactionValue = event.target.value
         },
         GoogleLogin(){
             let self = this
