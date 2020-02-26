@@ -18,8 +18,6 @@ import pokemon from '../../../../app/src/main/res/drawable/pokemon.png';
             <link rel="stylesheet" href="/resources/demos/style.css">
 
             <h1>Test</h1>
-            <h1>your id is {{ id }}</h1>
-        <p>Debug mode is currently set to {{ userToken }}</p>
             <button @click="test()" id="btn-login">test</button>
             <button @click="SpotifyLogin">SignIn With Spotify</button>
 
@@ -38,7 +36,7 @@ import pokemon from '../../../../app/src/main/res/drawable/pokemon.png';
                                 <h1>Reception d'un mail</h1>
                                 <p>Envoyer un message lors de la reception d'un e-mail</p>
                                 <div style="display:block;">
-                                    <textarea id="w3mission" rows="4" cols="50">
+                                    <textarea rows="4" cols="50">
                                         Your email here
                                     </textarea>
                                 </div>
@@ -65,7 +63,7 @@ import pokemon from '../../../../app/src/main/res/drawable/pokemon.png';
                                 <h1>Reception d'un mail</h1>
                                 <p>Créer un brouillon sur gmail lors de la réception d'un mail</p>
                                 <div style="display:block;">
-                                    <textarea id="w3mission" rows="4" cols="50">
+                                    <textarea rows="4" cols="50">
                                         Votre texte
                                     </textarea>
                                 </div>
@@ -134,7 +132,7 @@ import pokemon from '../../../../app/src/main/res/drawable/pokemon.png';
                                 <h1>Mise à jour de la spreadsheet</h1>
                                 <p>Envoyer un message lors de la reception d'un e-mail</p>
                                 <div style="display:block;">
-                                    <textarea id="w3mission" rows="4" cols="50">
+                                    <textarea rows="4" cols="50">
                                         Your email here
                                     </textarea>
                                 </div>
@@ -161,7 +159,7 @@ import pokemon from '../../../../app/src/main/res/drawable/pokemon.png';
                                 <h1>Mise à jour de la spreadsheet</h1>
                                 <p>Créer un brouillon sur gmail lors de la réception d'un mail</p>
                                 <div style="display:block;">
-                                    <textarea id="w3mission" rows="4" cols="50">
+                                    <textarea rows="4" cols="50">
                                         Votre texte
                                     </textarea>
                                 </div>
@@ -246,7 +244,7 @@ import pokemon from '../../../../app/src/main/res/drawable/pokemon.png';
                                 <h1>Daily photo of Mars</h1>
                                 <p>Envoyer un message lors de la reception d'un e-mail</p>
                                 <div style="display:block;">
-                                    <textarea id="w3mission" rows="4" cols="50">
+                                    <textarea rows="4" cols="50">
                                         Your email here
                                     </textarea>
                                 </div>
@@ -279,7 +277,7 @@ import pokemon from '../../../../app/src/main/res/drawable/pokemon.png';
                                 <h1>Nouveau vote sur une image</h1>
                                 <p>Envoyer un e-mail lors d'un nouveau vote</p>
                                 <div style="display:block;">
-                                    <textarea id="w3mission" rows="4" cols="50">
+                                    <textarea rows="4" cols="50">
                                         Votre texte
                                     </textarea>
                                 </div>
@@ -295,7 +293,7 @@ import pokemon from '../../../../app/src/main/res/drawable/pokemon.png';
                                 <h1>Nouveau commentaire sur une image</h1>
                                 <p>Envoyer un e-mail lors d'un nouveau commentaire</p>
                                 <div style="display:block;">
-                                    <textarea id="w3mission" rows="4" cols="50">
+                                    <textarea rows="4" cols="50">
                                         Votre texte
                                     </textarea>
                                 </div>

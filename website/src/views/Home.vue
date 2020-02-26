@@ -26,7 +26,7 @@
         <div style="max-width: 90%; margin: auto;">
             <!--============================================ Modal container LOGIN ============================================-->
             <div id="id01" class="modal">
-                <form class="modal-content animate" >
+                <div class="modal-content animate">
                     <div class="imgcontainer">
                         <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
                     </div>
@@ -42,7 +42,7 @@
                     <div class="container" style="background-color:#f1f1f1">
                         <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
                     </div>
-                </form>
+                </div>
             </div>
             <!--==============================================================================================================-->
 
@@ -130,8 +130,12 @@ export default {
           fetch("/session/login", requestOptions)
           .then(response => response.text())
           .then(function(result) {
-              that.userToken = JSON.parse(result).data
-              document.getElementById('id01').style.display='none'
+              if (JSON.parse(result).statusCode == 200) {
+                  that.userToken = JSON.parse(result).data
+                  document.getElementById('id01').style.display='none'
+              } else {
+                  alert("User not found")
+              }
           })
           .catch(error => console.log('error', error));
       },
