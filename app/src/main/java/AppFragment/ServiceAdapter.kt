@@ -49,7 +49,7 @@ class ServiceAdapter(list: List<MyServices>, context: Context, dialog: Dialog) :
             println(MyArea.reaction)
             dialog.hide()
             if (MyArea.action != null && MyArea.reaction != null)
-                APICalls.POST.LinkArea(MyArea.action, MyArea.reaction, "test2")
+                APICalls.POST.LinkArea(MyArea.action, MyArea.reaction, kotlin.random.Random.nextInt().toString())
             onClick()
         }
         myViewHolder.bind(myObject)

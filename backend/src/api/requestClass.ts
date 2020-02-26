@@ -13,7 +13,7 @@ export default class Request {
             const data = resp.data
             return (data)
         } catch (err) {
-            console.log(err)
+            return (err);
         }
     }
 

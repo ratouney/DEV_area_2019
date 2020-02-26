@@ -35,9 +35,11 @@ export class GoogleSheetAPI {
         }
         var data = await req.callWithHeader(config);
         console.log(data);
+        /*
         const timeStamp = new Date(data.modifiedTime).getTime();
         console.log(timeStamp)
         console.log(Date.parse(data.modifiedTime))
+        */
         return true;
     }
 }

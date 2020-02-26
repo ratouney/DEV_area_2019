@@ -60,7 +60,7 @@ export class GmailAPI {
     }
 
     async hasGotNewMsg(googleId, lastMessageId) {
-        const uri = urlBase + "/v1/users/me/messages?maxResults=1&key=" + key.google.APIKey
+        const uri = urlBase + "v1/users/me/messages?maxResults=1&key=" + key.google.APIKey
         const head = 'Bearer ' + googleId
         const config = {
             url: uri,
@@ -72,7 +72,7 @@ export class GmailAPI {
             }
         }
         const data = await req.callWithHeader(config);
-        console.log(data);
+        console.log("BITE : ", data.response.data);
         return (data.messages.id > lastMessageId)
     }
 }

@@ -353,3 +353,13 @@ button:hover {
 .widget {
     overflow: auto; /* Enable scroll if needed */
 }
+
+/*============================================ Area ======================================================*/
+
+#action {
+    position: relative;
+};
+
+#reaction {
+    position: absolute;
+};

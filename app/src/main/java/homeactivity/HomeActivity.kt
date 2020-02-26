@@ -3,8 +3,7 @@ package homeactivity
 
 import AppFragment.AppFragment
 import AppFragment.MyApp
-import ProfilFragment
-import ReactionFragment
+import ProfilFragment.ProfilFragment
 import android.os.Bundle
 import android.os.StrictMode
 import android.view.Menu
@@ -14,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.area.R
+import com.example.area.Services
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_app.*
 
@@ -58,6 +58,9 @@ class HomeActivity : AppCompatActivity() {
             R.id.app_bar_profil -> {
                 item.setIcon(R.drawable.profil_focus)
                 replaceFragment(ProfilFragment(), R.id.frame)
+            }
+            R.id.app_bar_settings -> {
+                replaceFragment(Services(), R.id.frame)
             }
         }
         return true
