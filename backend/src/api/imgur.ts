@@ -23,9 +23,9 @@ export class ImgurAPI {
         const data = await req.callWithHeader(config);
     }
 
-    async getNewComment(accessToken, info) { //picHash, isAlbum, nbVotes) {
+    async getNewComment(accessToken, info) {
         const head = "Client-ID " + key.imgur.clientID
-        const uri = "https://api.imgur.com/3/gallery/" + info.id + "/comments/new"
+        const uri = "https://api.imgur.com/3/gallery/" + info.id
         const config = {
             url: uri,
             method: "get",
@@ -34,16 +34,16 @@ export class ImgurAPI {
             }
         }
         const data = await req.callWithHeader(config);
-	console.log(data);
         const toReturn = {
 		title : "New comment",
-		text : "The picture named" + " got new comment",
-		bool : data.comment_count > info.data
+		text : "The picture named" + data.title + " got new comment",
+		bool : data.comment_count > info.data,
+		data : data.comment_count
 	}
 	return toReturn
     }
 
-    async getNewVote(accessToken, info) { //picHash, isAlbum, nbComments) {
+    async getNewVote(accessToken, info) {
         const head = "Client-ID " + key.imgur.clientID
         const uri = "https://api.imgur.com/3/gallery/"+ info.id + "/votes"
         const config = {
@@ -54,16 +54,16 @@ export class ImgurAPI {
             }
         }
         const data = await req.callWithHeader(config);
-	console.log(data.response.data)
 	const toReturn = {
 		title : "New vote",
-		text : "The picture named" + " got new vote",
-		bool : (data.ups + data.downs) > info.data
+		text : "The picture with id " + info.id + " got new vote",
+		bool : (data.ups - data.downs) > info.data,
+		data : (data.ups - data.downs)
 	}
         return toReturn;
     }
 
-    async isThereNewPicForTag(accessToken, info) { //tagName, nbForTag) {
+    async isThereNewPicForTag(accessToken, info) {
         const head = "Client-ID " + key.imgur.clientID
         const uri = "https://api.imgur.com/3/gallery/tag_info/" + info.name
         const config = {
@@ -74,18 +74,18 @@ export class ImgurAPI {
             }
         }
         const data = await req.callWithHeader(config);
-        console.log(data)
 	const toReturn = {
-		title : "New picture for " + info.name,
+		title : "New picture with tag " + info.name,
 		texte : "A new picture has been posted with tag : " + info.name,
-		bool : data.total_items > info.data
+		bool : data.total_items > info.data,
+		data : data.total_items
 	}
 	return toReturn
     }
 
     async userGotNewFav(accessToken, info) { //userName, nbFav) {
         const head = "Bearer " + accessToken
-        const uri = "https://api.imgur.com/3/account/" + info.name + "/favorites//newest"
+	const uri = "https://api.imgur.com/3/account/" + info.name + "/gallery_profile"
         const config = {
             url: uri,
             method: "get",
@@ -96,10 +96,12 @@ export class ImgurAPI {
         const data = await req.callWithHeader(config);
 	console.log(data)
 	const toReturn = {
-		title : "New favorites"
+		title : "New favorites",
+		text : "The user " + info.name + " has added a new picture to his favorites",
+		bool : data.total_gallery_favorites > info.data,
+		data : data.total_gallery_favorites
 	}
-        //check with api
-        return true;
+        return toReturn;
     }
 
     async changeUserBio(accessToken, info) {
