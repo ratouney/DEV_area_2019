@@ -37,7 +37,7 @@ import { Action } from '../../../backend/src/entities';
                 <option value="newCom">New Comment</option>
                 <option value="newFav">New Favorite</option>
                 <option value="newPicTag">New pic in the tag</option>
-            </select> 
+            </select>
             <div v-if="this.ActionValue === 'newMail'" style="display:block;">
                 <textarea id="w3mission" rows="4" cols="50">
                     Your email here
@@ -54,7 +54,7 @@ import { Action } from '../../../backend/src/entities';
                 <option value="pauseMusic">Music on pause</option>
                 <option value="uploadPic">Upload a pic</option>
                 <option value="changeBio">Change Bio</option>
-            </select> 
+            </select>
             <!-- créer un script pour récupérer la value et avec un v-if afficher le form correspondant -->
         </div>
     </div>
@@ -86,10 +86,10 @@ export default {
     computed: {
     },
     created() {
-    this.id = this.$route.params.id;
-    if(this.$route.query.debug) {
-    this.userToken = this.$route.query.debug;
-}
+        this.id = this.$route.params.id;
+        if(this.$route.query.debug) {
+            this.userToken = this.$route.query.debug;
+        }
     },
     methods: {
         onChangeAction(event) {
@@ -225,6 +225,28 @@ export default {
     },
     mounted(){
         let that = this
+
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+        fetch("/area/action?serviceId", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(JSON.parse(result)))
+        .catch(error => console.log('error', error));
+
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+        fetch("/area/reaction", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(JSON.parse(result)))
+        .catch(error => console.log('error', error));
+
+
         let checkGauthLoad = setInterval(function(){
             that.isInit = that.$gAuth.isInit
             console.log('checked', that.isInit)
