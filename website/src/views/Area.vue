@@ -196,7 +196,9 @@ export default {
             userToken: '',
             id: '',
             ActionValue: 'GMailGetMail',
-            ReactionValue : 'GMailSendMail',
+            ReactionValue: 'GMailSendMail',
+            Action: null,
+            Reaction: null,
             isInit: false
         }
     },
@@ -220,11 +222,7 @@ export default {
         GoogleLogin(){
             let self = this
             this.$gAuth.signIn(function (user) {
-                console.log(self.string)
                 self.googleAccessToken = user.uc.access_token
-                console.log(self.googleAccessToken)
-//                console.log('access token : ', user.uc.access_token)
-//                console.log(user)
             }, function (error) {
             })
         },
@@ -262,7 +260,6 @@ export default {
                         'Spotify',
                         'menubar=no,location=no,resizable=no,scrollbars=no,status=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left
                     );
-                    console.log('test2')
                     console.log(callback)
 
 
@@ -292,6 +289,45 @@ export default {
                 });
 
             })();
+        },
+        createArea() {
+            let that = this
+            let i = 0
+            let act = -1
+            let react = -1
+            for (i = 0; that.Action[i]; i++) {
+                if (that.Action[i].name == that.ActionValue)
+                act = i
+            }
+            for (i = 0; that.Reaction[i]; i++) {
+                if (that.Reaction[i].name == that.ReactionValue)
+                react = i
+            }
+
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+            var urlencoded = new URLSearchParams();
+            urlencoded.append("actionId", that.Action[act].id);
+            urlencoded.append("reactionId", that.Reaction[react].id);
+            urlencoded.append("name", "I " + that.Action[act].name + "and " + that.Reaction[react].name);
+            urlencoded.append("timeCheck", "-1");
+
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: urlencoded,
+                redirect: 'follow'
+            };
+
+            fetch("/area/new?token=" + this.userToken, requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+
+            console.log(that.Action[act].name)
+            console.log(that.Reaction[react].name)
+
         },
         SpotifyLogin(callback) {
 
@@ -341,7 +377,9 @@ export default {
 
         fetch("/area/action?serviceId", requestOptions)
         .then(response => response.text())
-        .then(result => console.log('ACTIONS : ',JSON.parse(result)))
+        .then(function(result) {
+            that.Action = JSON.parse(result).data
+        })
         .catch(error => console.log('error', error));
 
         var requestOptions = {
@@ -351,19 +389,10 @@ export default {
 
         fetch("/area/reaction", requestOptions)
         .then(response => response.text())
-        .then(result => console.log('REACTIONS : ',JSON.parse(result)))
+        .then(function(result) {
+            that.Reaction = JSON.parse(result).data
+        })
         .catch(error => console.log('error', error));
-
-
-        var requestOptions = {
-          method: 'GET',
-          redirect: 'follow'
-        };
-
-        fetch("/area/me?token=" + that.userToken, requestOptions)
-          .then(response => response.text())
-          .then(result => console.log('AREA : ', JSON.parse(result)))
-          .catch(error => console.log('error', error));
 
 
         let checkGauthLoad = setInterval(function(){
