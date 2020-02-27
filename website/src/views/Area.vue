@@ -31,13 +31,13 @@ import { Action } from '../../../backend/src/entities';
                     <select @change="onChangeAction($event)" class="form-control"  id="action">
                         <option value="GMailGetMail">New e-mail</option>
                         <option value="SheetUpdated">Change Sheet</option>
-                        <option value="limitUV">UV limit</option>
                         <option value="NasaDailyMars">Daily Photo</option>
-                        <option value="dailyWeather">Daily Weather</option>
-                        <option value="newVote">New vote</option>
-                        <option value="newCom">New Comment</option>
-                        <option value="newFav">New Favorite</option>
                         <option value="NewPicForTag">New pic in the tag</option>
+                        <option value="newVote">New vote</option>
+                        <option value="NewComment">New Comment</option>
+                        <option value="NewFav">New Favorite</option>
+                        <option value="limitUV">UV limit</option>
+                        <option value="dailyWeather">Daily Weather</option>
                     </select>
 
                     <div v-if="this.ActionValue === 'GMailGetMail'" style="display:block;">
@@ -66,6 +66,20 @@ import { Action } from '../../../backend/src/entities';
                         <p>A picture with a specific tag has been uploaded</p>
                     </div>
 
+                    <div v-if="this.ActionValue === 'newVote'" style="display:block;">
+                        <h1>Imgur</h1>
+                        <p>When the specified picture get a new vote</p>
+                    </div>
+
+                    <div v-if="this.ActionValue === 'NewComment'" style="display:block;">
+                        <h1>Imgur</h1>
+                        <p>When the specified picture get a new comment</p>
+                    </div>
+
+                    <div v-if="this.ActionValue === 'NewFav'" style="display:block;">
+                        <h1>Imgur</h1>
+                        <p>When the specified picture get a new fav</p>
+                    </div>
                     <!--========================================= Fin liste Actions ===================================-->
 
                 </div>
@@ -86,10 +100,10 @@ import { Action } from '../../../backend/src/entities';
                         <option value="GMailSendMail">Send an e-mail</option>
                         <option value="SheetCreateNew">Create a Sheet</option>
                         <option value="createDraft">create a draft</option>
-                        <option value="changeSound">Set the volume</option>
-                        <option value="pauseMusic">Music on pause</option>
-                        <option value="uploadPic">Upload a pic</option>
-                        <option value="changeBio">Change Bio</option>
+                        <option value="Volume">Set the volume</option>
+                        <option value="Pause">Music on pause</option>
+                        <option value="UploadPicture">Upload a pic</option>
+                        <option value="ChangeBio">Change Bio</option>
                     </select>
 
                     <div v-if="this.ReactionValue === 'GMailSendMail'" style="display:block;">
@@ -126,9 +140,24 @@ import { Action } from '../../../backend/src/entities';
                         </div>
                     </div>
 
-                    <div v-if="this.ReactionValue === 'changeSound'" style="display:block;">
+                    <div v-if="this.ReactionValue === 'Volume'" style="display:block;">
                         <h1>Spotify</h1>
                         <p>Set the volume in Spotify</p>
+                    </div>
+
+                    <div v-if="this.ReactionValue === 'Pause'" style="display:block;">
+                        <h1>Spotify</h1>
+                        <p>Pause the song</p>
+                    </div>
+
+                    <div v-if="this.ReactionValue === 'UploadPicture'" style="display:block;">
+                        <h1>Imgur</h1>
+                        <p>Upload a picture</p>
+                    </div>
+
+                    <div v-if="this.ReactionValue === 'ChangeBio'" style="display:block;">
+                        <h1>Imgur</h1>
+                        <p>Change the bio</p>
                     </div>
 
                     <!--========================================= Fin liste Reactions ===================================-->
@@ -141,7 +170,7 @@ import { Action } from '../../../backend/src/entities';
 
 
 
-            <button @click="createArea()">Confirm</button> <!-- bouton d'envoie -->
+            <button @click="createArea()" style="width:25%; background-color: #4CAF50; font-size: 30px;">Confirm</button> <!-- bouton d'envoie -->
 
         </div>
     </div>
