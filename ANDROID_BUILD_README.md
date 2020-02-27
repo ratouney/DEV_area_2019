@@ -1,0 +1,24 @@
+# Android Build
+
+### To build the Docker
+
+    $ ./scripts/build_docker.sh
+
+### To build the android project
+
+    $ ./scripts/run_docker.sh ./scripts/compile.sh
+
+#### Problem encountered 1:
+
+    > sh: 1: ./scripts/compile.sh: Permission denied
+
+SELinux may be blocking you, to deactivate SELinux :
+
+    $ sudo setenforce 0
+
+to reactivate SELinux later:
+
+    $ sudo setenforce 1
+
+#### Problem encountered 2:
+    None
