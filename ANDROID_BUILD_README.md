@@ -8,7 +8,7 @@
 
     $ ./scripts/run_docker.sh ./scripts/compile.sh
 
-#### Problem encountered 1:
+#### Known issue n°1:
 
     > sh: 1: ./scripts/compile.sh: Permission denied
 
