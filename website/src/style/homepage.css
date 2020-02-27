@@ -356,10 +356,14 @@ button:hover {
 
 /*============================================ Area ======================================================*/
 
-#action {
+#action, #reaction {
     position: relative;
-};
-
-#reaction {
-    position: absolute;
+    background-color:#353535;
+    color:white;
+    padding: 10px;
+    width: 177px;
+    height: 50px;
+    border: none;
+    font-size: 20px;
+    outline: none;
 };
