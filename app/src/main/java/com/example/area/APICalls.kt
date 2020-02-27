@@ -259,7 +259,16 @@ object APICalls {
         }
     }
 
+    object Delete {
+
+        fun Area() {
+
+        }
+
+    }
+
     val GET = Get
     val POST = Post
+    val DELETE = Delete
 
 }

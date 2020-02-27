@@ -54,7 +54,7 @@ object ServiceConnection {
         service = "Spotify"
         con = c
 
-        return ("https://accounts.spotify.com/authorize?client_id=$client_id&response_type=code&redirect_uri=com.example.area://area&scope=user-read-email")
+        return ("https://accounts.spotify.com/authorize?client_id=$client_id&response_type=code&redirect_uri=com.example.area://area&scope=user-read-email user-modify-playback-state")
     }
 
     fun DiscordAuth(c : Boolean=true) : String {
