@@ -6,6 +6,7 @@ import { Action } from '../../../backend/src/entities';
     <div id="area">
         <div id="navbar" class="navbar">
             <div style="max-width: 90%; margin: auto;">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
                 <a href="dashboard"></a>
                 <div class="topnav-right">
                     <a href="#" @click="$router.push('/')">Disconnect</a>
@@ -36,12 +37,12 @@ import { Action } from '../../../backend/src/entities';
                         <option value="newVote">New vote</option>
                         <option value="NewComment">New Comment</option>
                         <option value="NewFav">New Favorite</option>
-                        <option value="limitUV">UV limit</option>
-                        <option value="dailyWeather">Daily Weather</option>
+                        <!--<option value="limitUV">UV limit</option>           mis en commentaire car pas dans le postman
+                        <option value="dailyWeather">Daily Weather</option>-->
                     </select>
 
                     <div v-if="this.ActionValue === 'GMailGetMail'" style="display:block;">
-                        <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit">signIn</button>
+                        <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit" class="GConnect"><i class="fa fa-google fa-fw"></i>Sign in with Google</button>
                         <div v-if="googleAccessToken !== ''">
                             <h1>Gmail</h1>
                             <p>When receiving a mail</p>
@@ -49,7 +50,7 @@ import { Action } from '../../../backend/src/entities';
                     </div>
 
                     <div v-if="this.ActionValue === 'SheetUpdated'" style="display:block;">
-                        <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit">signIn</button>
+                        <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit" class="GConnect"><i class="fa fa-google fa-fw"></i>Sign in with Google</button>
                         <div v-if="googleAccessToken !== ''">
                             <h1>Google Sheet</h1>
                             <p>A spreadsheet has been updated</p>
@@ -80,6 +81,16 @@ import { Action } from '../../../backend/src/entities';
                         <h1>Imgur</h1>
                         <p>When the specified picture get a new fav</p>
                     </div>
+
+                    <!--<div v-if="this.ActionValue === 'limitUV'" style="display:block;">      mis en commentaire car pas dans le postman
+                        <h1>Weather</h1>
+                        <p>Limit UV description</p>
+                    </div>
+
+                    <div v-if="this.ActionValue === 'dailyWeather'" style="display:block;">
+                        <h1>Weather</h1>
+                        <p>The weather of the day</p>
+                    </div>-->
                     <!--========================================= Fin liste Actions ===================================-->
 
                 </div>
@@ -107,7 +118,7 @@ import { Action } from '../../../backend/src/entities';
                     </select>
 
                     <div v-if="this.ReactionValue === 'GMailSendMail'" style="display:block;">
-                        <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit">signIn</button>
+                        <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit " class="GConnect"><i class="fa fa-google fa-fw"></i>Sign in with Google</button>
                         <div v-if="googleAccessToken !== ''">
                             <h1>Gmail</h1>
                             <p>Send a mail</p>
@@ -120,7 +131,7 @@ import { Action } from '../../../backend/src/entities';
                     </div>
 
                     <div v-if="this.ReactionValue === 'SheetCreateNew'" style="display:block;">
-                        <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit">signIn</button>
+                        <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit" class="GConnect"><i class="fa fa-google fa-fw"></i>Sign in with Google</button>
                         <div v-if="googleAccessToken !== ''">
                             <h1>Google Sheet</h1>
                             <p>Create a new spreadsheet</p>
@@ -128,7 +139,7 @@ import { Action } from '../../../backend/src/entities';
                     </div>
 
                     <div v-if="this.ReactionValue === 'createDraft'" style="display:block;">
-                        <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit">signIn</button>
+                        <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit" class="GConnect"><i class="fa fa-google fa-fw"></i>Sign in with Google</button>
                         <div v-if="googleAccessToken !== ''">
                             <h1>Gmail</h1>
                             <p>Create a draft</p>
