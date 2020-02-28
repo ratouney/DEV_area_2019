@@ -316,15 +316,30 @@ export default {
             let that = this
             let i = 0
             let j = 0
+
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow'
+            };
+
+            fetch("/area/me?token=" + this.userToken, requestOptions)
+            .then(response => response.text())
+            .then(function(result) {
+                console.log(JSON.parse(result).data)
+                that.Area = JSON.parse(result).data
+            })
+            .catch(error => console.log('error', error));
+
+
+
             this.legacySystemHTML = ''
             this.see = true;
             for (i = 0; that.Area[i]; i++) {
                 j = i + 1
-                console.log('when you ', that.Area[i].action.description, ' then', that.Area[i].reaction.description)
                 that.legacySystemHTML += "<div class='portlet'>" +
                 "<div class='portlet-header'>Area " + j + "</div>" + "<div class='portlet-content'>" +
                                         "<label for='Action'></label>" +
-                                        "<div style='display:block;'>" + 'When ' + that.Area[i].action.description + ' then ' + that.Area[i].reaction.description +
+                                        "<div style='display:block;'>" + 'When you' + that.Area[i].action.description + ' then ' + that.Area[i].reaction.description +
                                         "</div></div></div>"
  //+ that.Area[i].action.description + ' then' + that.Area[i].reaction.description + '</MARQUEE></FONT>'
             }
@@ -364,8 +379,19 @@ export default {
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
 
-            console.log(that.Action[act].name)
-            console.log(that.Reaction[react].name)
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow'
+            };
+
+            fetch("/area/me?token=" + this.userToken, requestOptions)
+            .then(response => response.text())
+            .then(function(result) {
+                console.log(JSON.parse(result).data)
+                that.Area = JSON.parse(result).data
+                console.log(that.Area)
+            })
+            .catch(error => console.log('error', error));
 
         },
         SpotifyLogin(callback) {
@@ -418,6 +444,7 @@ export default {
         .then(response => response.text())
         .then(function(result) {
             that.Action = JSON.parse(result).data
+            console.log(JSON.parse(result).data)
         })
         .catch(error => console.log('error', error));
 
@@ -430,23 +457,22 @@ export default {
         .then(response => response.text())
         .then(function(result) {
             that.Reaction = JSON.parse(result).data
+            console.log(JSON.parse(result).data)
         })
         .catch(error => console.log('error', error));
 
 
         var requestOptions = {
-  method: 'GET',
-  redirect: 'follow'
-};
+            method: 'GET',
+            redirect: 'follow'
+        };
 
-fetch("/area/me?token=" + that.userToken, requestOptions)
-  .then(response => response.text())
-  .then(function(result) {
-      console.log(JSON.parse(result).data)
-      that.Area = JSON.parse(result).data
-      console.log(that.Area)
-  })
-  .catch(error => console.log('error', error));
+        fetch("/area/me?token=" + that.userToken, requestOptions)
+        .then(response => response.text())
+        .then(function(result) {
+            that.Area = JSON.parse(result).data
+        })
+        .catch(error => console.log('error', error));
 
 
         let checkGauthLoad = setInterval(function(){
