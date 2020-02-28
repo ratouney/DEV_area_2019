@@ -19,7 +19,8 @@ import { Action } from '../../../backend/src/entities';
             <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
             <link rel="stylesheet" href="/resources/demos/style.css">
 
-            <h1>Managing Area</h1>
+            <div v-if="!see">
+            <h1>Create Area</h1>
 
             <!--========================================= Début cardview 1 ===================================-->
             <div class="portlet">
@@ -182,7 +183,14 @@ import { Action } from '../../../backend/src/entities';
 
 
             <button @click="createArea()" style="width:25%; background-color: #4CAF50; font-size: 30px;">Confirm</button> <!-- bouton d'envoie -->
-
+            <button @click="seeArea()" style="width:25%; background-color: #4CAF50; font-size: 30px;">See Area</button>
+        </div>
+            <div v-if="see">
+                <h1>See your Area</h1>
+                <div v-html="legacySystemHTML"></div>
+                <button @click="see = false" style="width:25%; background-color: #4CAF50; font-size: 30px;">Manage Area</button>
+                <!--========================================= Début cardview 1 ===================================-->
+            </div>
         </div>
     </div>
 </html>
@@ -208,6 +216,9 @@ export default {
             id: '',
             ActionValue: 'GMailGetMail',
             ReactionValue: 'GMailSendMail',
+            legacySystemHTML: '',
+            see: false,
+            Area: null,
             Action: null,
             Reaction: null,
             isInit: false
@@ -300,6 +311,23 @@ export default {
                 });
 
             })();
+        },
+        seeArea() {
+            let that = this
+            let i = 0
+            let j = 0
+            this.legacySystemHTML = ''
+            this.see = true;
+            for (i = 0; that.Area[i]; i++) {
+                j = i + 1
+                console.log('when you ', that.Area[i].action.description, ' then', that.Area[i].reaction.description)
+                that.legacySystemHTML += "<div class='portlet'>" +
+                "<div class='portlet-header'>Area " + j + "</div>" + "<div class='portlet-content'>" +
+                                        "<label for='Action'></label>" +
+                                        "<div style='display:block;'>" + 'When ' + that.Area[i].action.description + ' then ' + that.Area[i].reaction.description +
+                                        "</div></div></div>"
+ //+ that.Area[i].action.description + ' then' + that.Area[i].reaction.description + '</MARQUEE></FONT>'
+            }
         },
         createArea() {
             let that = this
@@ -404,6 +432,21 @@ export default {
             that.Reaction = JSON.parse(result).data
         })
         .catch(error => console.log('error', error));
+
+
+        var requestOptions = {
+  method: 'GET',
+  redirect: 'follow'
+};
+
+fetch("/area/me?token=" + that.userToken, requestOptions)
+  .then(response => response.text())
+  .then(function(result) {
+      console.log(JSON.parse(result).data)
+      that.Area = JSON.parse(result).data
+      console.log(that.Area)
+  })
+  .catch(error => console.log('error', error));
 
 
         let checkGauthLoad = setInterval(function(){
