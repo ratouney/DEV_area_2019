@@ -20,5 +20,5 @@ to reactivate SELinux later:
 
     $ sudo setenforce 1
 
-#### Problem encountered 2:
+#### Known issue n°2:
     None

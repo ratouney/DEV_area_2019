@@ -21,15 +21,19 @@
             android:id="@+id/focus_txt">
         </TextView>
 
+        <!--
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/param"
             android:layout_width="250dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            android:textColor="@color/green"
-            android:textColorHint="@color/green"
             android:backgroundTint="@color/green"
-            android:hint="Write here...">
+            android:hint="Write here..."
+            android:textColor="@color/green"
+            android:textColorHint="@color/green">
+
         </com.google.android.material.textfield.TextInputEditText>
+        -->
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewButton"
