@@ -38,8 +38,9 @@ import { Action } from '../../../backend/src/entities';
                         <option value="newVote">New vote</option>
                         <option value="NewComment">New Comment</option>
                         <option value="NewFav">New Favorite</option>
-                        <!--<option value="limitUV">UV limit</option>           mis en commentaire car pas dans le postman
-                        <option value="dailyWeather">Daily Weather</option>-->
+                        <option value="limitUV">UV limit</option>
+                        <option value="dailyWeather">Daily Weather</option>
+                        <option value="Pokemon">Get a Pokemon</option>
                     </select>
 
                     <div v-if="this.ActionValue === 'GMailGetMail'" style="display:block;">
@@ -83,15 +84,24 @@ import { Action } from '../../../backend/src/entities';
                         <p>When the specified picture get a new fav</p>
                     </div>
 
-                    <!--<div v-if="this.ActionValue === 'limitUV'" style="display:block;">      mis en commentaire car pas dans le postman
+                    <div v-if="this.ActionValue === 'limitUV'" style="display:block;">
                         <h1>Weather</h1>
-                        <p>Limit UV description</p>
+                        <p>Check if a UV limit has been reached for a city</p>
+                        <input type="text" id="w3mission" style="width: 15%; font-size: 17px; text-align: center;" name="city" value="City" required>
+                        <br>
+                        <input type="number" id="w3mission" style="width: 5%; font-size: 20px; text-align: center;" name="UV" value="10" required>
                     </div>
 
                     <div v-if="this.ActionValue === 'dailyWeather'" style="display:block;">
                         <h1>Weather</h1>
-                        <p>The weather of the day</p>
-                    </div>-->
+                        <p>The weather of the day for a city</p>
+                        <input type="text" id="w3mission" style="width: 15%; font-size: 17px; text-align: center;" name="city" value="City" required>
+                    </div>
+
+                    <div v-if="this.ActionValue === 'Pokemon'" style="display:block;">
+                        <h1>Pokemon</h1>
+                        <p>Get a random Pokemon</p>
+                    </div>
                     <!--========================================= Fin liste Actions ===================================-->
 
                 </div>
@@ -123,8 +133,11 @@ import { Action } from '../../../backend/src/entities';
                         <div v-if="googleAccessToken !== ''">
                             <h1>Gmail</h1>
                             <p>Send a mail</p>
+                            <input type="email" id="w3mission" style="width: 30%;" name="email" value="Send to" required>
+                            <br>
+                            <input type="text" id="w3mission" style="width: 30%;" name="objet" value="Subject" required>
                             <div style="display:block;">
-                                <textarea id="w3mission" rows="4" cols="50">
+                                <textarea id="w3mission" rows="6" cols="65">
                                     Votre texte
                                 </textarea>
                             </div>
@@ -144,8 +157,11 @@ import { Action } from '../../../backend/src/entities';
                         <div v-if="googleAccessToken !== ''">
                             <h1>Gmail</h1>
                             <p>Create a draft</p>
+                            <input type="email" id="w3mission" style="width: 30%;" name="email" value="Send to" required>
+                            <br>
+                            <input type="text" id="w3mission" style="width: 30%;" name="objet" value="Subject" required>
                             <div style="display:block;">
-                                <textarea id="w3mission" rows="4" cols="50">
+                                <textarea id="w3mission" rows="6" cols="65">
                                     Votre texte
                                 </textarea>
                             </div>
@@ -155,6 +171,7 @@ import { Action } from '../../../backend/src/entities';
                     <div v-if="this.ReactionValue === 'Volume'" style="display:block;">
                         <h1>Spotify</h1>
                         <p>Set the volume in Spotify</p>
+                        <input type="number" id="w3mission" style="width: 5%; font-size: 17px; text-align: center;" name="volume" min="0" max="100" value="50" required>
                     </div>
 
                     <div v-if="this.ReactionValue === 'Pause'" style="display:block;">
