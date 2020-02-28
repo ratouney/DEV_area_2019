@@ -380,9 +380,10 @@ button:hover {
     background-color:#353535;
     color:white;
     padding: 10px;
-    width: 177px;
+    width: 12%;
     height: 50px;
     border: none;
     font-size: 20px;
     outline: none;
+    text-align: center;
 };

@@ -56,6 +56,7 @@ import { Action } from '../../../backend/src/entities';
                         <div v-if="googleAccessToken !== ''">
                             <h1>Google Sheet</h1>
                             <p>A spreadsheet has been updated</p>
+                            <input type="text" id="w3mission" style="width: 30%; font-size: 17px;" name="link" value="Link of the sheet" required>
                         </div>
                     </div>
 
@@ -67,21 +68,25 @@ import { Action } from '../../../backend/src/entities';
                     <div v-if="this.ActionValue === 'NewPicForTag'" style="display:block;">
                         <h1>Imgur</h1>
                         <p>A picture with a specific tag has been uploaded</p>
+                        <input type="text" id="w3mission" style="width: 10%; font-size: 17px; text-align: center;" name="email" value="tag name" required>
                     </div>
 
                     <div v-if="this.ActionValue === 'newVote'" style="display:block;">
                         <h1>Imgur</h1>
                         <p>When the specified picture get a new vote</p>
+                        <input type="text" id="w3mission" style="width: 30%; font-size: 17px;" name="link" value="Imgur link of the pic" required>
                     </div>
 
                     <div v-if="this.ActionValue === 'NewComment'" style="display:block;">
                         <h1>Imgur</h1>
                         <p>When the specified picture get a new comment</p>
+                        <input type="text" id="w3mission" style="width: 30%; font-size: 17px;" name="link" value="Imgur link of the pic" required>
                     </div>
 
                     <div v-if="this.ActionValue === 'NewFav'" style="display:block;">
                         <h1>Imgur</h1>
                         <p>When the specified picture get a new fav</p>
+                        <input type="text" id="w3mission" style="width: 15%; font-size: 17px; text-align: center;" name="link" value="Account Name" required>
                     </div>
 
                     <div v-if="this.ActionValue === 'limitUV'" style="display:block;">
@@ -149,6 +154,7 @@ import { Action } from '../../../backend/src/entities';
                         <div v-if="googleAccessToken !== ''">
                             <h1>Google Sheet</h1>
                             <p>Create a new spreadsheet</p>
+                            <input type="text" id="w3mission" style="width: 30%; font-size: 17px;" name="email" value="Title of the sheet" required>
                         </div>
                     </div>
 
@@ -182,11 +188,24 @@ import { Action } from '../../../backend/src/entities';
                     <div v-if="this.ReactionValue === 'UploadPicture'" style="display:block;">
                         <h1>Imgur</h1>
                         <p>Upload a picture</p>
+                        <input type="text" id="w3mission" style="width: 30%;" name="email" value="link of the pic" required>
+                            <br>
+                            <input type="text" id="w3mission" style="width: 30%; font-size: 17px;" name="objet" value="Title" required>
+                            <div style="display:block;">
+                                <textarea id="w3mission" rows="6" cols="65">
+                                    Description of your picture
+                                </textarea>
+                            </div>
                     </div>
 
                     <div v-if="this.ReactionValue === 'ChangeBio'" style="display:block;">
                         <h1>Imgur</h1>
                         <p>Change the bio</p>
+                        <div style="display:block;">
+                            <textarea id="w3mission" rows="6" cols="65">
+                                New biographie for your account
+                            </textarea>
+                        </div>
                     </div>
 
                     <!--========================================= Fin liste Reactions ===================================-->
