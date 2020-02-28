@@ -24,12 +24,13 @@ class ProfilFragment : Fragment() {
         setHasOptionsMenu(true)
         val root = inflater.inflate(R.layout.fragment_profil, container, false)
         val gson = Gson()
-        var objectArrayString: String? = null
-        objectArrayString = APICalls.GET.Area()
-        links = gson.fromJson(objectArrayString, Array<MyLinks>::class.java).toMutableList()
-        recyclerView = root.findViewById(R.id.recyclerViewArea)
-        recyclerView?.layoutManager = (LinearLayoutManager(context))
-        recyclerView?.adapter = (ProfilAdapter(links, context!!))
+        var objectArrayString: String? = APICalls.GET.Area()
+        if (objectArrayString != null) {
+            links = gson.fromJson(objectArrayString, Array<MyLinks>::class.java).toMutableList()
+            recyclerView = root.findViewById(R.id.recyclerViewArea)
+            recyclerView?.layoutManager = (LinearLayoutManager(context))
+            recyclerView?.adapter = (ProfilAdapter(links, context!!))
+        }
         return root
     }
 }
