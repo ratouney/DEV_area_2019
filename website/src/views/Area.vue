@@ -214,6 +214,7 @@ export default {
             googleAccessToken: '',
             userToken: '',
             id: '',
+            googleMail: '',
             ActionValue: 'GMailGetMail',
             ReactionValue: 'GMailSendMail',
             legacySystemHTML: '',
@@ -244,6 +245,7 @@ export default {
         GoogleLogin(){
             let self = this
             this.$gAuth.signIn(function (user) {
+                self.googleMail = user.Qt.zu
                 self.googleAccessToken = user.uc.access_token
             }, function (error) {
             })
