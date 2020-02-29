@@ -251,7 +251,7 @@ export default {
         return {
             googleAccessToken: '',
             userToken: '',
-            spotifyAccessToken: null,
+            spotifyAccessToken: '',
             id: '',
             googleMail: '',
             ActionValue: 'GMailGetMail',
@@ -268,7 +268,12 @@ export default {
     },
     created() {
         this.id = this.$route.params.id;
-        this.googleAccessToken = this.$route.query.googleAccessToken
+        console.log('AT : ', this.$route.query.google)
+        this.googleAccessToken = this.$route.query.google
+        if (!this.googleAccessToken)
+        this.googleAccessToken = ''
+
+        console.log(this.googleAccessToken)
         if(this.$route.query.debug) {
             this.userToken = this.$route.query.debug;
         }
