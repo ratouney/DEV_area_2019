@@ -19,6 +19,8 @@ import { Action } from '../../../backend/src/entities';
             <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
             <link rel="stylesheet" href="/resources/demos/style.css">
 
+            <button class="btn btn-primary" id="btn-login" @click="test()">Login</button>
+            <button class="btn btn-primary" @click="SpotifyLogin()">Login2</button>
             <div v-if="!see">
             <h1>Create Area</h1>
 
@@ -249,6 +251,7 @@ export default {
         return {
             googleAccessToken: '',
             userToken: '',
+            spotifyAccessToken: null,
             id: '',
             googleMail: '',
             ActionValue: 'GMailGetMail',
@@ -288,67 +291,6 @@ export default {
         },
         test() {
 
-            (function() {
-
-                function login(callback) {
-                    var CLIENT_ID = 'c299f837f4ff4872ab27a1a00a6c7bdf';
-                    var REDIRECT_URI = 'http://localhost8080/#/area/api/spotify';
-                    function getLoginURL(scopes) {
-                        return 'https://accounts.spotify.com/authorize?client_id=' + CLIENT_ID +
-                        '&redirect_uri=' + encodeURIComponent(REDIRECT_URI) +
-                        '&scope=' + encodeURIComponent(scopes.join(' ')) +
-                        '&response_type=token';
-                    }
-
-                    var url = getLoginURL([
-                        'user-read-email'
-                    ]);
-
-                    var width = 450,
-                    height = 730,
-                    left = (screen.width / 2) - (width / 2),
-                    top = (screen.height / 2) - (height / 2);
-
-                    window.addEventListener("message", function(event) {
-                        var hash = JSON.parse(event.data);
-                        if (hash.type == 'access_token') {
-                            callback(hash.access_token);
-                        }
-                    }, false);
-
-                    var w = window.open(url,
-                        'Spotify',
-                        'menubar=no,location=no,resizable=no,scrollbars=no,status=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left
-                    );
-                    console.log(callback)
-
-
-                }
-
-                function getUserData(accessToken) {
-                    return $.ajax({
-                        url: 'https://api.spotify.com/v1/me',
-                        headers: {
-                            'Authorization': 'Bearer ' + accessToken
-                        }
-                    });
-                }
-
-                var loginButton = document.getElementById('btn-login');
-
-                loginButton.addEventListener('click', function() {
-                    console.log('test')
-                    login(function(accessToken) {
-                        console.log('test1')
-                        getUserData(accessToken)
-                        .then(function(response) {
-                            loginButton.style.display = 'none';
-                            console.log(accessToken)
-                        });
-                    });
-                });
-
-            })();
         },
         seeArea() {
             let that = this
@@ -434,41 +376,100 @@ export default {
         },
         SpotifyLogin(callback) {
 
-            var CLIENT_ID = 'c299f837f4ff4872ab27a1a00a6c7bdf';
-            var REDIRECT_URI = 'http://localhost8080/#/area/api/spotify';
 
-            function getLoginURL(scopes) {
-                return 'https://accounts.spotify.com/authorize?client_id=' + CLIENT_ID +
-                '&redirect_uri=' + encodeURIComponent(REDIRECT_URI) +
-                '&scope=' + encodeURIComponent(scopes.join(' ')) +
-                '&response_type=token';
-            }
+                        var CLIENT_ID = 'd3ebae5610894ca48c9f66794214252b';
+                        var REDIRECT_URI = 'http://localhost:8080/spotify';
 
-            var url = getLoginURL([
-                'user-read-email'
-            ]);
+                        function getLoginURL(scopes) {
+                            return 'https://accounts.spotify.com/authorize?client_id=' + CLIENT_ID +
+                              '&redirect_uri=' + encodeURIComponent(REDIRECT_URI) +
+                              '&scope=' + encodeURIComponent(scopes.join(' ')) +
+                              '&response_type=token';
+                        }
 
-            var width = 450,
-            height = 730,
-            left = (screen.width / 2) - (width / 2),
-            top = (screen.height / 2) - (height / 2);
-            var w = window.open(url, 'Spotify', 'menubar=no,location=no,resizable=no,scrollbars=no,status=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
-            console.log(url);
+                        var url = getLoginURL([
+                            'user-read-email'
+                        ]);
 
+                      var width = 450,
+                          height = 730,
+                          left = (screen.width / 2) - (width / 2),
+                          top = (screen.height / 2) - (height / 2);
 
-            window.addEventListener("message", function(event) {
-                var hash = JSON.parse(event.data);
-                if (hash.type == 'access_token') {
-                    callback(hash.access_token);
-                }
-            }, false);
-            if (!url)
-            w.close();
+                      window.addEventListener("message", function(event) {
+                          var hash = JSON.parse(event.data);
+                          console.log(JSON.parse(event.data))
+                          if (hash.type == 'access_token') {
+                              callback(hash.access_token);
+                          }
+                      }, false);
+
+                      var w = window.open(url, 'Spotify', 'menubar=no,location=no,resizable=no,scrollbars=no,status=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
 
         }
     },
     mounted(){
         let that = this
+
+        this.$nextTick(function() {
+            function login(callback) {
+                var CLIENT_ID = 'd3ebae5610894ca48c9f66794214252b';
+                var REDIRECT_URI = 'http://localhost:8080/spotify';
+                function getLoginURL(scopes) {
+                    return 'https://accounts.spotify.com/authorize?client_id=' + CLIENT_ID +
+                    '&redirect_uri=' + encodeURIComponent(REDIRECT_URI) +
+                    '&scope=' + encodeURIComponent(scopes.join(' ')) +
+                    '&response_type=token';
+                }
+
+                var url = getLoginURL([
+                    'user-read-email'
+                ]);
+
+                var width = 450,
+                height = 730,
+                left = (screen.width / 2) - (width / 2),
+                top = (screen.height / 2) - (height / 2);
+
+                window.addEventListener("message", function(event) {
+                    var hash = JSON.parse(event.data);
+                    if (hash.type == 'access_token') {
+                        callback(hash.access_token);
+                    }
+                }, false);
+                var w = window.open(url,
+                    'Spotify',
+                    'menubar=no,location=no,resizable=no,scrollbars=no,status=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left
+                );
+                var myvar = setInterval(alertFunc, 500);
+                function alertFunc() {
+                    var hash = w.location.hash.substring(15); //Puts hash in variable, and removes the # character
+                    const word = hash.split('&')
+                    console.log(word[0])
+                    that.spotifyAccessToken = word[0]
+                    if (hash) {
+                        clearInterval(myvar)
+                        w.close()
+                    }
+                }
+            }
+
+            var loginButton = document.getElementById('btn-login');
+
+            loginButton.addEventListener('click', function() {
+                login(function(accessToken) {
+                    console.log(accessToken)
+                });
+            });
+
+        })
+
+
+
+
+
+
+
 
         console.log(that.userToken)
         if (that.userToken == '')
