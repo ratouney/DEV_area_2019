@@ -184,11 +184,27 @@ export class AreaService {
             }
         }
 
-        const rtb = this.ActionRepository.update(id, params = {})
+        console.log("Params to update", params);
+
+        let entry = await this.ActionRepository.findOne(id);
+
+        if (entry == null) {
+            return {
+                statusCode: 400,
+                error: "Action not found",
+            }
+        }
+
+        entry = {
+            ...entry,
+            ...params,
+        };
+
+        const rtb = this.ActionRepository.update(id, entry)
         .then(res => {
             return {
                 statusCode: 200,
-                data: res,
+                data: entry,
             }
         })
         .catch(err => {
@@ -287,11 +303,27 @@ export class AreaService {
             }
         }
 
-        const rtb = this.ReactionRepository.update(id, params = {})
+        console.log("Params to update", params);
+
+        let entry = await this.ReactionRepository.findOne(id);
+
+        if (entry == null) {
+            return {
+                statusCode: 400,
+                error: "Reaction not found",
+            }
+        }
+
+        entry = {
+            ...entry,
+            ...params,
+        };
+
+        const rtb = this.ReactionRepository.update(id, entry)
         .then(res => {
             return {
                 statusCode: 200,
-                data: res,
+                data: entry,
             }
         })
         .catch(err => {

@@ -7,7 +7,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.view.ViewParent
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -36,20 +37,30 @@ class ServiceAdapter(list: List<MyServices>, context: Context, dialog: Dialog) :
         return ServiceViewHolder(view)
     }
 
+
     override fun onBindViewHolder(myViewHolder: ServiceViewHolder, position: Int) {
         val myObject: MyServices = list[position]
         val txt: Button = view.findViewById(R.id.action)
+        val tt : EditText = view.findViewById(R.id.argument)
         txt.setText(myObject.description)
         txt.setOnClickListener {
-            if (MyArea.action != null)
+            if (MyArea.action != null) {
                 MyArea.reaction = myObject.id
-            else
+                MyArea.reactionParam = tt.text.toString()
+            }
+            else {
                 MyArea.action = myObject.id
+                MyArea.actionParam = tt.text.toString()
+            }
+            tt.text.clear()
             println(MyArea.action)
+            println(MyArea.actionParam)
             println(MyArea.reaction)
+            println(MyArea.reactionParam)
+
             dialog.hide()
             if (MyArea.action != null && MyArea.reaction != null)
-                APICalls.POST.LinkArea(MyArea.action, MyArea.reaction, kotlin.random.Random.nextInt().toString())
+                APICalls.POST.LinkArea(MyArea.action, MyArea.reaction, kotlin.random.Random.nextInt().toString(), MyArea.actionParam, MyArea.reactionParam)
             onClick()
         }
         myViewHolder.bind(myObject)

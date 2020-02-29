@@ -14,14 +14,13 @@
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottom_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:layout_gravity="bottom"
         app:backgroundTint="@color/lightblack"
         app:fabAlignmentMode="center"
         app:fabCradleMargin="-10dp"
         app:hideOnScroll="true"
-        app:layout_scrollFlags="scroll|enterAlways"
-        app:navigationIcon="@drawable/burger"/>
+        app:layout_scrollFlags="scroll|enterAlways" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

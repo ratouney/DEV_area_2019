@@ -7,7 +7,7 @@ const req = new Request();
 
 export class GmailAPI {
 
-    private createMessage(sender, to, subject, body) {
+    createMessage(sender, to, subject, body) {
         const message = new MIMEText()
 
         message.setSender(sender)

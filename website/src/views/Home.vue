@@ -80,7 +80,6 @@
         <button href="#" onclick="document.getElementById('id02').style.display='block'" style="width:100%; background-color: #4CAF50; font-size: 30px;">Ready ? Try it NOW</button>
     </div>
     <div class="container" style="background-color: #f1f0f0;" height="350px">
-<p>Le message est : {{ userToken }}</p>
     </div>
 </body>
 </html>

@@ -18,9 +18,10 @@
         <ImageView
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginEnd="3dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
             android:src="@drawable/close"
+            android:id="@+id/close"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,10 +38,9 @@
             android:id="@+id/actionName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="55dp"
             android:text="Action"
             app:layout_constraintBottom_toTopOf="@+id/imageAction"
-            app:layout_constraintEnd_toStartOf="@+id/reactionName"
-            app:layout_constraintHorizontal_bias="0.24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,7 +48,7 @@
             android:id="@+id/reactionName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="52dp"
+            android:layout_marginEnd="55dp"
             android:text="Reaction"
             app:layout_constraintBottom_toTopOf="@+id/imageReaction"
             app:layout_constraintEnd_toEndOf="parent"

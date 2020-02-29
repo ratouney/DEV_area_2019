@@ -13,6 +13,24 @@ input[type=text], input[type=password], input[type=email] {
     box-sizing: border-box;
 }
 
+.GConnect {
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    margin: 5px 0;
+    opacity: 0.85;
+    display: inline-block;
+    font-size: 17px;
+    line-height: 20px;
+    text-decoration: none;
+    width: 11%;
+    background-color:#c5c5c5;
+    color: black;
+}
+
+.GConnect:hover {
+    opacity: 1.5 ;
+}
 /*============================================== Dragable ============================================*/
 
 .draggable { width: 90px; height: 90px; padding: 0.5em; float: left; margin: 0 10px 10px 0; }
@@ -356,10 +374,16 @@ button:hover {
 
 /*============================================ Area ======================================================*/
 
-#action {
-    position: relative;
-};
 
-#reaction {
-    position: absolute;
+#action, #reaction {
+    position: relative;
+    background-color:#353535;
+    color:white;
+    padding: 10px;
+    width: 12%;
+    height: 50px;
+    border: none;
+    font-size: 20px;
+    outline: none;
+    text-align: center;
 };

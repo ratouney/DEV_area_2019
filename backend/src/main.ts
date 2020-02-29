@@ -3,6 +3,9 @@ import { AppModule } from './app.module';
 import { Repository, createConnection } from 'typeorm';
 import entities, { Area } from './entities';
 import { InjectRepository } from '@nestjs/typeorm';
+import apis from './api';
+import runArea from './logic';
+import quickdbmodif from './quickdb';
 
 async function initConnection() {
   var _conn = await createConnection({
@@ -27,8 +30,10 @@ async function initConnection() {
     
     const diff = n.getMinutes() + (n.getHours() * 60) - (dt.getHours() * 60) - dt.getMinutes();
     
+    console.log("Checked time diff: ", diff);
     if (diff > elem.timeCheck) {
       console.log(`Run the area ${elem.id}`);
+      runArea(elem.id);
     }
   })
 
@@ -42,5 +47,5 @@ async function bootstrap() {
 }
 
 setInterval(initConnection, 10000);
-;
+quickdbmodif();
 bootstrap();

@@ -10,34 +10,64 @@ Imgur
 7/7
 
 AREA :
-SendMail                - reaction
-CreateDraft             - reaction
-NewMail                 - action
+SendMail                - reaction  - Envoie un mail                                            - Arg : mailUser, mailTo, title, body
+CreateDraft             - reaction  - Crée un brouillon                                         - Arg : mailUsern mailTo, title, body
+NewMail                 - action    - Vérifie si un nouveau mail a été reçu                     - Arg : /
 
-Create g sheet          - reaction
-sheetChange             - action
+Create g sheet          - reaction  - Crée une nouvelle google sheet                            - Arg : title
+sheetChange             - action    - Vérifie si la google sheet donnée a été upload            - Arg : sheet id -> url : https://docs.google.com/spreadsheets/d/1VWbdWvENbyUcn-jEf8IUOfKPI7P3P0NJzYQVqCzLcjY/edit#gid=0  -> id : 1VWbdWvENbyUcn-jEf8IUOfKPI7P3P0NJzYQVqCzLcjY
 
-get pokemon
+get pokemon             - action    - Donne un pokemon                                          - Arg : /
 
-photo du jour
-mars pic
+photo du jour           - action    - Donne l'image du jour                                     - Arg : /
+mars pic                - action    - Donne une image de mars                                   - Arg : /
 
-prev                    - reaction
-next                    - reaction
-pause                   - reaction
-Volume                  - reaction
+pause                   - reaction  - Met sur pause la musique en cours                         - Arg : /
+Volume                  - reaction  - Règle le volume pour celui défini                         - Arg : int entre 0 et 100
 
-meteo du jour
-uv limit                - action
+meteo du jour           - action    - Donne la météo pour une ville                             - Arg : Nom de ville
+uv limit                - action    - Vérifie si une limite d'uv a été atteinte pour une ville  - Arg : Nom de ville, int
 
-uploadPic               - reaction
-isThereNewPicForTag     - action
-getNewVote              - action
-getNewComment           - action
-getNewFav               - action
-changeBio               - reaction
+uploadPic               - reaction  - Upload une nouvelle image sur le compte du user connecté  - Arg : Url, title, description
+isThereNewPicForTag     - action    - Nouvelle image posté avec le tag donné                    - Arg : tag name
+getNewVote              - action    - Nouveau vote pour l'image donnée                          - Arg : hash pic -> https://imgur.com/gallery/smig8Ap -> smig8Ap  /!\ Verifier que l'image soit bien dans la gallery (gallery présent dans l'url)
+getNewComment           - action    - Nouveau commentaire pour l'image donnée                   - Arg : hash pic -> https://imgur.com/gallery/smig8Ap -> smig8Ap  /!\ Verifier que l'image soit bien dans la gallery (gallery présent dans l'url)
+getNewFav               - action    - Nouvelle image mise en favorie pour la personne donnée    - Arg : name
+changeBio               - reaction  - Change la bio du user connecté                            - Arg : text
 
 action : 11
 reaction : 7
 
 18 / 18
+
+obj return des actions :
+
+{
+    url :,
+    senderMail :,
+    destMail : ,
+    bool :,
+    title :,
+    name :,
+    data :,
+    text :,
+    id :
+}
+
+google scope :
+
+    https://www.googleapis.com/auth/drive
+    https://www.googleapis.com/auth/drive.file
+    https://www.googleapis.com/auth/spreadsheets
+    https://www.googleapis.com/auth/drive.readonly
+    https://www.googleapis.com/auth/drive.metadata.readonly
+    https://www.googleapis.com/auth/drive.appdata
+    https://www.googleapis.com/auth/drive.metadata
+    https://www.googleapis.com/auth/drive.photos.readonly
+
+    https://mail.google.com/
+    https://www.googleapis.com/auth/gmail.modify
+    https://www.googleapis.com/auth/gmail.compose
+    https://www.googleapis.com/auth/gmail.send
+    https://www.googleapis.com/auth/gmail.readonly
+    https://www.googleapis.com/auth/gmail.metadata

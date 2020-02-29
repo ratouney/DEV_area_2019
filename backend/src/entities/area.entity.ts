@@ -34,4 +34,10 @@ export default class Area {
         default: "NULL",
     })
     lastRun: string;
+
+    @Column({
+        type: "simple-json",
+        nullable: true,
+    })
+    data: string;
 }

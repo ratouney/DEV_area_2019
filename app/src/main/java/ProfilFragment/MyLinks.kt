@@ -4,7 +4,7 @@ class ServiceInfo(val id: String, val name: String) {
 
 }
 
-class AreaInfo(val id: String, val name: String, val description: String, val arguments: String, val service: ServiceInfo) {
+class AreaInfo(val id: String, val name: String, val description: String, val arguments: Array<String>, val service: ServiceInfo) {
 
 }
 
