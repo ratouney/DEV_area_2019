@@ -16,7 +16,7 @@
             <div style="max-width: 90%; margin: auto;">
                 <a href="dashboard"></a>
                 <div class="topnav-right">
-                    <router-link :to="{ name: 'area', params: {id: ''}, query: { debug: this.userToken, test: '1234' } }" v-if="userToken">Manage Area</router-link>
+                    <router-link :to="{ name: 'area', params: {id: ''}, query: { debug: this.userToken, google: this.googleAccessToken } }" v-if="userToken">Manage Area</router-link>
                     <a v-if="userToken" href="#" @click="disconnect()">Disconnect</a>
                     <a v-if="!userToken" href="#" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</a>
                     <a v-if="!userToken" class="active" href="#" onclick="document.getElementById('id02').style.display='block'" style="width:auto;">Register</a>

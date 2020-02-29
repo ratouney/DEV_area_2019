@@ -268,7 +268,7 @@ export default {
     },
     created() {
         this.id = this.$route.params.id;
-        console.log(this.$route.query.test)
+        this.googleAccessToken = this.$route.query.googleAccessToken
         if(this.$route.query.debug) {
             this.userToken = this.$route.query.debug;
         }
@@ -342,7 +342,7 @@ export default {
             var urlencoded = new URLSearchParams();
             urlencoded.append("actionId", that.Action[act].id);
             urlencoded.append("reactionId", that.Reaction[react].id);
-            urlencoded.append("name", "I " + that.Action[act].name + "and " + that.Reaction[react].name);
+            urlencoded.append("name", "I " + that.Action[act].name + "and " + that.Reaction[react].name + that.userToken);
             urlencoded.append("timeCheck", "-1");
 
             var requestOptions = {
