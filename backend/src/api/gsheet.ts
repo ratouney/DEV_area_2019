@@ -5,7 +5,7 @@ const req = new Request();
 
 export class GoogleSheetAPI {
 
-    async createSheet(accessToken) {
+    async createSheet(accessToken, info) {
         const head = 'Bearer ' + accessToken
         const uri = "https://sheets.googleapis.com/v4/spreadsheets?key=" + key.google.APIKey
         const config = {
@@ -16,14 +16,18 @@ export class GoogleSheetAPI {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            data: {}
+            data: {
+		"properties": {
+			"title": info.title ? info.title : info.name ? info.name : "New SpreadSheet"
+		}
+	    }
         }
-        await req.callWithHeader(config);
+        const data = await req.callWithHeader(config);
     }
 
-    async sheetChange(accessToken, sheetId, lastDate) {
+    async sheetChange(accessToken, info) {
         const head = 'Bearer ' + accessToken
-        const uri = "https://www.googleapis.com/drive/v3/files/" + sheetId + "?fields=modifiedTime&key=" + key.google.APIKey
+        const uri = "https://www.googleapis.com/drive/v3/files/" + info.id + "?fields=name,modifiedTime&key=" + key.google.APIKey
         const config = {
             url: uri,
             method: 'get',
@@ -34,10 +38,14 @@ export class GoogleSheetAPI {
             },
         }
         var data = await req.callWithHeader(config);
-        console.log(data);
-        const timeStamp = new Date(data.modifiedTime).getTime();
-        console.log(timeStamp)
-        console.log(Date.parse(data.modifiedTime))
-        return true;
+	var toReturn = {
+		title : "Spread sheet " + data.name + " modified",
+		text : "Your spread sheet named " + data.name + " has been modified at " + data.modifiedTime,
+		date : data.modifiedTime,
+		name : data.name,
+		bool : true
+	}
+	toReturn.bool = (Date.parse(data.modifiedTime) > info.date)
+        return toReturn;
     }
 }
