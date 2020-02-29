@@ -28,8 +28,10 @@ async function initConnection() {
     const dt = new Date(parseInt(elem.lastRun));
     const n = new Date();
     
-    const diff = n.getMinutes() + (n.getHours() * 60) - (dt.getHours() * 60) - dt.getMinutes();
+    const diff = Math.abs((n.getHours() * 60) + n.getMinutes() - (dt.getHours() * 60) - dt.getMinutes());
     
+    console.log("Last ran : ", dt);
+    console.log("Now      : ", n);
     console.log("Checked time diff: ", diff);
     if (diff > elem.timeCheck) {
       console.log(`Run the area ${elem.id}`);
@@ -46,6 +48,6 @@ async function bootstrap() {
   await app.listen(3001);
 }
 
-setInterval(initConnection, 10000);
+//setInterval(initConnection, 10000);
 quickdbmodif();
 bootstrap();

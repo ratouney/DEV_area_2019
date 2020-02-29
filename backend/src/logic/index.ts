@@ -22,6 +22,7 @@ async function runArea(id) {
     console.log("Running area : ", entry);
 
     const actionParts = entry.action.name.split('.');
+    console.log("ActionParts : ", actionParts);
     const actionBlock = apis[actionParts[0]];
     if (actionBlock == undefined || actionBlock == null) {
         console.log("ALERTE ROUGE DE MERDE YA PAS DE MODULE : ", actionParts[0]);
@@ -34,6 +35,8 @@ async function runArea(id) {
     }
 
     const rt = await actionfunc();
+
+    console.log("AFTER ACTION : ", rt);
 
     const reactionParts = entry.reaction.name.split('.');
     const reactionBlock = apis[reactionParts[0]];
@@ -48,6 +51,12 @@ async function runArea(id) {
     }
 
     const rtb = await reactionfunc(rt);
+
+    // QUpd
+    const val = Date.now().toString();
+    await areaRepo.update(id, {
+        lastRun: val,
+    });
 
     _conn.close();
 }
