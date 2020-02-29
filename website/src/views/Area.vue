@@ -40,8 +40,8 @@ import { Action } from '../../../backend/src/entities';
                         <option value="newVote">New vote</option>
                         <option value="NewComment">New Comment</option>
                         <option value="NewFav">New Favorite</option>
-                        <option value="limitUV">UV limit</option>
-                        <option value="dailyWeather">Daily Weather</option>
+                        <option value="UV">UV limit</option>
+                        <option value="Weather">Daily Weather</option>
                         <option value="Pokemon">Get a Pokemon</option>
                     </select>
 
@@ -268,6 +268,7 @@ export default {
     },
     created() {
         this.id = this.$route.params.id;
+        console.log(this.$route.query.test)
         if(this.$route.query.debug) {
             this.userToken = this.$route.query.debug;
         }
@@ -288,9 +289,6 @@ export default {
                 self.googleAccessToken = user.uc.access_token
             }, function (error) {
             })
-        },
-        test() {
-
         },
         seeArea() {
             let that = this
@@ -374,39 +372,6 @@ export default {
             .catch(error => console.log('error', error));
 
         },
-        SpotifyLogin(callback) {
-
-
-                        var CLIENT_ID = 'd3ebae5610894ca48c9f66794214252b';
-                        var REDIRECT_URI = 'http://localhost:8080/spotify';
-
-                        function getLoginURL(scopes) {
-                            return 'https://accounts.spotify.com/authorize?client_id=' + CLIENT_ID +
-                              '&redirect_uri=' + encodeURIComponent(REDIRECT_URI) +
-                              '&scope=' + encodeURIComponent(scopes.join(' ')) +
-                              '&response_type=token';
-                        }
-
-                        var url = getLoginURL([
-                            'user-read-email'
-                        ]);
-
-                      var width = 450,
-                          height = 730,
-                          left = (screen.width / 2) - (width / 2),
-                          top = (screen.height / 2) - (height / 2);
-
-                      window.addEventListener("message", function(event) {
-                          var hash = JSON.parse(event.data);
-                          console.log(JSON.parse(event.data))
-                          if (hash.type == 'access_token') {
-                              callback(hash.access_token);
-                          }
-                      }, false);
-
-                      var w = window.open(url, 'Spotify', 'menubar=no,location=no,resizable=no,scrollbars=no,status=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
-
-        }
     },
     mounted(){
         let that = this

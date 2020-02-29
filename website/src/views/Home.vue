@@ -16,7 +16,7 @@
             <div style="max-width: 90%; margin: auto;">
                 <a href="dashboard"></a>
                 <div class="topnav-right">
-                    <router-link :to="{ name: 'area', params: {id: userToken}, query: { debug: this.userToken } }" v-if="userToken">Manage Area</router-link>
+                    <router-link :to="{ name: 'area', params: {id: ''}, query: { debug: this.userToken, test: '1234' } }" v-if="userToken">Manage Area</router-link>
                     <a v-if="userToken" href="#" @click="disconnect()">Disconnect</a>
                     <a v-if="!userToken" href="#" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</a>
                     <a v-if="!userToken" class="active" href="#" onclick="document.getElementById('id02').style.display='block'" style="width:auto;">Register</a>
@@ -38,6 +38,7 @@
                         <input v-model="pswd" type="password" placeholder="Enter Password" name="password" required>
 
                         <button @click="login()">Login</button>
+                        <button @click="GoogleLogin" :disabled="!isInit " class="GConnect"><i class="fa fa-google fa-fw"></i>Log in with Google</button>
                     </div>
                     <div class="container" style="background-color:#f1f1f1">
                         <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
@@ -64,6 +65,7 @@
                         <input v-model="mail" type="email" placeholder="Your mail" name="mail" required>
                         <hr>
                         <button @click="register()">Register</button>
+                        <button @click="GoogleSingin" :disabled="!isInit " class="GConnect"><i class="fa fa-google fa-fw"></i>Signin with Google</button>
                     </div>
                     <div class="container" style="background-color:#f1f1f1">
                         <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>
@@ -96,76 +98,109 @@
 // @ is an alias to /src
 import Child from '@/views/Area.vue'
 export default {
-  name: 'home',
-  components: {
-      Child
-  },
-  data () {
-    return {
-        username: '',
-        pswd: '',
-        user: '',
-        mail: '',
-        userToken: null,
-    }
-  },
-  methods: {
-      login() {
-          let that = this
-          var myHeaders = new Headers();
-          myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+    name: 'home',
+    components: {
+        Child
+    },
+    data () {
+        return {
+            username: '',
+            pswd: '',
+            user: '',
+            mail: '',
+            googleAccessToken: '',
+            isInit: false,
+            userToken: null,
+        }
+    },
+    methods: {
+        login() {
+            let that = this
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-          var urlencoded = new URLSearchParams();
-          urlencoded.append("username", this.username);
-          urlencoded.append("password", this.pswd);
+            var urlencoded = new URLSearchParams();
+            urlencoded.append("username", this.username);
+            urlencoded.append("password", this.pswd);
 
-          var requestOptions = {
-              method: 'POST',
-              headers: myHeaders,
-              body: urlencoded,
-              redirect: 'follow'
-          };
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: urlencoded,
+                redirect: 'follow'
+            };
 
-          fetch("/session/login", requestOptions)
-          .then(response => response.text())
-          .then(function(result) {
-              if (JSON.parse(result).statusCode == 200) {
-                  that.userToken = JSON.parse(result).data
-                  document.getElementById('id01').style.display='none'
-              } else {
-                  alert("User not found")
-              }
-          })
-          .catch(error => console.log('error', error));
-      },
-      disconnect() {
-          this.userToken = '';
-      },
-      register() {
-          var myHeaders = new Headers();
-          myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+            fetch("/session/login", requestOptions)
+            .then(response => response.text())
+            .then(function(result) {
+                if (JSON.parse(result).statusCode == 200) {
+                    that.userToken = JSON.parse(result).data
+                    document.getElementById('id01').style.display='none'
+                } else {
+                    alert("User not found")
+                }
+            })
+            .catch(error => console.log('error', error));
+        },
+        disconnect() {
+            this.userToken = '';
+        },
+        GoogleSingin() {
+                let self = this
+                this.$gAuth.signIn(function (user) {
+                    self.username = user.Qt.IW
+                    self.mail = user.Qt.zu
+                    self.pswd = user.Qt.zu + user.Qt.IW
+                    self.googleAccessToken = user.uc.access_token
+                    self.register()
+                }, function (error) {
+                })
+        },
+        GoogleLogin(){
+            let self = this
+            this.$gAuth.signIn(function (user) {
+                self.username = user.Qt.IW
+                self.mail = user.Qt.zu
+                self.pswd = user.Qt.zu + user.Qt.IW
+                self.googleAccessToken = user.uc.access_token
+                self.login()
+            }, function (error) {
+            })
+        },
+        register() {
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-          var urlencoded = new URLSearchParams();
-          urlencoded.append("username", this.username);
-          urlencoded.append("password", this.pswd);
-          urlencoded.append("email", this.mail);
+            var urlencoded = new URLSearchParams();
+            urlencoded.append("username", this.username);
+            urlencoded.append("password", this.pswd);
+            urlencoded.append("email", this.mail);
 
-          var requestOptions = {
-              method: 'POST',
-              headers: myHeaders,
-              body: urlencoded,
-              redirect: 'follow'
-          };
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: urlencoded,
+                redirect: 'follow'
+            };
 
-          fetch("/user/new", requestOptions)
-          .then(response => response.text())
-          .then(function(result){
-              if(result)
+            fetch("/user/new", requestOptions)
+            .then(response => response.text())
+            .then(function(result){
+                console.log(result)
+                if(result)
                 document.getElementById('id02').style.display='none'
-          })
-          .catch(error => console.log('error', error));
-      }
-}
+            })
+            .catch(error => console.log('error', error));
+        }
+    },
+    mounted () {
+        let that = this
+        let checkGauthLoad = setInterval(function(){
+            that.isInit = that.$gAuth.isInit
+            console.log('checked', that.isInit)
+            if(that.isInit) clearInterval(checkGauthLoad)
+        }, 1000);
+    }
 
 }
 </script>
