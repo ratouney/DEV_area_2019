@@ -311,31 +311,52 @@ export default {
                 self.googleMail = user.Qt.zu
                 self.googleAccessToken = user.uc.access_token
 
+                var requestOptions = {
+                  method: 'GET',
+                  redirect: 'follow'
+                };
 
+                fetch("/token?token=" + that.userToken, requestOptions)
+                  .then(response => response.text())
+                  .then(result => console.log(result))
+                  .catch(error => console.log('error', error));
 
 
                 let i = 0;
-                let id =''
-                for (i = 0; that.Action[i]; i++) {
-                    if (that.Action[i].name == "gmail.sendMessage") {
+                let service = ''
+                var requestOptions = {
+                    method: 'GET',
+                    redirect: 'follow'
+                };
+
+                fetch("/service", requestOptions)
+                .then(response => response.text())
+                .then(function(result) {
+                    service = JSON.parse(result).data
+                })
+                .catch(error => console.log('error', error));
+                for (i = 0; service[i]; i++) {
+                    if (service[i].name == "gmail.sendMessage") {
+                        console.log(service[i].name)
+                        console.log(service[i].id)
                         var myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+                        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-var urlencoded = new URLSearchParams();
-urlencoded.append("serviceId", that.Action[i].id);
-urlencoded.append("token", that.userToken);
+                        var urlencoded = new URLSearchParams();
+                        urlencoded.append("serviceId", service[i].id);
+                        urlencoded.append("token", that.userToken);
 
-var requestOptions = {
-  method: 'POST',
-  headers: myHeaders,
-  body: urlencoded,
-  redirect: 'follow'
-};
+                        var requestOptions = {
+                            method: 'POST',
+                            headers: myHeaders,
+                            body: urlencoded,
+                            redirect: 'follow'
+                        };
 
-fetch("/token/new?token=" + that.userToken, requestOptions)
-  .then(response => response.text())
-  .then(result => console.log(result))
-  .catch(error => console.log('error', error));
+                        fetch("/token/new?token=" + that.userToken, requestOptions)
+                        .then(response => response.text())
+                        .then(result => console.log('TEEEEEEEEST : ',result))
+                        .catch(error => console.log('error', error));
                     }
                 }
             })
@@ -433,7 +454,7 @@ fetch("/token/new?token=" + that.userToken, requestOptions)
                     return 'https://accounts.spotify.com/authorize?client_id=' + CLIENT_ID +
                     '&redirect_uri=' + encodeURIComponent(REDIRECT_URI) +
                     '&scope=' + encodeURIComponent(scopes.join(' ')) +
-                    '&response_type=token';
+                    '&response_type=token' + "&scope=user-read-email user-modify-playback-state";
                 }
 
                 var url = getLoginURL([
