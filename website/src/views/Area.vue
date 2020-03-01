@@ -29,19 +29,19 @@
                     <label for="Action"></label>
 
                     <select @change="onChangeAction($event)" class="form-control"  id="action">
-                        <option value="GMailGetMail">New e-mail</option>
-                        <option value="SheetUpdated">Change Sheet</option>
+                        <option value="gmail.hasGotNewMsg">New e-mail</option>
+                        <option value="gsheet.sheetChange">Change Sheet</option>
                         <option value="nasa.todayPicture">Daily Photo</option>
                         <option value="imgur.isThereNewPicForTag">New pic in the tag</option>
                         <option value="imgur.getNewVote">New vote</option>
-                        <option value="NewComment">New Comment</option>
+                        <option value="imgur.getNewComment">New Comment</option>
                         <option value="imgur.userGotNewFav">New Favorite</option>
-                        <option value="UV">UV limit</option>
-                        <option value="Weather">Daily Weather</option>
-                        <option value="Pokemon">Get a Pokemon</option>
+                        <option value="uvLimitReached">UV limit</option>
+                        <option value="weatherByCity">Daily Weather</option>
+                        <option value="getPokemonByName">Get a Pokemon</option>
                     </select>
 
-                    <div v-if="this.ActionValue === 'GMailGetMail'" style="display:block;">
+                    <div v-if="this.ActionValue === 'gmail.hasGotNewMsg'" style="display:block;">
                         <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit" class="GConnect"><i class="fa fa-google fa-fw"></i>Sign in with Google</button>
                         <div v-if="googleAccessToken !== ''">
                             <h1>Gmail</h1>
@@ -49,7 +49,7 @@
                         </div>
                     </div>
 
-                    <div v-if="this.ActionValue === 'SheetUpdated'" style="display:block;">
+                    <div v-if="this.ActionValue === 'gsheet.sheetChange'" style="display:block;">
                         <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit" class="GConnect"><i class="fa fa-google fa-fw"></i>Sign in with Google</button>
                         <div v-if="googleAccessToken !== ''">
                             <h1>Google Sheet</h1>
@@ -75,7 +75,7 @@
                         <input v-model="id" type="text" id="w3mission" style="width: 30%; font-size: 17px;" name="link" value="Imgur link of the pic" required>
                     </div>
 
-                    <div v-if="this.ActionValue === 'NewComment'" style="display:block;">
+                    <div v-if="this.ActionValue === 'imgur.getNewComment'" style="display:block;">
                         <h1>Imgur</h1>
                         <p>When the specified picture get a new comment</p>
                         <input type="text" id="w3mission" style="width: 30%; font-size: 17px;" name="link" value="Imgur link of the pic" required>
@@ -87,7 +87,7 @@
                         <input v-model="name" type="text" id="w3mission" style="width: 15%; font-size: 17px; text-align: center;" name="link" value="Account Name" required>
                     </div>
 
-                    <div v-if="this.ActionValue === 'limitUV'" style="display:block;">
+                    <div v-if="this.ActionValue === 'uvLimitReached'" style="display:block;">
                         <h1>Weather</h1>
                         <p>Check if a UV limit has been reached for a city</p>
                         <input type="text" id="w3mission" style="width: 15%; font-size: 17px; text-align: center;" name="city" value="City" required>
@@ -95,13 +95,13 @@
                         <input type="number" id="w3mission" style="width: 5%; font-size: 20px; text-align: center;" name="UV" value="10" required>
                     </div>
 
-                    <div v-if="this.ActionValue === 'dailyWeather'" style="display:block;">
+                    <div v-if="this.ActionValue === 'weatherByCity'" style="display:block;">
                         <h1>Weather</h1>
                         <p>The weather of the day for a city</p>
                         <input type="text" id="w3mission" style="width: 15%; font-size: 17px; text-align: center;" name="city" value="City" required>
                     </div>
 
-                    <div v-if="this.ActionValue === 'Pokemon'" style="display:block;">
+                    <div v-if="this.ActionValue === 'getPokemonByName'" style="display:block;">
                         <h1>Pokemon</h1>
                         <p>Get a random Pokemon</p>
                     </div>
@@ -123,13 +123,13 @@
 
                     <select @change="onChangeReaction($event)" class="form-control" id="reaction">
                         <option value="gmail.sendMessage">Send an e-mail</option>
-                        <option value="SheetCreateNew">Create a Sheet</option>
-                        <option value="createDraft">create a draft</option>
-                        <option value="Volume">Set the volume</option>
-                        <option value="Pause">Music on pause</option>
+                        <option value="gsheet.createSheet">Create a Sheet</option>
+                        <option value="gmail.createDraft">create a draft</option>
+                        <option value="spotify.setVolume">Set the volume</option>
+                        <option value="spotify.pauseSong">Music on pause</option>
                         <option value="spotify.nextSong">Play next song</option>
-                        <option value="UploadPicture">Upload a pic</option>
-                        <option value="ChangeBio">Change Bio</option>
+                        <option value="imgur.uploadPic">Upload a pic</option>
+                        <option value="changeUserBio">Change Bio</option>
                     </select>
 
                     <div v-if="this.ReactionValue === 'gmail.sendMessage'" style="display:block;">
