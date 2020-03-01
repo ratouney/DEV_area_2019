@@ -3,6 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../Area.iml" filepath="$PROJECT_DIR$/../Area.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Area/Area-Area.iml" filepath="$PROJECT_DIR$/../Area/Area-Area.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../DEV_area_2019-Area.iml" filepath="$PROJECT_DIR$/../DEV_area_2019-Area.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DEV_area_2019-app.iml" filepath="$PROJECT_DIR$/DEV_area_2019-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/../spotify-app-remote-release-0.7.0/DEV_area_2019-spotify-app-remote-release-0.7.0.iml" filepath="$PROJECT_DIR$/../spotify-app-remote-release-0.7.0/DEV_area_2019-spotify-app-remote-release-0.7.0.iml" />
       <module fileurl="file://$PROJECT_DIR$/app.iml" filepath="$PROJECT_DIR$/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/../spotify-app-remote-release-0.7.0/spotify-app-remote-release-0.7.0.iml" filepath="$PROJECT_DIR$/../spotify-app-remote-release-0.7.0/spotify-app-remote-release-0.7.0.iml" />
