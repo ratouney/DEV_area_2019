@@ -136,6 +136,7 @@ export default {
                 if (JSON.parse(result).statusCode == 200) {
                     that.userToken = JSON.parse(result).data
                     document.getElementById('id01').style.display='none'
+                    $router.push({ name: 'area', params: {id: ''}, query: { debug: this.userToken, google: this.googleAccessToken } })
                 } else {
                     alert("User not found")
                 }
