@@ -18,6 +18,7 @@ export class AreaController {
 
     @Post('new')
     createArea(@Query('token') token, @Body() params) : object {
+	console.log("AreaControllerBody :", params);
         return this.as.createArea(token, params);
     }
 

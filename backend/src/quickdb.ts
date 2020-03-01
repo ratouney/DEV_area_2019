@@ -1,36 +1,35 @@
 import { createConnection } from "typeorm"
-import entities, { Reaction, Area } from './entities';
+import entities, { Reaction, Area, Service } from './entities';
 
 async function quickdbmodif() {
     var _conn = await createConnection({
         "type": "postgres",
-        "host": "localhost",
+        "host": process.env.DB_HOST,
         "port": 5432,
-        "username": "postgres",
-        "password": "postgres",
-        "database": "area",
+        "username": process.env.DB_USER,
+        "password": process.env.DB_PASS,
+        "database": process.env.DB_NAME,
         "entities": entities,
         "name": "quickupdate",
         "logging": true
     })
 
-    const reactionRepo = _conn.getRepository(Area);
+    const reactionRepo = _conn.getRepository(Reaction);
 
-    const entry = await reactionRepo.findOne("a1c7f2e7-53ae-4136-b5f8-f8a7b0ac9ee3");
+    const idToUpdate = "0132b71e-c69f-4c23-a4b0-04fdf2b9d5fd";
+
+    const entry = await reactionRepo.findOne(idToUpdate);
 
     console.log("Found and updating : ", entry);
 
-    const data = {
-        senderMail: "ratouney1998@gmail.com",
-        destMail: "maxime.de-la-fouchardiere@epitech.eu",
-        title: "Hello bitch",
-    }
+    const serviceRepo = _conn.getRepository(Service);
+    const serv = await serviceRepo.findOne({where: {name: "Gmail"}});
 
-    entry.data = JSON.stringify(data);
+    entry.service = serv
 
     console.log("Entry should be now : ", entry);
 
-    const rt = await reactionRepo.update("a1c7f2e7-53ae-4136-b5f8-f8a7b0ac9ee3", entry);
+    const rt = await reactionRepo.update(idToUpdate, entry);
 
     console.log("RT : ", rt);
 

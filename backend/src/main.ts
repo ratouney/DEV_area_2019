@@ -56,7 +56,8 @@ async function bootstrap() {
 
 
 console.log("ENVIRONMENT : ", process.env.HOST);
-populate();
+//populate();
 //setInterval(initConnection, 10000);
 //quickdbmodif();
+initConnection();
 bootstrap();

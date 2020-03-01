@@ -67,11 +67,11 @@ async function runArea(id) {
         return false;
     }
 
-    const reactionToken = await tokenRepo.findOne({where: {user: entry.user.id, service: entry.reaction.id}});
-    console.log("Reaction Token : ", actionToken);
+    const reactionTokens = await tokenRepo.find({where: {service: entry.reaction.service, user: {id: entry.user.id}}, relations: ["service", "user"]});
+    const reactionToken = reactionTokens[reactionTokens.length - 1].token;
 
     console.log("Sending to Reaction : ", rt);
-    const rtb = await reactionfunc(reactionToken == null ? "" : reactionToken.token, rt);
+    const rtb = await reactionfunc(reactionToken == null ? "" : reactionToken, rt);
 
     // QUpd
     const val = Date.now().toString();
