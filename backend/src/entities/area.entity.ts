@@ -37,7 +37,7 @@ export default class Area {
 
     @Column({
         nullable: true,
-        default: "NULL",
+        default: "{}",
     })
     data: string;
 }

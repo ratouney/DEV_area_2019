@@ -2,8 +2,7 @@ import { createConnection, Repository } from "typeorm"
 import entities, { Reaction, Area, Action, Service } from './src/entities';
 
 async function populateReactions(rr : Repository<Reaction>, sr : Repository<Service>) {
-    const gmail = await sr.find();
-    console.log("Creating SendMessage with service : ", gmail);
+    const gmail = await sr.findOne({where: {name: "Gmail"}});
 
     let entry = await rr.findOne({where: {name: "gmail.sendMessage"}})
     if (entry == null) {
@@ -15,7 +14,7 @@ async function populateReactions(rr : Repository<Reaction>, sr : Repository<Serv
         await rr.save(newMail);
     }
 
-    const spotify = await sr.findOne({name: "Spotify"});
+    const spotify = await sr.findOne({where: {name: "Spotify"}});
 
     entry = await rr.findOne({where: {name: "spotify.nextSong"}})
     if (entry == null) {

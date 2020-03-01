@@ -88,6 +88,7 @@ export class AreaService {
         entry.reaction = reaction[0];
         entry.name = params.name;
         entry.timeCheck = params.timeCheck;
+        entry.data = params.data;
 
         const rtb = await this.AreaRepository.save(entry)
         .then(res => {
