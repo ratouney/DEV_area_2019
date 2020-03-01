@@ -3,22 +3,22 @@ const Pokedex = require('pokedex-promise-v2')
 const p = new Pokedex()
 
 export class PokeAPI {
-
+    
     async getPokemonByName(accessToken, info)
     {
         const data = await p.getPokemonByName(name[info.id].toLowerCase()).catch(function(error) {
             console.log('Error to find your pokemon :', error)
         })
-	const toReturn = {
-		title : "Today's Pokemon : " + name[info.id],
-		name : name[info.id],
-		text : "Name : " + name[info.id] + "\nPokedex number : " + info.id + "\nPicture url :" + data.sprites ? "\nDefault : " + data.sprites.front_default + "\nShiny : " + data.sprites.front_shiny : "none",
-		url : data.sprites ? data.sprites.front_default : null,
-		id : info.id < 808 ? info.id + 1 : 0,
-		bool : true
-	}
+        const toReturn = {
+            title : "Today's Pokemon : " + name[info.id],
+            name : name[info.id],
+            text : "Name : " + name[info.id] + "\nPokedex number : " + info.id + "\nPicture url :" + data.sprites ? "\nDefault : " + data.sprites.front_default + "\nShiny : " + data.sprites.front_shiny : "none",
+            url : data.sprites ? data.sprites.front_default : null,
+            id : info.id < 808 ? info.id + 1 : 0,
+            bool : true
+        }
         return toReturn;
-   }
+    }
 }
 
 var name = [

@@ -18,7 +18,12 @@ export class GmailAPI {
     }
 
     async sendMessage(googleId, info) {
-        const message = this.createMessage(info.senderMail, info.destMail, info.title, info.text);
+        //const message = this.createMessage(info.senderMail, info.destMail, info.title, info.text);
+        const message = new MIMEText();
+        message.setSender(info.senderMail);
+        message.setRecipient(info.destMail);
+        message.setSubject(info.title);
+        message.setMessage(info.text || info.url);
         console.log(message)
         const head = 'Bearer ' + googleId
         const uri = urlBase + "v1/users/me/messages/send?key=" + key.google.APIKey
@@ -38,7 +43,12 @@ export class GmailAPI {
     }
 
     async createDraft(googleId, info) {
-        const message = this.createMessage(info.senderMail, info.destMail, info.title, info.text);
+        //const message = this.createMessage(info.senderMail, info.destMail, info.title, info.text);
+        const message = new MIMEText();
+        message.setSender(info.senderMail);
+        message.setRecipient(info.destMail);
+        message.setSubject(info.title);
+        message.setMessage(info.text || info.url);
         console.log(message)
         const head = 'Bearer ' + googleId
         const uri = urlBase + "v1/users/me/drafts?key=" + key.google.APIKey

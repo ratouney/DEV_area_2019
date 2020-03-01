@@ -36,8 +36,8 @@ export default class Area {
     lastRun: string;
 
     @Column({
-        type: "simple-json",
         nullable: true,
+        default: "NULL",
     })
     data: string;
 }

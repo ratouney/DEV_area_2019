@@ -12,8 +12,8 @@ async function initConnection() {
     "type": "postgres",
     "host": "localhost",
     "port": 5432,
-    "username": "root",
-    "password": "root",
+    "username": "postgres",
+    "password": "postgres",
     "database": "area",
     "entities": entities,
     "name": "fuck off",
@@ -25,7 +25,9 @@ async function initConnection() {
   const entries = await areaRepo.find();
   
   entries.forEach(elem => {
-    const dt = new Date(parseInt(elem.lastRun));
+    let dt = new Date();
+    if (elem.lastRun != "NULL")
+      dt = new Date(parseInt(elem.lastRun));
     const n = new Date();
     
     const diff = Math.abs((n.getHours() * 60) + n.getMinutes() - (dt.getHours() * 60) - dt.getMinutes());
@@ -33,7 +35,7 @@ async function initConnection() {
     console.log("Last ran : ", dt);
     console.log("Now      : ", n);
     console.log("Checked time diff: ", diff);
-    if (diff > elem.timeCheck) {
+    if (diff > elem.timeCheck || elem.lastRun == "NULL") {
       console.log(`Run the area ${elem.id}`);
       runArea(elem.id);
     }
@@ -48,6 +50,6 @@ async function bootstrap() {
   await app.listen(process.env.PORT || 3001);
 }
 
-//setInterval(initConnection, 10000);
-//quickdbmodif();
+setInterval(initConnection, 10000);
+quickdbmodif();
 bootstrap();

@@ -50,8 +50,8 @@ export class SpotifyAPI {
         await req.callWithHeader(config);
     }
 
-    async setVolume(userId, info) {
-        const head = 'Bearer ' + userId
+    async setVolume(accessToken, info) {
+        const head = 'Bearer ' + accessToken
         const uri = "https://api.spotify.com/v1/me/player/volume?volume_percent=" + info.data
         const config = {
             url : uri,
