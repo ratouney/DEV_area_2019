@@ -39,7 +39,8 @@ export class GmailAPI {
                 'raw': message.asEncoded()
             }
         }
-        await req.callWithHeader(config);
+        const rt = await req.callWithHeader(config);
+        console.log("SendMessage RT : ", rt);
     }
 
     async createDraft(googleId, info) {
