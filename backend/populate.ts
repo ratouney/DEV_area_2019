@@ -25,6 +25,18 @@ async function populateReactions(rr : Repository<Reaction>, sr : Repository<Serv
         nextSong.description = "Play the next song in the queue";
         await rr.save(nextSong);
     }
+
+    const imgur = await sr.findOne({where: {name: "Imgur"}});
+
+    entry = await rr.findOne({where: {name: "imgur.changeUserBio"}})
+    if (entry == null) {
+        const changeBio = rr.create();
+        changeBio.name = "imgur.changeUserBio";
+        changeBio.arguments = ["name", "text"];
+        changeBio.service = imgur;
+        changeBio.description = "Change your bio";
+        await rr.save(changeBio);
+    }
 }
 
 async function populateActions(ar : Repository<Action>, sr : Repository<Service>) {

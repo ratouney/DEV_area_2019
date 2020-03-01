@@ -46,6 +46,8 @@ async function runArea(id) {
     let rt = await actionfunc(actionToken == null ? "" : actionToken.token);
 
     console.log("AFTER ACTION : ", rt);
+    console.log("Apparently there is a parse error here : [", entry.data);
+    console.log("SEcond char : ", entry.data[1]);
     const data = JSON.parse(entry.data);
     console.log("Adding AREA.data to the block : ", data);
     rt = {
@@ -68,10 +70,13 @@ async function runArea(id) {
     }
 
     const reactionTokens = await tokenRepo.find({where: {service: entry.reaction.service, user: {id: entry.user.id}}, relations: ["service", "user"]});
-    const reactionToken = reactionTokens[reactionTokens.length - 1].token;
+    const reactionToken = reactionTokens.length > 0 ? reactionTokens[reactionTokens.length - 1].token : "";
+
+    // another one
 
     console.log("Sending to Reaction : ", rt);
-    const rtb = await reactionfunc(reactionToken == null ? "" : reactionToken, rt);
+    console.log("With token : ", reactionToken);
+    const rtb = await reactionfunc(reactionToken, rt);
 
     // QUpd
     const val = Date.now().toString();

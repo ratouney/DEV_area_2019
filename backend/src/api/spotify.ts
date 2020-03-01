@@ -33,7 +33,8 @@ export class SpotifyAPI {
                 'Accept': 'application/json'
             }
         }
-        await req.callWithHeader(config);
+        const rt = await req.callWithHeader(config);
+        console.log("Next song : ", rt.toJSON());
     }
 
     async prevSong(accessToken, info) {
