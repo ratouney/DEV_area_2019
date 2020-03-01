@@ -15,6 +15,7 @@
             <title>jQuery UI Menu - Default functionality</title>
             <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
             <link rel="stylesheet" href="/resources/demos/style.css">
+            <!--<button class="GConnect" @click="imgurlogin">Login with imgur</button>-->
 
             <div v-if="!see">
             <h1>Create Area</h1>
@@ -30,11 +31,11 @@
                     <select @change="onChangeAction($event)" class="form-control"  id="action">
                         <option value="GMailGetMail">New e-mail</option>
                         <option value="SheetUpdated">Change Sheet</option>
-                        <option value="NasaDailyMars">Daily Photo</option>
-                        <option value="NewPicForTag">New pic in the tag</option>
-                        <option value="newVote">New vote</option>
+                        <option value="nasa.todayPicture">Daily Photo</option>
+                        <option value="imgur.isThereNewPicForTag">New pic in the tag</option>
+                        <option value="imgur.getNewVote">New vote</option>
                         <option value="NewComment">New Comment</option>
-                        <option value="NewFav">New Favorite</option>
+                        <option value="imgur.userGotNewFav">New Favorite</option>
                         <option value="UV">UV limit</option>
                         <option value="Weather">Daily Weather</option>
                         <option value="Pokemon">Get a Pokemon</option>
@@ -57,21 +58,21 @@
                         </div>
                     </div>
 
-                    <div v-if="this.ActionValue === 'NasaDailyMars'" style="display:block;">
+                    <div v-if="this.ActionValue === 'nasa.todayPicture'" style="display:block;">
                         <h1>Nasa</h1>
                         <p>Take the daily mars picture</p>
                     </div>
 
-                    <div v-if="this.ActionValue === 'NewPicForTag'" style="display:block;">
+                    <div v-if="this.ActionValue === 'imgur.isThereNewPicForTag'" style="display:block;">
                         <h1>Imgur</h1>
                         <p>A picture with a specific tag has been uploaded</p>
-                        <input type="text" id="w3mission" style="width: 10%; font-size: 17px; text-align: center;" name="email" value="tag name" required>
+                        <input v-model="name" type="text" id="w3mission" style="width: 10%; font-size: 17px; text-align: center;" name="email" value="tag name" required>
                     </div>
 
-                    <div v-if="this.ActionValue === 'newVote'" style="display:block;">
+                    <div v-if="this.ActionValue === 'imgur.getNewVote'" style="display:block;">
                         <h1>Imgur</h1>
                         <p>When the specified picture get a new vote</p>
-                        <input type="text" id="w3mission" style="width: 30%; font-size: 17px;" name="link" value="Imgur link of the pic" required>
+                        <input v-model="id" type="text" id="w3mission" style="width: 30%; font-size: 17px;" name="link" value="Imgur link of the pic" required>
                     </div>
 
                     <div v-if="this.ActionValue === 'NewComment'" style="display:block;">
@@ -80,10 +81,10 @@
                         <input type="text" id="w3mission" style="width: 30%; font-size: 17px;" name="link" value="Imgur link of the pic" required>
                     </div>
 
-                    <div v-if="this.ActionValue === 'NewFav'" style="display:block;">
+                    <div v-if="this.ActionValue === 'imgur.userGotNewFav'" style="display:block;">
                         <h1>Imgur</h1>
                         <p>When the specified picture get a new fav</p>
-                        <input type="text" id="w3mission" style="width: 15%; font-size: 17px; text-align: center;" name="link" value="Account Name" required>
+                        <input v-model="name" type="text" id="w3mission" style="width: 15%; font-size: 17px; text-align: center;" name="link" value="Account Name" required>
                     </div>
 
                     <div v-if="this.ActionValue === 'limitUV'" style="display:block;">
@@ -121,25 +122,26 @@
                     <label for="Reaction"></label>
 
                     <select @change="onChangeReaction($event)" class="form-control" id="reaction">
-                        <option value="GMailSendMail">Send an e-mail</option>
+                        <option value="gmail.sendMessage">Send an e-mail</option>
                         <option value="SheetCreateNew">Create a Sheet</option>
                         <option value="createDraft">create a draft</option>
                         <option value="Volume">Set the volume</option>
                         <option value="Pause">Music on pause</option>
+                        <option value="spotify.nextSong">Play next song</option>
                         <option value="UploadPicture">Upload a pic</option>
                         <option value="ChangeBio">Change Bio</option>
                     </select>
 
-                    <div v-if="this.ReactionValue === 'GMailSendMail'" style="display:block;">
+                    <div v-if="this.ReactionValue === 'gmail.sendMessage'" style="display:block;">
                         <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit " class="GConnect"><i class="fa fa-google fa-fw"></i>Sign in with Google</button>
                         <div v-if="googleAccessToken !== ''">
                             <h1>Gmail</h1>
                             <p>Send a mail</p>
-                            <input v-model="data1" type="email" id="w3mission" style="width: 30%;" name="email" value="Send to" required>
+                            <input v-model="destMail" type="email" id="w3mission" style="width: 30%;" name="email" value="Send to" required>
                             <br>
-                            <input v-model="data2" type="text" id="w3mission" style="width: 30%;" name="objet" value="Subject" required>
+                            <input v-model="title" type="text" id="w3mission" style="width: 30%;" name="objet" value="Subject" required>
                             <div style="display:block;">
-                                <textarea id="w3mission" rows="6" cols="65">
+                                <textarea v-model="text" id="w3mission" rows="6" cols="65">
                                     Votre texte
                                 </textarea>
                             </div>
@@ -172,6 +174,15 @@
                     </div>
 
                     <div v-if="this.ReactionValue === 'Volume'" style="display:block;">
+                        <button v-if="spotifyAccessToken == ''" id="btn-login" class="GConnect" @click="spotifyLogin()">Login with Spotify</button>
+                        <div v-if="spotifyAccessToken !== ''">
+                            <h1>Spotify</h1>
+                            <p>Set the volume in Spotify</p>
+                            <input type="number" id="w3mission" style="width: 5%; font-size: 17px; text-align: center;" name="volume" min="0" max="100" value="50" required>
+                        </div>
+                    </div>
+
+                    <div v-if="this.ReactionValue === 'spotify.nextSong'" style="display:block;">
                         <button v-if="spotifyAccessToken == ''" id="btn-login" class="GConnect" @click="spotifyLogin()">Login with Spotify</button>
                         <div v-if="spotifyAccessToken !== ''">
                             <h1>Spotify</h1>
@@ -253,12 +264,17 @@ export default {
             googleAccessToken: '',
             userToken: '',
             spotifyAccessToken: '',
-            data1: '',
-            data2: '',
             id: '',
             googleMail: '',
+            url :'',
+            destMail : '',
+            bolien :'',
+            title :'',
+            name :'',
+            data :'',
+            text :'',
             ActionValue: 'GMailGetMail',
-            ReactionValue: 'GMailSendMail',
+            ReactionValue: 'gmail.sendMessage',
             legacySystemHTML: '',
             see: false,
             Area: null,
@@ -270,8 +286,6 @@ export default {
     computed: {
     },
     created() {
-        this.id = this.$route.params.id;
-        console.log('AT : ', this.$route.query.google)
         this.googleAccessToken = this.$route.query.google
         if (!this.googleAccessToken)
         this.googleAccessToken = ''
@@ -292,16 +306,56 @@ export default {
         },
         GoogleLogin(){
             let self = this
+            let that = this
             this.$gAuth.signIn(function (user) {
                 self.googleMail = user.Qt.zu
                 self.googleAccessToken = user.uc.access_token
-            }, function (error) {
+
+
+
+
+                let i = 0;
+                let id =''
+                for (i = 0; that.Action[i]; i++) {
+                    if (that.Action[i].name == "gmail.sendMessage") {
+                        var myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+var urlencoded = new URLSearchParams();
+urlencoded.append("serviceId", that.Action[i].id);
+urlencoded.append("token", that.userToken);
+
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: urlencoded,
+  redirect: 'follow'
+};
+
+fetch("/token/new?token=" + that.userToken, requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
+                    }
+                }
             })
         },
         seeArea() {
             let that = this
             let i = 0
             let j = 0
+            var data = {
+                url :that.url,
+                senderMail :that.googleMail,
+                destMail : that.destMail,
+                bool :that.bolien,
+                title :that.title,
+                name :that.name,
+                data :that.data,
+                text :that.text,
+                id :that.id
+            }
+            console.log(data)
 
             var requestOptions = {
                 method: 'GET',
@@ -325,10 +379,51 @@ export default {
                 that.legacySystemHTML += "<div class='portlet'>" +
                 "<div class='portlet-header'>Area " + j + "</div>" + "<div class='portlet-content'>" +
                                         "<label for='Action'></label>" +
-                                        "<div style='display:block;'>" + 'When you' + that.Area[i].action.description + ' then ' + that.Area[i].reaction.description +
+                                        "<div style='display:block;'>" + 'When you ' + that.Area[i].action.description + ' then ' + that.Area[i].reaction.description +
                                         "</div></div></div>"
  //+ that.Area[i].action.description + ' then' + that.Area[i].reaction.description + '</MARQUEE></FONT>'
             }
+        },
+        imgurlogin () {
+            let that = this
+                var CLIENT_ID = '094ee1cffcac340';
+                var REDIRECT_URI = 'http://localhost:8080/spotify';
+                function getLoginURL(scopes) {
+                    return 'https://api.imgur.com/oauth2/authorize?client_id=' + CLIENT_ID +
+                    '&response_type=token';
+                }
+
+                var url = getLoginURL([
+                    'user-read-email'
+                ]);
+
+                var width = 450,
+                height = 730,
+                left = (screen.width / 2) - (width / 2),
+                top = (screen.height / 2) - (height / 2);
+
+                window.addEventListener("message", function(event) {
+                    var hash = JSON.parse(event.data);
+                    if (hash.type == 'access_token') {
+                        callback(hash.access_token);
+                    }
+                }, false);
+                console.log(url)
+                var w = window.open(url,
+                    'Spotify',
+                    'menubar=no,location=no,resizable=no,scrollbars=no,status=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left
+                );
+                var myvar = setInterval(alertFunc, 500);
+                function alertFunc() {
+                    var hash = w.location.hash.substring(15); //Puts hash in variable, and removes the # character
+                    const word = hash.split('&')
+                    console.log(word[0])
+                    that.spotifyAccessToken = word[0]
+                    if (hash) {
+                        clearInterval(myvar)
+                        w.close()
+                    }
+                }
         },
         spotifyLogin() {
             let that = this
@@ -378,14 +473,31 @@ export default {
             let i = 0
             let act = -1
             let react = -1
+            console.log(that.Action)
             for (i = 0; that.Action[i]; i++) {
                 if (that.Action[i].name == that.ActionValue)
                 act = i
+                console.log(that.Action[i])
             }
+            console.log(that.Reaction)
             for (i = 0; that.Reaction[i]; i++) {
                 if (that.Reaction[i].name == that.ReactionValue)
                 react = i
+                console.log(that.Reaction[i])
             }
+
+            var data = {
+                url :that.url,
+                senderMail :that.googleMail,
+                destMail : that.destMail,
+                bool :that.bolien,
+                title :that.title,
+                name :that.name,
+                data :that.data,
+                text :that.text,
+                id :that.id
+            }
+            console.log(data)
 
             var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
@@ -395,6 +507,7 @@ export default {
             urlencoded.append("reactionId", that.Reaction[react].id);
             urlencoded.append("name", "I " + that.Action[act].name + "and " + that.Reaction[react].name + that.userToken);
             urlencoded.append("timeCheck", "-1");
+            urlencoded.append("data", data)
 
             var requestOptions = {
                 method: 'POST',
@@ -463,6 +576,7 @@ export default {
         .then(response => response.text())
         .then(function(result) {
             that.Area = JSON.parse(result).data
+            console.log(that.Area)
         })
         .catch(error => console.log('error', error));
 
