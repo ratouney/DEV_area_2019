@@ -40,7 +40,7 @@ async function runArea(id) {
     }
 
     // Getting the user's access token for that service
-    const actionToken = await tokenRepo.findOne({where: {user: entry.user.id}});
+    const actionToken = await tokenRepo.findOne({where: {user: entry.user.id, service: entry.action.id}});
     console.log("Action Token : ", actionToken);
 
     let rt = await actionfunc(actionToken == null ? "" : actionToken.token);
@@ -67,7 +67,7 @@ async function runArea(id) {
         return false;
     }
 
-    const reactionToken = await tokenRepo.findOne({where: {user: entry.user.id}});
+    const reactionToken = await tokenRepo.findOne({where: {user: entry.user.id, service: entry.reaction.id}});
     console.log("Reaction Token : ", actionToken);
 
     console.log("Sending to Reaction : ", rt);
