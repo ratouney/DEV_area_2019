@@ -8,6 +8,7 @@ import { PokeAPI } from "./api/pokemon"
 import { NasaAPI } from "./api/nasa"
 import { Meteo } from "./api/meteo"
 import { ImgurAPI } from "./api/imgur"
+import { info } from './../about';
 
 const imgur = new ImgurAPI();
 const pokapi = new PokeAPI();
@@ -51,5 +52,10 @@ export class AppController {
 //      gsheet.createSheet("ya29.Il-_B_egrtEOJVeQgacPzl6jrKFh67moD32EkXr_km0r_pET2Ty0fd90_R-uhJlEkZDcVelB1lCFsbUo4eNM4Ou-mUyWry-Mfl1JM2iB1EVP_7L860CbkekAt9_YSZMuzg", info)
       gsheet.sheetChange("ya29.ImC_ByLpAK2zNCcrCjsTNoD7Qw8-P89bdUitDR_DrO13FzBCOzf4gbG5rGYQy8RMas-vrXLZZIUOi3ss_ERjC-cDxmXaiXRi_S6enYlQIsOwq9GLhW-nZGM9IO3lj8SC3kY", info);
     return this.appService.getHello();
+  }
+
+  @Get('/about.json')
+  serviceInfo() : object {
+	  return info(process.env.HOST, Date.now())
   }
 }

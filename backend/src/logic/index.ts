@@ -5,11 +5,11 @@ import entities, { Area, Action, Token } from './../entities';
 async function runArea(id) {
     var _conn = await createConnection({
         "type": "postgres",
-        "host": "localhost",
+        "host": process.env.DB_HOST,
         "port": 5432,
-        "username": "postgres",
-        "password": "postgres",
-        "database": "area",
+        "username": process.env.DB_USER,
+        "password": process.env.DB_PASS,
+        "database": process.env.DB_NAME,
         "entities": entities,
         "name": `runArea-${id}`,
         "logging": true

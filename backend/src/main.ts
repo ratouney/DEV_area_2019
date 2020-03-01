@@ -6,15 +6,19 @@ import { InjectRepository } from '@nestjs/typeorm';
 import apis from './api';
 import runArea from './logic';
 import quickdbmodif from './quickdb';
+import populate from '../populate';
+
+require('dotenv').config()
 
 async function initConnection() {
+  console.log("Connecting : ", process.env.DB_USER);
   var _conn = await createConnection({
     "type": "postgres",
-    "host": "localhost",
+    "host": process.env.DB_HOST,
     "port": 5432,
-    "username": "postgres",
-    "password": "postgres",
-    "database": "area",
+    "username": process.env.DB_USER,
+    "password": process.env.DB_PASS,
+    "database": process.env.DB_NAME,
     "entities": entities,
     "name": "fuck off",
     "logging": true
@@ -50,6 +54,9 @@ async function bootstrap() {
   await app.listen(process.env.PORT || 3001);
 }
 
-setInterval(initConnection, 10000);
-quickdbmodif();
+
+console.log("ENVIRONMENT : ", process.env.HOST);
+populate();
+//setInterval(initConnection, 10000);
+//quickdbmodif();
 bootstrap();
