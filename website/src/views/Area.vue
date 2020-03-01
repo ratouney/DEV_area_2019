@@ -1,6 +1,3 @@
-import sheet from '../../../../app/src/main/res/drawable/sheet.png';
-import pokemon from '../../../../app/src/main/res/drawable/pokemon.png';
-import { Action } from '../../../backend/src/entities';
 <template>
     <html>
     <div id="area">
@@ -19,8 +16,6 @@ import { Action } from '../../../backend/src/entities';
             <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
             <link rel="stylesheet" href="/resources/demos/style.css">
 
-            <button class="btn btn-primary" id="btn-login" @click="test()">Login</button>
-            <button class="btn btn-primary" @click="SpotifyLogin()">Login2</button>
             <div v-if="!see">
             <h1>Create Area</h1>
 
@@ -140,9 +135,9 @@ import { Action } from '../../../backend/src/entities';
                         <div v-if="googleAccessToken !== ''">
                             <h1>Gmail</h1>
                             <p>Send a mail</p>
-                            <input type="email" id="w3mission" style="width: 30%;" name="email" value="Send to" required>
+                            <input v-model="data1" type="email" id="w3mission" style="width: 30%;" name="email" value="Send to" required>
                             <br>
-                            <input type="text" id="w3mission" style="width: 30%;" name="objet" value="Subject" required>
+                            <input v-model="data2" type="text" id="w3mission" style="width: 30%;" name="objet" value="Subject" required>
                             <div style="display:block;">
                                 <textarea id="w3mission" rows="6" cols="65">
                                     Votre texte
@@ -177,14 +172,22 @@ import { Action } from '../../../backend/src/entities';
                     </div>
 
                     <div v-if="this.ReactionValue === 'Volume'" style="display:block;">
-                        <h1>Spotify</h1>
-                        <p>Set the volume in Spotify</p>
-                        <input type="number" id="w3mission" style="width: 5%; font-size: 17px; text-align: center;" name="volume" min="0" max="100" value="50" required>
+                        <button v-if="spotifyAccessToken == ''" id="btn-login" class="GConnect" @click="spotifyLogin()">Login with Spotify</button>
+                        <div v-if="spotifyAccessToken !== ''">
+                            <h1>Spotify</h1>
+                            <p>Set the volume in Spotify</p>
+                            <input type="number" id="w3mission" style="width: 5%; font-size: 17px; text-align: center;" name="volume" min="0" max="100" value="50" required>
+                        </div>
                     </div>
 
+
                     <div v-if="this.ReactionValue === 'Pause'" style="display:block;">
-                        <h1>Spotify</h1>
-                        <p>Pause the song</p>
+                        <button v-if="spotifyAccessToken == ''" id="btn-login" class="GConnect" @click="spotifyLogin()">Login with Spotify</button>
+                        <div v-if="spotifyAccessToken !== ''">
+
+                            <h1>Spotify</h1>
+                            <p>Pause the song</p>
+                        </div>
                     </div>
 
                     <div v-if="this.ReactionValue === 'UploadPicture'" style="display:block;">
@@ -216,8 +219,6 @@ import { Action } from '../../../backend/src/entities';
             </div>
 
             <!--========================================= Fin cardview 2 ===================================-->
-
-
 
 
             <button @click="createArea()" style="width:25%; background-color: #4CAF50; font-size: 30px;">Confirm</button> <!-- bouton d'envoie -->
@@ -252,6 +253,8 @@ export default {
             googleAccessToken: '',
             userToken: '',
             spotifyAccessToken: '',
+            data1: '',
+            data2: '',
             id: '',
             googleMail: '',
             ActionValue: 'GMailGetMail',
@@ -327,6 +330,49 @@ export default {
  //+ that.Area[i].action.description + ' then' + that.Area[i].reaction.description + '</MARQUEE></FONT>'
             }
         },
+        spotifyLogin() {
+            let that = this
+                var CLIENT_ID = 'd3ebae5610894ca48c9f66794214252b';
+                var REDIRECT_URI = 'http://localhost:8080/spotify';
+                function getLoginURL(scopes) {
+                    return 'https://accounts.spotify.com/authorize?client_id=' + CLIENT_ID +
+                    '&redirect_uri=' + encodeURIComponent(REDIRECT_URI) +
+                    '&scope=' + encodeURIComponent(scopes.join(' ')) +
+                    '&response_type=token';
+                }
+
+                var url = getLoginURL([
+                    'user-read-email'
+                ]);
+
+                var width = 450,
+                height = 730,
+                left = (screen.width / 2) - (width / 2),
+                top = (screen.height / 2) - (height / 2);
+
+                window.addEventListener("message", function(event) {
+                    var hash = JSON.parse(event.data);
+                    if (hash.type == 'access_token') {
+                        callback(hash.access_token);
+                    }
+                }, false);
+                var w = window.open(url,
+                    'Spotify',
+                    'menubar=no,location=no,resizable=no,scrollbars=no,status=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left
+                );
+                var myvar = setInterval(alertFunc, 500);
+                function alertFunc() {
+                    var hash = w.location.hash.substring(15); //Puts hash in variable, and removes the # character
+                    const word = hash.split('&')
+                    console.log(word[0])
+                    that.spotifyAccessToken = word[0]
+                    if (hash) {
+                        clearInterval(myvar)
+                        w.close()
+                    }
+                }
+
+        },
         createArea() {
             let that = this
             let i = 0
@@ -372,7 +418,6 @@ export default {
             .then(function(result) {
                 console.log(JSON.parse(result).data)
                 that.Area = JSON.parse(result).data
-                console.log(that.Area)
             })
             .catch(error => console.log('error', error));
 
@@ -380,68 +425,6 @@ export default {
     },
     mounted(){
         let that = this
-
-        this.$nextTick(function() {
-            function login(callback) {
-                var CLIENT_ID = 'd3ebae5610894ca48c9f66794214252b';
-                var REDIRECT_URI = 'http://localhost:8080/spotify';
-                function getLoginURL(scopes) {
-                    return 'https://accounts.spotify.com/authorize?client_id=' + CLIENT_ID +
-                    '&redirect_uri=' + encodeURIComponent(REDIRECT_URI) +
-                    '&scope=' + encodeURIComponent(scopes.join(' ')) +
-                    '&response_type=token';
-                }
-
-                var url = getLoginURL([
-                    'user-read-email'
-                ]);
-
-                var width = 450,
-                height = 730,
-                left = (screen.width / 2) - (width / 2),
-                top = (screen.height / 2) - (height / 2);
-
-                window.addEventListener("message", function(event) {
-                    var hash = JSON.parse(event.data);
-                    if (hash.type == 'access_token') {
-                        callback(hash.access_token);
-                    }
-                }, false);
-                var w = window.open(url,
-                    'Spotify',
-                    'menubar=no,location=no,resizable=no,scrollbars=no,status=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left
-                );
-                var myvar = setInterval(alertFunc, 500);
-                function alertFunc() {
-                    var hash = w.location.hash.substring(15); //Puts hash in variable, and removes the # character
-                    const word = hash.split('&')
-                    console.log(word[0])
-                    that.spotifyAccessToken = word[0]
-                    if (hash) {
-                        clearInterval(myvar)
-                        w.close()
-                    }
-                }
-            }
-
-            var loginButton = document.getElementById('btn-login');
-
-            loginButton.addEventListener('click', function() {
-                login(function(accessToken) {
-                    console.log(accessToken)
-                });
-            });
-
-        })
-
-
-
-
-
-
-
-
-        console.log(that.userToken)
         if (that.userToken == '')
             $router.push('/')
         var requestOptions = {
