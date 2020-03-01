@@ -8,8 +8,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/.." />
+            <option value="$PROJECT_DIR$/../Area" />
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/../spotify-app-remote-release-0.7.0" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

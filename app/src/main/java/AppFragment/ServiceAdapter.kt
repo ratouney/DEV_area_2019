@@ -46,10 +46,12 @@ class ServiceAdapter(list: List<MyServices>, context: Context, dialog: Dialog) :
         txt.setOnClickListener {
             if (MyArea.action != null) {
                 MyArea.reaction = myObject.id
+                MyArea.reactionName = myObject.name
                 MyArea.reactionParam = tt.text.toString()
             }
             else {
                 MyArea.action = myObject.id
+                MyArea.actionName = myObject.name
                 MyArea.actionParam = tt.text.toString()
             }
             tt.text.clear()
@@ -60,7 +62,7 @@ class ServiceAdapter(list: List<MyServices>, context: Context, dialog: Dialog) :
 
             dialog.hide()
             if (MyArea.action != null && MyArea.reaction != null)
-                APICalls.POST.LinkArea(MyArea.action, MyArea.reaction, kotlin.random.Random.nextInt().toString(), MyArea.actionParam, MyArea.reactionParam)
+                APICalls.POST.LinkArea(MyArea.action, MyArea.reaction, MyArea.actionParam, MyArea.reactionParam)
             onClick()
         }
         myViewHolder.bind(myObject)

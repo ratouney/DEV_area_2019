@@ -1,7 +1,9 @@
 package com.example.area
 
+import AppFragment.MyArea
 import android.util.Log
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonObject
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -229,7 +231,79 @@ object APICalls {
             return true
         }
 
-        fun LinkArea(action : String?, reaction : String?, name :String?, param1:String?="", param2:String?="") : Boolean {
+        fun ParseAction(name : String, param : String, json : JSONObject)  : JSONObject{
+            //send && draft
+            if (name.equals("gmail.sendMessage") || name.equals("gmail.createDraft")) {
+                val t = param.split(", ")
+                print(param + " -> " + t)
+                try {
+                    json.put("senderMail", t[0])
+                    json.put("destMail", t[1])
+                    json.put("title", t[2])
+                    json.put("text", t[3])
+                } catch (e : Exception) {
+                }
+            }
+            //create sheet
+            if (name.equals("gsheet.createSheet")) {
+                json.put("title", param)
+            }
+            //sheet change
+            if (name.equals("gsheet.sheetChange")) {
+                if (param.contains("http")) {
+                    json.put("id", param.split("/")[-2])
+                } else {
+                    json.put("id", param)
+                }
+
+            }
+            //volume
+            if (name.equals("spotify.setVolume")) {
+                json.put("data", param)
+            }
+            //meteo
+            if (name.equals("meteo.weatherByCity")) {
+                json.put("name", param)
+            }
+            //uv
+            if (name.equals("meteo.uvLimitReached")) {
+                val t = param.split(", ")
+                try {
+                    json.put("name", t[0])
+                    json.put("data", t[1])
+                } catch (e : Exception) {
+                }
+            }
+            //upload
+            if (name.equals("imgur.uploadPic")) {
+                val t = param.split(", ")
+                try {
+                    json.put("url", t[0])
+                    json.put("title", t[1])
+                    json.put("text", t[2])
+                } catch (e : Exception) {
+                }
+            }
+            //tag && fav
+            if (name.equals("imgur.isThereNewPicForTag") || name.equals("imgur.userGotNewFav") || name.equals("pokemon.getPokemonByName")) {
+                json.put("name", param)
+            }
+            //new vote && new comment
+            if (name.equals("imgur.getNewVote") || name.equals("imgur.getNewComment")) {
+                if (param.contains("http")) {
+                    json.put("id", param.split("/").last())
+                } else {
+                    json.put("id", param)
+                }
+            }
+            //bio imgur
+            if (name.equals("imgur.changeUserBio")) {
+                json.put("text", param)
+            }
+            return json
+        }
+
+        fun LinkArea(action : String?, reaction : String?, param1:String?="", param2:String?="") : Boolean {
 
             val tok = UserInfo.getInstance().APItok
             val us = UserInfo.getInstance().username
@@ -238,10 +312,17 @@ object APICalls {
 
             val p1 : String = param1 ?: ""
             val p2 : String = param2 ?: ""
-            val n = "$action:$name:$reaction:$us"
+            val n = "$action:${kotlin.random.Random.nextInt()}:$reaction:$us"
+            var data = JSONObject()
+            data = ParseAction(MyArea.actionName!!, p1, data)
+            data = ParseAction(MyArea.reactionName!!, p2, data)
+
+            println()
+            println(data.toString())
+            println()
 
             val mediaType = MediaType.parse("application/x-www-form-urlencoded")
-            val body = RequestBody.create(mediaType, "actionId=$action&reactionId=$reaction&name=$n&timeCheck=5&Aparam=$p1&Rparam=$p2")
+            val body = RequestBody.create(mediaType, "actionId=$action&reactionId=$reaction&name=$n&timeCheck=5&data=${data}")
             val request = Request.Builder()
                     .url("http://$ip:$port/area/new?token=$tok")
                     .header("Content-Type", "application/x-www-form-urlencoded")
