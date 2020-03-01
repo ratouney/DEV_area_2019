@@ -1,8 +1,7 @@
 import { createConnection } from "typeorm"
-import entities, { Reaction } from './entities';
+import entities, { Reaction, Area } from './entities';
 
 async function quickdbmodif() {
-    return null;
     var _conn = await createConnection({
         "type": "postgres",
         "host": "localhost",
@@ -15,13 +14,23 @@ async function quickdbmodif() {
         "logging": true
     })
 
-    const reactionRepo = _conn.getRepository(Reaction);
+    const reactionRepo = _conn.getRepository(Area);
 
-    const entry = await reactionRepo.findOne("666d2309-b434-47bf-abcd-b5d6346261d1");
+    const entry = await reactionRepo.findOne("a1c7f2e7-53ae-4136-b5f8-f8a7b0ac9ee3");
 
-    entry.arguments = ["receiver"]
+    console.log("Found and updating : ", entry);
 
-    const rt = await reactionRepo.update("666d2309-b434-47bf-abcd-b5d6346261d1", entry);
+    const data = {
+        senderMail: "ratouney1998@gmail.com",
+        destMail: "maxime.de-la-fouchardiere@epitech.eu",
+        title: "Hello bitch",
+    }
+
+    entry.data = JSON.stringify(data);
+
+    console.log("Entry should be now : ", entry);
+
+    const rt = await reactionRepo.update("a1c7f2e7-53ae-4136-b5f8-f8a7b0ac9ee3", entry);
 
     console.log("RT : ", rt);
 

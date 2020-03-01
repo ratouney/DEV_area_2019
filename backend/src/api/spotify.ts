@@ -8,9 +8,8 @@ export class SpotifyAPI {
 
     constructor() {}
 
-    async pauseSong(accessToken : string) {
-        const head = "Bearer " + accessToken
-        console.log(head)
+    async pauseSong(accessToken : string, info) {
+        const head = "Bearer " + accessToken;
         const uri = baseUrl + "pause";
         const config = {
             url : uri,
@@ -23,7 +22,7 @@ export class SpotifyAPI {
         await req.callWithHeader(config);
     }
 
-    async nextSong(accessToken) {
+    async nextSong(accessToken, info) {
         const head = 'Bearer ' + accessToken
         const uri = baseUrl + "next"
         const config = {
@@ -37,8 +36,8 @@ export class SpotifyAPI {
         await req.callWithHeader(config);
     }
 
-    async prevSong(userId) {
-        const head = 'Bearer ' + userId
+    async prevSong(accessToken, info) {
+        const head = 'Bearer ' + accessToken
         const uri = baseUrl + "previous"
         const config = {
             url : uri,
@@ -51,17 +50,17 @@ export class SpotifyAPI {
         await req.callWithHeader(config);
     }
 
-    async setVolume(userId, volume) {
-        const head = 'Bearer ' + userId
-        const uri = "https://api.spotify.com/v1/me/player/volume?volume_percent=" + volume
+    async setVolume(accessToken, info) {
+        const head = 'Bearer ' + accessToken
+        const uri = "https://api.spotify.com/v1/me/player/volume?volume_percent=" + info.data
         const config = {
             url : uri,
-            method : 'post',
+            method : 'put',
             headers : {
                 'Authorization': head,
                 'Accept': 'application/json'
             }
         }
-        await req.callWithHeader(config);
+        const data = await req.callWithHeader(config);
     }
 }

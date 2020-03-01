@@ -34,4 +34,10 @@ export default class Area {
         default: "NULL",
     })
     lastRun: string;
+
+    @Column({
+        nullable: true,
+        default: "{}",
+    })
+    data: string;
 }

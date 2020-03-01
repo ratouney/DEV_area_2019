@@ -7,7 +7,7 @@ const req = new Request();
 
 export class GmailAPI {
 
-    private createMessage(sender, to, subject, body) {
+    createMessage(sender, to, subject, body) {
         const message = new MIMEText()
 
         message.setSender(sender)
@@ -17,8 +17,13 @@ export class GmailAPI {
         return message
     }
 
-    async sendMessage(googleId, sender, to, subject, body) {
-        const message = this.createMessage(sender, to, subject, body);
+    async sendMessage(googleId, info) {
+        //const message = this.createMessage(info.senderMail, info.destMail, info.title, info.text);
+        const message = new MIMEText();
+        message.setSender(info.senderMail);
+        message.setRecipient(info.destMail);
+        message.setSubject(info.title);
+        message.setMessage(info.text || info.url);
         console.log(message)
         const head = 'Bearer ' + googleId
         const uri = urlBase + "v1/users/me/messages/send?key=" + key.google.APIKey
@@ -34,11 +39,17 @@ export class GmailAPI {
                 'raw': message.asEncoded()
             }
         }
-        await req.callWithHeader(config);
+        const rt = await req.callWithHeader(config);
+        console.log("SendMessage RT : ", rt);
     }
 
-    async createDraft(googleId, sender, to, subject, body) {
-        const message = this.createMessage(sender, to, subject, body);
+    async createDraft(googleId, info) {
+        //const message = this.createMessage(info.senderMail, info.destMail, info.title, info.text);
+        const message = new MIMEText();
+        message.setSender(info.senderMail);
+        message.setRecipient(info.destMail);
+        message.setSubject(info.title);
+        message.setMessage(info.text || info.url);
         console.log(message)
         const head = 'Bearer ' + googleId
         const uri = urlBase + "v1/users/me/drafts?key=" + key.google.APIKey
@@ -59,8 +70,8 @@ export class GmailAPI {
         await req.callWithHeader(config);
     }
 
-    async hasGotNewMsg(googleId, lastMessageId) {
-        const uri = urlBase + "/v1/users/me/messages?maxResults=1&key=" + key.google.APIKey
+    async hasGotNewMsg(googleId, info) {
+        const uri = urlBase + "v1/users/me/messages?maxResults=1&key=" + key.google.APIKey
         const head = 'Bearer ' + googleId
         const config = {
             url: uri,
@@ -72,7 +83,14 @@ export class GmailAPI {
             }
         }
         const data = await req.callWithHeader(config);
-        console.log(data);
-        return (data.messages.id > lastMessageId)
+	var toReturn = {
+		bool : false,
+		id : info.id
+	}
+	if (data.messages.id > info.id) {
+		toReturn.bool = true
+		toReturn.id = data.messages.id
+	}
+	return toReturn;
     }
 }
