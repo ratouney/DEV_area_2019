@@ -6,11 +6,18 @@ services:
     hostname: server_host
     build: backend/.
     ports:
-      - 3001:8080
-#    env_file:
-#      - .env
+      - 8080:8080
+    #env_file:
+    #  - backend/.env
+    environment:
+      DB_HOST: postgres_alias
+      DB_USER: postgres
+      DB_PASS: postgres
+      DB_NAME: area
     networks:
-      - webnet
+      webnet:
+        aliases:
+          - server_alias
     depends_on:
       - postgres
   web:
@@ -18,7 +25,7 @@ services:
     hostname: web_host
     build: website/.
     ports:
-      - 8080:8081
+      - 8081:8080
     networks: 
       - webnet
     depends_on:
