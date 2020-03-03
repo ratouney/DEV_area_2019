@@ -14,7 +14,7 @@ export class AreaController {
     @Get('me')
     getUsersAreas(@Query('token') token) : object {
         return this.as.getAreas(token);
-    }
+    }   
 
     @Post('new')
     createArea(@Query('token') token, @Body() params) : object {
