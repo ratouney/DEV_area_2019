@@ -432,7 +432,7 @@ fetch("/token/new?token=" + that.userToken, requestOptions)
                 function getLoginURL(scopes) {
                     return 'https://accounts.spotify.com/authorize?client_id=' + CLIENT_ID +
                     '&redirect_uri=' + encodeURIComponent(REDIRECT_URI) +
-                    '&scope=' + encodeURIComponent(scopes.join(' ')) +
+                    '&scope=' + encodeURIComponent(scopes.join(' ')) + '&scope=user-read-email user-modify-playback-state' + 
                     '&response_type=token';
                 }
 
