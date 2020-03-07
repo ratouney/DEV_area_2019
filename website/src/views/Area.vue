@@ -15,7 +15,7 @@
             <title>jQuery UI Menu - Default functionality</title>
             <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
             <link rel="stylesheet" href="/resources/demos/style.css">
-            <!--<button class="GConnect" @click="imgurlogin">Login with imgur</button>-->
+            <button class="GConnect" @click="imgurlogin">Login with imgur</button>
 
             <div v-if="!see">
             <h1>Create Area</h1>
@@ -385,17 +385,19 @@ fetch("/token/new?token=" + that.userToken, requestOptions)
             }
         },
         imgurlogin () {
+
             let that = this
                 var CLIENT_ID = '094ee1cffcac340';
-                var REDIRECT_URI = 'http://localhost:8080/spotify';
+                var REDIRECT_URI = 'https://api.imgur.com/oauth2/authorize?response_type=token&client_id=094ee1cffcac340';
                 function getLoginURL(scopes) {
-                    return 'https://api.imgur.com/oauth2/authorize?client_id=' + CLIENT_ID +
-                    '&response_type=token';
+                    return REDIRECT_URI/*'https://api.imgur.com/oauth2/authorize?client_id=' + CLIENT_ID +
+                    '&response_type=token'*/;
                 }
 
                 var url = getLoginURL([
                     'user-read-email'
                 ]);
+                console.log(url)
 
                 var width = 450,
                 height = 730,
@@ -408,15 +410,15 @@ fetch("/token/new?token=" + that.userToken, requestOptions)
                         callback(hash.access_token);
                     }
                 }, false);
-                console.log(url)
                 var w = window.open(url,
-                    'Spotify',
+                    'Imgur',
                     'menubar=no,location=no,resizable=no,scrollbars=no,status=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left
                 );
                 var myvar = setInterval(alertFunc, 500);
                 function alertFunc() {
-                    var hash = w.location.hash.substring(15); //Puts hash in variable, and removes the # character
+                    var hash = w.location.hash; //Puts hash in variable, and removes the # character
                     const word = hash.split('&')
+                    console.log(hash)
                     console.log(word[0])
                     that.spotifyAccessToken = word[0]
                     if (hash) {
@@ -432,14 +434,13 @@ fetch("/token/new?token=" + that.userToken, requestOptions)
                 function getLoginURL(scopes) {
                     return 'https://accounts.spotify.com/authorize?client_id=' + CLIENT_ID +
                     '&redirect_uri=' + encodeURIComponent(REDIRECT_URI) +
-                    '&scope=' + encodeURIComponent(scopes.join(' ')) + '&scope=user-read-email user-modify-playback-state' + 
+                    '&scope=' + encodeURIComponent(scopes.join('')) +
                     '&response_type=token';
                 }
 
                 var url = getLoginURL([
-                    'user-read-email'
+                    'user-read-email' + ' ' + 'user-modify-playback-state'
                 ]);
-
                 var width = 450,
                 height = 730,
                 left = (screen.width / 2) - (width / 2),
