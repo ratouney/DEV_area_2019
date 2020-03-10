@@ -18,11 +18,13 @@ export class NasaAPI {
 	
 	async marsPhoto(accessToken, info) {
 		const data = await req.getCall(baseUrl + "mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=" + key.nasa);
+
+		const infoid = Math.round(Math.random() * data.photos.length);
 		const toReturn = {
-			url : data.photos[info.id].img_src,
-			title : "Mars photo n°" + info.id,
-			text : "Mars photo taken by rover " + data.photos[info.id].rover.name + "\nPhoto url : " + data.photos[info.id].img_src,
-			id : info.id > 855 ? 0 : info.id + 1
+			url : data.photos[infoid].img_src,
+			title : "Mars photo n°" + infoid,
+			text : "Mars photo taken by rover " + data.photos[infoid].rover.name + "\nPhoto url : " + data.photos[infoid].img_src,
+			id : infoid > 855 ? 0 : infoid + 1
 		}
 		return toReturn
 	}
