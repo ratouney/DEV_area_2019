@@ -246,7 +246,12 @@ object APICalls {
             }
             //create sheet
             if (name.equals("gsheet.createSheet")) {
-                json.put("title", param)
+                val t = param.split(", ")
+                try {
+                    json.put("title", t[0])
+                    json.put("name", t[1])
+                } catch (e : Exception) {
+                }
             }
             //sheet change
             if (name.equals("gsheet.sheetChange")) {
@@ -298,7 +303,12 @@ object APICalls {
             }
             //bio imgur
             if (name.equals("imgur.changeUserBio")) {
-                json.put("text", param)
+                val t = param.split(", ")
+                try {
+                    json.put("name", t[0])
+                    json.put("text", t[1])
+                } catch (e : Exception) {
+                }
             }
             return json
         }
