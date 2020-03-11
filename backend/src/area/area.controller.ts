@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Post, Body, Put } from '@nestjs/common';
+import { Controller, Get, Query, Post, Body, Put, Delete } from '@nestjs/common';
 import { AreaService } from './area.service';
 import { Cron, Interval } from '@nestjs/schedule';
 
@@ -20,6 +20,11 @@ export class AreaController {
     createArea(@Query('token') token, @Body() params) : object {
 	console.log("AreaControllerBody :", params);
         return this.as.createArea(token, params);
+    }
+
+    @Delete('yeet')
+    removeArea(@Query('id') id) : object {
+        return this.as.removeArea(id);
     }
 
     @Get('trigger')

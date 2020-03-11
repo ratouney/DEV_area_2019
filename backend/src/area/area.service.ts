@@ -107,6 +107,22 @@ export class AreaService {
         return rtb;
     }
 
+    async removeArea(id) : Promise<object> {
+        const rtb = await this.AreaRepository.delete(id);
+
+        if (rtb.affected == 0) {
+            return {
+                statusCode: 400,
+                error: "Area not found"
+            }
+        }
+        return {
+            statusCode: 205,
+            msg: "Area successfully deleted out",
+            data: null
+        }
+    }
+
     async getActions(serviceId) : Promise<object> {
         if (serviceId == "" ||serviceId == null) {
             return this.getAllActions();
