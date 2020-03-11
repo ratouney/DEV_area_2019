@@ -7,7 +7,7 @@ import { PokeAPI } from './pokemon';
 import { SpotifyAPI } from './spotify';
 
 const gmail = new GmailAPI();
-const sheets = new GoogleSheetAPI();
+const sheet = new GoogleSheetAPI();
 const imgur = new ImgurAPI();
 const meteo = new Meteo();
 const nasa = new NasaAPI();
@@ -15,7 +15,7 @@ const pokemon = new PokeAPI();
 const spotify = new SpotifyAPI();
 
 export default {
-    sheets,
+    sheet,
     spotify,
     imgur,
     gmail,
