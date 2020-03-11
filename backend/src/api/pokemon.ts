@@ -6,15 +6,20 @@ export class PokeAPI {
     
     async getPokemonByName(accessToken, info)
     {
-        const data = await p.getPokemonByName(name[info.id].toLowerCase()).catch(function(error) {
+        const infoid = Math.round(Math.random() * name.length) - 1;
+        const pokename = name[infoid];
+        console.log("InfoID : ", infoid);
+        console.log("Pokename : ", pokename);
+
+        const data = await p.getPokemonByName(pokename.toLowerCase()).catch(function(error) {
             console.log('Error to find your pokemon :', error)
         })
         const toReturn = {
-            title : "Today's Pokemon : " + name[info.id],
-            name : name[info.id],
-            text : "Name : " + name[info.id] + "\nPokedex number : " + info.id + "\nPicture url :" + data.sprites ? "\nDefault : " + data.sprites.front_default + "\nShiny : " + data.sprites.front_shiny : "none",
+            title : "Today's Pokemon : " + name[infoid],
+            name : name[infoid],
+            text : "Name : " + name[infoid] + "\nPokedex number : " + infoid + "\nPicture url :" + data.sprites ? "\nDefault : " + data.sprites.front_default + "\nShiny : " + data.sprites.front_shiny : "none",
             url : data.sprites ? data.sprites.front_default : null,
-            id : info.id < 808 ? info.id + 1 : 0,
+            id : infoid < 808 ? infoid + 1 : 0,
             bool : true
         }
         return toReturn;

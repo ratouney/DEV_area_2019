@@ -11,7 +11,7 @@ async function runArea(id) {
         "password": process.env.DB_PASS,
         "database": process.env.DB_NAME,
         "entities": entities,
-        "name": `runArea-${id}`,
+        "name": `runArea-${Date().toString()}`,
         "logging": true
     })
 
@@ -51,8 +51,8 @@ async function runArea(id) {
     const data = JSON.parse(entry.data);
     console.log("Adding AREA.data to the block : ", data);
     rt = {
-        ...rt,
-        ...data
+        ...data,
+        ...rt
     };
 
     // Doing the same shit for reaction
@@ -80,7 +80,7 @@ async function runArea(id) {
 
     // QUpd
     const val = Date.now().toString();
-    // await areaRepo.update(id, {lastRun: val,});
+    await areaRepo.update(id, {lastRun: val,});
 
     _conn.close();
 }
