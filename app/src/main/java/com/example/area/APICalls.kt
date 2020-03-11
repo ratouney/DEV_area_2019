@@ -193,7 +193,8 @@ object APICalls {
                     println(data);
                     UserInfo.getInstance().APItok = data.getString("data")
                 } else {
-
+                    val data = JSONObject(response.body()!!.string())
+                    println(data);
                     return false
                 }
             }
@@ -245,7 +246,7 @@ object APICalls {
                 }
             }
             //create sheet
-            if (name.equals("gsheet.createSheet")) {
+            if (name.equals("sheet.createSheet")) {
                 val t = param.split(", ")
                 try {
                     json.put("title", t[0])
@@ -254,7 +255,7 @@ object APICalls {
                 }
             }
             //sheet change
-            if (name.equals("gsheet.sheetChange")) {
+            if (name.equals("sheet.sheetChange")) {
                 if (param.contains("http")) {
                     json.put("id", param.split("/")[-2])
                 } else {
