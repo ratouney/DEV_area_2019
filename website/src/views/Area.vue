@@ -38,7 +38,7 @@
                         <option value="imgur.userGotNewFav">New Favorite</option>
                         <option value="UV">UV limit</option>
                         <option value="Weather">Daily Weather</option>
-                        <option value="Pokemon">Get a Pokemon</option>
+                        <option value="pokemon.getPokemonByName">Get a Pokemon</option>
                     </select>
 
                     <div v-if="this.ActionValue === 'GMailGetMail'" style="display:block;">
@@ -101,7 +101,7 @@
                         <input type="text" id="w3mission" style="width: 15%; font-size: 17px; text-align: center;" name="city" value="City" required>
                     </div>
 
-                    <div v-if="this.ActionValue === 'Pokemon'" style="display:block;">
+                    <div v-if="this.ActionValue === 'pokemon.getPokemonByName'" style="display:block;">
                         <h1>Pokemon</h1>
                         <p>Get a random Pokemon</p>
                     </div>
@@ -124,7 +124,7 @@
                     <select @change="onChangeReaction($event)" class="form-control" id="reaction">
                         <option value="gmail.sendMessage">Send an e-mail</option>
                         <option value="SheetCreateNew">Create a Sheet</option>
-                        <option value="createDraft">create a draft</option>
+                        <option value="gmail.createDraft">create a draft</option>
                         <option value="Volume">Set the volume</option>
                         <option value="Pause">Music on pause</option>
                         <option value="spotify.nextSong">Play next song</option>
@@ -157,16 +157,16 @@
                         </div>
                     </div>
 
-                    <div v-if="this.ReactionValue === 'createDraft'" style="display:block;">
-                        <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit" class="GConnect"><i class="fa fa-google fa-fw"></i>Sign in with Google</button>
+                    <div v-if="this.ReactionValue === 'gmail.createDraft'" style="display:block;">
+                        <button v-if="googleAccessToken == ''" @click="GoogleLogin" :disabled="!isInit " class="GConnect"><i class="fa fa-google fa-fw"></i>Sign in with Google</button>
                         <div v-if="googleAccessToken !== ''">
                             <h1>Gmail</h1>
-                            <p>Create a draft</p>
-                            <input type="email" id="w3mission" style="width: 30%;" name="email" value="Send to" required>
+                            <p>Send a mail</p>
+                            <input v-model="destMail" type="email" id="w3mission" style="width: 30%;" name="email" value="Send to" required>
                             <br>
-                            <input type="text" id="w3mission" style="width: 30%;" name="objet" value="Subject" required>
+                            <input v-model="title" type="text" id="w3mission" style="width: 30%;" name="objet" value="Subject" required>
                             <div style="display:block;">
-                                <textarea id="w3mission" rows="6" cols="65">
+                                <textarea v-model="text" id="w3mission" rows="6" cols="65">
                                     Votre texte
                                 </textarea>
                             </div>
@@ -186,8 +186,7 @@
                         <button v-if="spotifyAccessToken == ''" id="btn-login" class="GConnect" @click="spotifyLogin()">Login with Spotify</button>
                         <div v-if="spotifyAccessToken !== ''">
                             <h1>Spotify</h1>
-                            <p>Set the volume in Spotify</p>
-                            <input type="number" id="w3mission" style="width: 5%; font-size: 17px; text-align: center;" name="volume" min="0" max="100" value="50" required>
+                            <p>Play next song in your playlist</p>
                         </div>
                     </div>
 
@@ -280,12 +279,14 @@ export default {
             Area: null,
             Action: null,
             Reaction: null,
+            Services: null,
             isInit: false
         }
     },
     computed: {
     },
     created() {
+        let that = this
         this.googleAccessToken = this.$route.query.google
         if (!this.googleAccessToken)
         this.googleAccessToken = ''
@@ -294,6 +295,19 @@ export default {
         if(this.$route.query.debug) {
             this.userToken = this.$route.query.debug;
         }
+        var requestOptions = {
+          method: 'GET',
+          redirect: 'follow'
+        };
+
+        fetch("/service", requestOptions)
+          .then(response => response.text())
+          .then(function(result) {
+              console.log("TEEEEEST")
+              that.Services = JSON.parse(result).data
+              console.log(that.Services)
+          })
+          .catch(error => console.log('error', error));
     },
     methods: {
         onChangeAction(event) {
@@ -307,35 +321,33 @@ export default {
         GoogleLogin(){
             let self = this
             let that = this
+            let service = null
             this.$gAuth.signIn(function (user) {
                 self.googleMail = user.Qt.zu
                 self.googleAccessToken = user.uc.access_token
-
-
-
-
                 let i = 0;
-                let id =''
-                for (i = 0; that.Action[i]; i++) {
-                    if (that.Action[i].name == "gmail.sendMessage") {
+
+                for (i = 0; that.Services[i]; i++) {
+                    if (that.Services[i].name == "Gmail" || that.Services[i].name == "Sheet") {
+                        console.log("testtesttest")
                         var myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+                        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-var urlencoded = new URLSearchParams();
-urlencoded.append("serviceId", that.Action[i].id);
-urlencoded.append("token", that.userToken);
+                        var urlencoded = new URLSearchParams();
+                        urlencoded.append("serviceId", that.Services[i].id);
+                        urlencoded.append("token", that.googleAccessToken);
 
-var requestOptions = {
-  method: 'POST',
-  headers: myHeaders,
-  body: urlencoded,
-  redirect: 'follow'
-};
+                        var requestOptions = {
+                            method: 'POST',
+                            headers: myHeaders,
+                            body: urlencoded,
+                            redirect: 'follow'
+                        };
 
-fetch("/token/new?token=" + that.userToken, requestOptions)
-  .then(response => response.text())
-  .then(result => console.log(result))
-  .catch(error => console.log('error', error));
+                        fetch("/token/new?token=" + that.userToken, requestOptions)
+                        .then(response => response.text())
+                        .then(result => console.log(result))
+                        .catch(error => console.log('error', error));
                     }
                 }
             })
@@ -390,7 +402,10 @@ fetch("/token/new?token=" + that.userToken, requestOptions)
                 var CLIENT_ID = '094ee1cffcac340';
                 var REDIRECT_URI = 'https://api.imgur.com/oauth2/authorize?response_type=token&client_id=094ee1cffcac340';
                 function getLoginURL(scopes) {
-                    return REDIRECT_URI/*'https://api.imgur.com/oauth2/authorize?client_id=' + CLIENT_ID +
+                    return REDIRECT_URI /*REDIRECT_URI
+https://api.imgur.com/oauth2/authorize?client_id=CLIENT_ID&response_type=token
+
+                    'https://api.imgur.com/oauth2/authorize?client_id=' + CLIENT_ID +
                     '&response_type=token'*/;
                 }
 
@@ -465,6 +480,30 @@ fetch("/token/new?token=" + that.userToken, requestOptions)
                     if (hash) {
                         clearInterval(myvar)
                         w.close()
+                        let i = 0;
+                        for (i = 0; that.Services[i]; i++) {
+                            if (that.Services[i].name == "Spotify") {
+                                console.log("testtesttest")
+                                var myHeaders = new Headers();
+                                myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+                                var urlencoded = new URLSearchParams();
+                                urlencoded.append("serviceId", that.Services[i].id);
+                                urlencoded.append("token", that.spotifyAccessToken);
+
+                                var requestOptions = {
+                                    method: 'POST',
+                                    headers: myHeaders,
+                                    body: urlencoded,
+                                    redirect: 'follow'
+                                };
+
+                                fetch("/token/new?token=" + that.userToken, requestOptions)
+                                .then(response => response.text())
+                                .then(result => console.log(result))
+                                .catch(error => console.log('error', error));
+                            }
+                        }
                     }
                 }
 
@@ -508,7 +547,7 @@ fetch("/token/new?token=" + that.userToken, requestOptions)
             urlencoded.append("reactionId", that.Reaction[react].id);
             urlencoded.append("name", "I " + that.Action[act].name + "and " + that.Reaction[react].name + that.userToken);
             urlencoded.append("timeCheck", "-1");
-            urlencoded.append("data", data)
+            urlencoded.append("data", JSON.stringify(data))
 
             var requestOptions = {
                 method: 'POST',
