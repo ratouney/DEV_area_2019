@@ -11,7 +11,7 @@ async function populateReactions(rr : Repository<Reaction>, sr : Repository<Serv
         const newMail = rr.create();
         newMail.name = "gmail.sendMessage";
         newMail.arguments = ["senderMail", "destMail", "title", "text"];
-        newMail.service = gmail[0];
+        newMail.service = gmail;
         newMail.description = "Send a mail to given person with given object and given body";
         await rr.save(newMail);
     }
@@ -21,7 +21,7 @@ async function populateReactions(rr : Repository<Reaction>, sr : Repository<Serv
         const newMail = rr.create();
         newMail.name = "gmail.createDraft";
         newMail.arguments = ["senderMail", "destMail", "title", "text"];
-        newMail.service = gmail[0];
+        newMail.service = gmail;
         newMail.description = "Send a mail to given person with given object and given body";
         await rr.save(newMail);
     }
@@ -87,7 +87,7 @@ async function populateReactions(rr : Repository<Reaction>, sr : Repository<Serv
         const createSheet = rr.create();
         createSheet.name = "sheet.createSheet";
         createSheet.arguments = ["title", "name"];
-        createSheet.service = imgur;
+        createSheet.service = sheet;
         createSheet.description = "Create a new spreadsheet";
         await rr.save(createSheet);
     }
