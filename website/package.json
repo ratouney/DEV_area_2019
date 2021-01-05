@@ -11,7 +11,7 @@
   "dependencies": {
     "@types/spotify-web-api-node": "^4.0.1",
     "ajax": "0.0.4",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "core-js": "^3.4.4",
     "jsdom": "^15.2.1",
     "register-service-worker": "^1.6.2",
